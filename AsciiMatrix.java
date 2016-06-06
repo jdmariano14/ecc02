@@ -1,5 +1,9 @@
 public class AsciiMatrix {
 
+  public AsciiMatrix(int rows, int cols) {
+    
+  }
+
   String generateRandomAsciiCell(int chars) {
     String result = "";
 
