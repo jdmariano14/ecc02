@@ -7,10 +7,20 @@ public class AsciiMatrixOperations {
   // Main
   // ****************************************
   public static void main(String args[]) {
-    int a = promptUserForPostiveInt("Enter a positive number: ");
-    int b = promptUserForPostiveInt("Enter a positive number: ");
+    AsciiMatrix m = initializeAsciiMatrix();
+    System.out.println();
+    System.out.println(m);
 
-    System.out.println(a+b);
+
+  }
+
+  // ****************************************
+  // Initialize a matrix
+  // ****************************************
+  private static AsciiMatrix initializeAsciiMatrix() {
+    int rows = promptUserForPostiveInt("Enter the number of rows: ");
+    int cols = promptUserForPostiveInt("Enter the number of columns: ");
+    return new AsciiMatrix(rows, cols);
   }
   // ****************************************
   // Prompts
