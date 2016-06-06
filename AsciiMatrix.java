@@ -31,5 +31,8 @@ public class AsciiMatrix {
   // ****************************************
   // Accessors
   // ****************************************
+  public String get(int row, int col) {
+    return data[row][col];
+  }
 
 }
