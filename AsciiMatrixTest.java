@@ -20,4 +20,8 @@ public class AsciiMatrixTest extends TestCase {
     assertTrue(result.length() == 3);
   }
 
+  public void testGetter() {
+    assertTrue(m.get(0,0) == m.data[0][0]);
+  }
+
 }

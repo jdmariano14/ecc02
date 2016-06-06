@@ -10,7 +10,6 @@ public class AsciiMatrix {
   // ****************************************
   // Initialization
   // ****************************************
-
   public AsciiMatrix(int rows, int cols) {
     data = new String[rows][cols];
 
