@@ -54,6 +54,13 @@ public class AsciiMatrix {
     }
   }
   // ****************************************
+  // Count occurrences
+  // ****************************************
+  int countQueryOccurrencesInCell(int r, int c, String query) {
+    return 0;
+  }
+
+  // ****************************************
   // Representation
   // ****************************************
   public void printToConsole() {

@@ -36,6 +36,11 @@ public class AsciiMatrixTest extends TestCase {
     assertTrue(m.maxLength == newVal.length());
   }
 
+  public void testCountOccurrencesOne() {
+    m.set(0, 0, "bab");
+    assertTrue(m.countQueryOccurrencesInCell(0, 0, "a") == 1);
+  }
+
   public void testToString() {
     m.set(0, 0, "a");
     m.set(0, 1, "bb");
@@ -44,7 +49,7 @@ public class AsciiMatrixTest extends TestCase {
 
     String expected = "a    bb" + System.lineSeparator() + "ccc  dddd";
     String result = m.toString();
-    
+
     assertEquals(expected, result);
   }
 
