@@ -21,7 +21,14 @@ public class AsciiMatrixTest extends TestCase {
   }
 
   public void testGetter() {
-    assertTrue(m.get(0,0) == m.data[0][0]);
+    assertEquals(m.get(0, 0), m.data[0][0]);
+  }
+
+  public void testSetter() {
+    String newVal = "zxc";
+    m.set(0, 0, newVal);
+    assertEquals(m.get(0, 0), newVal);
+
   }
 
 }
