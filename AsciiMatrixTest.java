@@ -46,6 +46,10 @@ public class AsciiMatrixTest extends TestCase {
     assertTrue(m.countQueryOccurrencesInCell(0, 0, "aa") == 2);
   }
 
+  public void testCountOccurrencesMultipleContiguous() {
+    m.set(0, 0, "aaa");
+    assertTrue(m.countQueryOccurrencesInCell(0, 0, "aa") == 2);
+  }
 
   public void testToString() {
     m.set(0, 0, "a");
