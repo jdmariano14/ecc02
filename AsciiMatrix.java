@@ -6,6 +6,8 @@ public class AsciiMatrix {
   // ****************************************
   // Fields
   // ****************************************
+  int maxLength;
+
   String[][] data;
   // ****************************************
   // Initialization
@@ -13,11 +15,15 @@ public class AsciiMatrix {
   public AsciiMatrix(int rows, int cols) {
     data = new String[rows][cols];
 
+    int defaultLength = 3;
+
     for (int r = 0; r < rows; r++) {
       for (int c = 0; c < cols; c++) {
-        data[r][c] = generateRandomAsciiCell(3);
+        data[r][c] = generateRandomAsciiCell(defaultLength);
       }
     }
+
+    maxLength = defaultLength;
   }
 
   String generateRandomAsciiCell(int len) {

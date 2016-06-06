@@ -28,7 +28,12 @@ public class AsciiMatrixTest extends TestCase {
     String newVal = "zxc";
     m.set(0, 0, newVal);
     assertEquals(m.get(0, 0), newVal);
+  }
 
+  public void testMaxLengthUpdate() {
+    String newVal = m.get(0, 0) + "abb";
+    m.set(0, 0, newVal);
+    assertTrue(m.maxLength == newVal.length());
   }
 
 }
