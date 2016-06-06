@@ -64,6 +64,16 @@ public class AsciiMatrix {
   public String getSearchResults(String query) {
     StringBuilder results = new StringBuilder();
 
+    for (int r = 0; r < data.length; r++) {
+      for (int c = 0; c < data[r].length; c++) {
+        int occ = countQueryOccurrencesInCell(r, c, query);
+        if (occ > 0) {
+          results.append(r + "," + c + " with " + occ + " occ.");
+          results.append(System.lineSeparator());
+        }
+      }
+    }
+
     return results.toString().trim();
   }
 
