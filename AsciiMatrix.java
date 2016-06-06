@@ -1,4 +1,5 @@
 public class AsciiMatrix {
+  static final String ALLOWED_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
   String[][] data;
 
@@ -12,15 +13,13 @@ public class AsciiMatrix {
     }
   }
 
-  String generateRandomAsciiCell(int chars) {
-    String result = "";
-
-    for (int i = 0; i < chars; i++) {
-      char randomChar = (char)(Math.random() * 256);
-      result += randomChar;
+  String generateRandomAsciiCell(int len) {
+    StringBuilder sb = new StringBuilder(len);
+    for(int i = 0; i < len; i++) {
+      int rand = (int)(Math.random() * ALLOWED_CHARS.length());
+      sb.append(ALLOWED_CHARS.charAt(rand));
     }
-
-    return result;
+    return sb.toString();
   }
 
 }
