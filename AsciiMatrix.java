@@ -4,7 +4,8 @@ public class AsciiMatrix {
     String result = "";
 
     for (int i = 0; i < chars; i++) {
-      result += "a";
+      char randomChar = (char)(Math.random() * 256);
+      result += randomChar;
     }
 
     return result;
