@@ -35,4 +35,12 @@ public class AsciiMatrix {
     return data[row][col];
   }
 
+  public void set(int row, int col, String value) {
+    if (row < data.length) {
+      if (col < data[row].length) {
+        data[row][col] = value;
+      }
+    }
+  }
+
 }
