@@ -4,6 +4,12 @@ public class AsciiMatrix {
 
   public AsciiMatrix(int rows, int cols) {
     data = new String[rows][cols];
+
+    for (int r = 0; r < rows; r++) {
+      for (int c = 0; c < cols; c++) {
+        data[r][c] = generateRandomAsciiCell(3);
+      }
+    }
   }
 
   String generateRandomAsciiCell(int chars) {
