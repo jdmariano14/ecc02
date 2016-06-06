@@ -31,7 +31,7 @@ public class AsciiMatrixTest extends TestCase {
   }
 
   public void testMaxLengthUpdate() {
-    String newVal = m.get(0, 0) + "abb";
+    String newVal = m.get(0, 0) + "aaa";
     m.set(0, 0, newVal);
     assertTrue(m.maxLength == newVal.length());
   }

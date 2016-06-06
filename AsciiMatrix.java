@@ -45,6 +45,9 @@ public class AsciiMatrix {
     if (row < data.length) {
       if (col < data[row].length) {
         data[row][col] = value;
+        if (value.length() > maxLength) {
+          maxLength = value.length();
+        }
       }
     }
   }
