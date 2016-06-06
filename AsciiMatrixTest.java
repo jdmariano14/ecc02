@@ -51,6 +51,18 @@ public class AsciiMatrixTest extends TestCase {
     assertTrue(m.countQueryOccurrencesInCell(0, 0, "aa") == 2);
   }
 
+  public void testSearchResultsString() {
+    m.set(0, 0, "a");
+    m.set(0, 1, "bb");
+    m.set(1, 0, "ccc");
+    m.set(1, 1, "dada");
+
+    String expected = "0,0 with 1 occ." + System.lineSeparator() + "1,1 with 2 occ.";
+    String result = m.getSearchResults("a");
+
+    assertEquals(expected, result);
+  }
+
   public void testToString() {
     m.set(0, 0, "a");
     m.set(0, 1, "bb");

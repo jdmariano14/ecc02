@@ -61,6 +61,12 @@ public class AsciiMatrix {
   // ****************************************
   // Count occurrences
   // ****************************************
+  public String getSearchResults(String query) {
+    StringBuilder results = new StringBuilder();
+
+    return results.toString().trim();
+  }
+
   int countQueryOccurrencesInCell(int row, int col, String query) {
     int occ = 0;
 
@@ -74,14 +80,9 @@ public class AsciiMatrix {
 
     return occ;
   }
-
   // ****************************************
   // Representation
   // ****************************************
-  public void printToConsole() {
-    System.out.println(toString());
-  }
-
   @Override
   public String toString() {
     StringBuilder table = new StringBuilder();
