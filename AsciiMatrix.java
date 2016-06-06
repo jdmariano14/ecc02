@@ -40,7 +40,12 @@ public class AsciiMatrix {
   // Accessors
   // ****************************************
   public String get(int row, int col) {
-    return data[row][col];
+    if (row < data.length) {
+      if (col < data[row].length) {
+        return data[row][col];
+      }
+    }
+    return "";
   }
 
   public void set(int row, int col, String value) {
@@ -56,8 +61,18 @@ public class AsciiMatrix {
   // ****************************************
   // Count occurrences
   // ****************************************
-  int countQueryOccurrencesInCell(int r, int c, String query) {
-    return 0;
+  int countQueryOccurrencesInCell(int row, int col, String query) {
+    int occ = 0;
+
+    String cell = get(row, col);
+  
+    for (int i = 0; i <= cell.length() - query.length(); i++) {
+      if (cell.substring(i, i + query.length()).equals(query)) {
+        occ++;
+      }
+    }
+
+    return occ;
   }
 
   // ****************************************
