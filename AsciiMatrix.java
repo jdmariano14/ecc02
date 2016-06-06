@@ -1,7 +1,15 @@
 public class AsciiMatrix {
+  // ****************************************
+  // Constants
+  // ****************************************
   static final String ALLOWED_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-
+  // ****************************************
+  // Fields
+  // ****************************************
   String[][] data;
+  // ****************************************
+  // Initialization
+  // ****************************************
 
   public AsciiMatrix(int rows, int cols) {
     data = new String[rows][cols];
@@ -21,5 +29,8 @@ public class AsciiMatrix {
     }
     return sb.toString();
   }
+  // ****************************************
+  // Accessors
+  // ****************************************
 
 }
