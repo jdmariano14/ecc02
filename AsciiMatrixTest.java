@@ -42,8 +42,17 @@ public class AsciiMatrixTest extends TestCase {
     m.set(1, 0, "ccc");
     m.set(1, 1, "dddd");
 
-    String expected = "   a   bb" + System.lineSeparator() + " ccc dddd";
+    String expected = "a    bb" + System.lineSeparator() + "ccc  dddd";
     String result = m.toString();
+    
+    System.out.println();
+    System.out.println();
+    System.out.println(expected);
+    System.out.println();
+    System.out.println();
+    System.out.println(result);
+    System.out.println();
+    System.out.println();
     assertEquals(expected, result);
   }
 

@@ -28,10 +28,12 @@ public class AsciiMatrix {
 
   String generateRandomAsciiCell(int len) {
     StringBuilder sb = new StringBuilder(len);
+
     for(int i = 0; i < len; i++) {
       int rand = (int)(Math.random() * ALLOWED_CHARS.length());
       sb.append(ALLOWED_CHARS.charAt(rand));
     }
+
     return sb.toString();
   }
   // ****************************************
@@ -51,5 +53,29 @@ public class AsciiMatrix {
       }
     }
   }
+  // ****************************************
+  // Representation
+  // ****************************************
+  public void printToConsole() {
+    System.out.println(toString());
+  }
 
+  @Override
+  public String toString() {
+    StringBuilder table = new StringBuilder();
+
+    for (int r = 0; r < data.length; r++) {
+      StringBuilder tableRow = new StringBuilder();
+
+      for (int c = 0; c < data[r].length; c++) {
+        tableRow.append(String.format("%1$"+ (maxLength + 1) + "s", get(r, c)));
+        tableRow.append(" ");
+      }
+
+      table.append(tableRow.toString().trim());
+      table.append(System.lineSeparator());
+    }
+
+    return table.toString().trim();
+  }
 }
