@@ -2,7 +2,7 @@ public class AsciiMatrix {
   // ****************************************
   // Constants
   // ****************************************
-  static final String ALLOWED_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+  static final String ALLOWED_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%^&*();:'\"<>,./[]{}-=_+";
   // ****************************************
   // Fields
   // ****************************************
