@@ -62,6 +62,10 @@ public class AsciiMatrix {
   // Count occurrences
   // ****************************************
   public String getSearchResults(String query) {
+    if (query.isEmpty()) {
+      return "No query provided";
+    }
+
     StringBuilder results = new StringBuilder();
 
     for (int r = 0; r < data.length; r++) {
