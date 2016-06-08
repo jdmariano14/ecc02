@@ -63,6 +63,13 @@ public class AsciiMatrixTest extends TestCase {
     assertEquals(expected, result);
   }
 
+  public void testSearchResultsWithBlankQuery() {
+    String expected = "No query provided";
+    String result = m.getSearchResults("");
+
+    assertEquals(expected, result);
+  }
+
   public void testToString() {
     m.set(0, 0, "a");
     m.set(0, 1, "bb");
