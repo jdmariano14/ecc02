@@ -9,9 +9,6 @@ public class AsciiMatrixOperations {
   public static void main(String args[]) {
     AsciiMatrix matrix = initializeAsciiMatrix();
 
-    System.out.println();
-    System.out.println(matrix);
-
     int choice = 0;
     do {
       System.out.println();
@@ -29,7 +26,7 @@ public class AsciiMatrixOperations {
         case 3: 
           System.out.println(matrix);
           break;
-        case 4: 
+        case 4:
           matrix = initializeAsciiMatrix();
           break; 
       }
@@ -65,17 +62,23 @@ public class AsciiMatrixOperations {
   private static AsciiMatrix initializeAsciiMatrix() {
     int rows = promptUserForPostiveInt("Enter the number of rows: ");
     int cols = promptUserForPostiveInt("Enter the number of columns: ");
-    return new AsciiMatrix(rows, cols);
+
+    AsciiMatrix matrix = new AsciiMatrix(rows, cols);
+
+    System.out.println();
+    System.out.println(matrix);
+
+    return matrix;
   }
   // ****************************************
   // Edit a cell
   // ****************************************
   private static void editMatrixCell(AsciiMatrix m) {
-    int row = promptUserForPostiveInt("Enter row to edit: ");
-    int col = promptUserForPostiveInt("Enter column to edit: ");
+    int row = promptUserForPostiveInt("Enter row (first is 1): ");
+    int col = promptUserForPostiveInt("Enter column (first is 1): ");
     String newVal = promptUserForString("Enter the new value: ");
 
-    m.set(row, col, newVal);
+    m.set(row - 1, col - 1, newVal);
   }
   // ****************************************
   // Prompts
