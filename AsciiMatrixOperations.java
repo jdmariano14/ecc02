@@ -74,11 +74,11 @@ public class AsciiMatrixOperations {
   // Edit a cell
   // ****************************************
   private static void editMatrixCell(AsciiMatrix m) {
-    int row = promptUserForPostiveInt("Enter row (first is 1): ");
-    int col = promptUserForPostiveInt("Enter column (first is 1): ");
+    int row = promptUserForNonNegativeInt("Enter row (first is 0): ");
+    int col = promptUserForNonNegativeInt("Enter column (first is 0): ");
     String newVal = promptUserForString("Enter the new value: ");
 
-    m.set(row - 1, col - 1, newVal);
+    m.set(row, col, newVal);
   }
   // ****************************************
   // Prompts
@@ -100,7 +100,15 @@ public class AsciiMatrixOperations {
     return input;
   }
 
+  private static int promptUserForNonNegativeInt(String promptMsg) {
+    return promptUserForIntWithLowerBound(promptMsg, 0);
+  }
+
   private static int promptUserForPostiveInt(String promptMsg) {
+    return promptUserForIntWithLowerBound(promptMsg, 1);
+  }
+
+  private static int promptUserForIntWithLowerBound(String promptMsg, int bound) {    
     System.out.print(promptMsg);
 
     int input;
@@ -110,12 +118,12 @@ public class AsciiMatrixOperations {
     try {
       input = Integer.parseInt(reader.readLine());
       
-      if (input < 1) {
-        input = 1;
+      if (input < bound) {
+        input = bound;
       }
     }
     catch (IOException | NumberFormatException e) {
-      input = 1;
+      input = bound;
     }
 
     return input;
