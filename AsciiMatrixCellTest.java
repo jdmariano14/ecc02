@@ -8,7 +8,6 @@ import org.junit.rules.ExpectedException;
 
 public class AsciiMatrixCellTest {
   AsciiMatrixCell cell;
-  Throwable e;
 
   @Rule
   public final ExpectedException thrown = ExpectedException.none();
@@ -16,7 +15,6 @@ public class AsciiMatrixCellTest {
   @Before
   public void before(){
     cell = new AsciiMatrixCell();
-    e = null;
   }
 
   @Test
@@ -33,7 +31,7 @@ public class AsciiMatrixCellTest {
   }
 
   @Test
-  public void testSizeManualConstructorWithNegativeSize() {
+  public void testManualConstructorWithNegativeSize() {
     thrown.expect(NegativeArraySizeException.class);
 
     int negativeSize = -1;

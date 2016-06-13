@@ -14,9 +14,9 @@ public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
     PROHIBITED_CHARS.add(')');
   }
 
-  public AsciiMatrixCell(int elements) throws NegativeArraySizeException {
-    data = new String[elements];
-    for (int index = 0; index < elements; index++) {
+  public AsciiMatrixCell(int size) throws NegativeArraySizeException {
+    data = new String[size];
+    for (int index = 0; index < size; index++) {
       data[index] = generateRandomAsciiCell(DEFAULT_ELEMENT_LENGTH);
     }
   }
