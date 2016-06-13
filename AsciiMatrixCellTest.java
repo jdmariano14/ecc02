@@ -79,7 +79,7 @@ public class AsciiMatrixCellTest {
     String key = "key";
     String value = "value";
 
-    String expected = "(" + key + ", " + value + ")";
+    String expected = key + ", " + value;
 
     cell.set(0, key);
     cell.set(1, value);
