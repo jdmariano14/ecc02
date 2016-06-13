@@ -3,8 +3,10 @@ import java.util.HashSet;
 public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
   public static final int DEFAULT_SIZE = 2;
   public static final int DEFAULT_ELEMENT_LENGTH = 3;
+
   public static final char ELEMENT_DELIMITER = ',';
   public static final char CELL_DELIMITER = '|';
+  
   public static final HashSet<Character> ILLEGAL_CHARS;
 
   private String [] data;

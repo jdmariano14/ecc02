@@ -41,7 +41,7 @@ public class AsciiMatrixRowTest {
 
   @Test
   public void testGetterWithOutOfBoundsIndex() {
-    thrown.expect(ArrayIndexOutOfBoundsException.class);
+    thrown.expect(IndexOutOfBoundsException.class);
     
     int outOfBoundsIndex = row.size();
     AsciiMatrixCell result = row.get(outOfBoundsIndex);
