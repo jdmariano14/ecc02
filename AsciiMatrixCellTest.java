@@ -65,6 +65,14 @@ public class AsciiMatrixCellTest {
   }
 
   @Test
+  public void testSetterWithIllegalCharacter() {
+    thrown.expect(IllegalArgumentException.class);
+    char illegalChar = AsciiMatrixCell.DELIMITER;
+
+    cell.set(0, "foo" + illegalChar);
+  }
+
+  @Test
   public void testSetterWithOutOfBoundsIndex() {
     thrown.expect(ArrayIndexOutOfBoundsException.class);
     
@@ -76,7 +84,7 @@ public class AsciiMatrixCellTest {
   public void testParseCell() {
     String key = "key";
     String value = "value";
-    String parseThis = key + ", " + value;
+    String parseThis = key + AsciiMatrixCell.DELIMITER + value;
     cell = AsciiMatrixCell.parseCell(parseThis);
 
     String expected = value;
@@ -123,7 +131,7 @@ public class AsciiMatrixCellTest {
     cell.set(0, key);
     cell.set(1, value);
 
-    String expected = key + ", " + value;
+    String expected = key + AsciiMatrixCell.DELIMITER + value;
     String result = cell.toString();
     
     assertEquals(expected, result);

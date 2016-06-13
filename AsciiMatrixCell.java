@@ -3,15 +3,16 @@ import java.util.HashSet;
 public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
   public static final int DEFAULT_SIZE = 2;
   public static final int DEFAULT_ELEMENT_LENGTH = 3;
-  public static final HashSet<Character> PROHIBITED_CHARS;
+  public static final char DELIMITER = ',';
+  public static final HashSet<Character> ILLEGAL_CHARS;
 
   private String [] data;
 
   static {
-    PROHIBITED_CHARS = new HashSet();
-    PROHIBITED_CHARS.add(',');
-    PROHIBITED_CHARS.add('(');
-    PROHIBITED_CHARS.add(')');
+    ILLEGAL_CHARS = new HashSet();
+    ILLEGAL_CHARS.add(DELIMITER);
+    ILLEGAL_CHARS.add('(');
+    ILLEGAL_CHARS.add(')');
   }
 
   public AsciiMatrixCell(int size) throws NegativeArraySizeException {
@@ -32,7 +33,7 @@ public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
       char randomChar;
       do {
         randomChar = (char)(Math.random() * 256);
-      } while (PROHIBITED_CHARS.contains(randomChar));
+      } while (ILLEGAL_CHARS.contains(randomChar));
 
       sb.append(randomChar);
     }
@@ -41,7 +42,7 @@ public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
   }
 
   public static AsciiMatrixCell parseCell(String str) {
-    String[] tokens = str.split("\\s*,\\s+");
+    String[] tokens = str.split(String.valueOf(DELIMITER));
     AsciiMatrixCell cell = new AsciiMatrixCell(tokens.length);
 
     for (int index = 0; index < tokens.length; index++) {
@@ -59,7 +60,15 @@ public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
     return data[index];
   }
 
-  public void set(int index, String newVal) throws ArrayIndexOutOfBoundsException {
+  public void set(int index, String newVal) 
+      throws ArrayIndexOutOfBoundsException, IllegalArgumentException {
+    for (char c : newVal.toCharArray()) {
+      if (ILLEGAL_CHARS.contains(c)) {
+        String msg = "Input string contains an illegal character ('" + c + "'').";
+        throw new IllegalArgumentException(msg);
+      }
+    }
+
     data[index] = newVal;
   }
 
@@ -90,6 +99,6 @@ public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
 
   @Override
   public String toString() {
-    return concatenate(", ");
+    return concatenate(String.valueOf(DELIMITER));
   }
 }
