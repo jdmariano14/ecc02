@@ -73,4 +73,19 @@ public class AsciiMatrixCellTest {
     int outOfBoundsIndex = cell.size();
     cell.set(outOfBoundsIndex, "foo");
   }
+
+  @Test
+  public void testToString() {
+    String key = "key";
+    String value = "value";
+
+    String expected = "(" + key + ", " + value + ")";
+
+    cell.set(0, key);
+    cell.set(1, value);
+
+    String result = cell.toString();
+    
+    assertEquals(expected, result);
+  }
 }

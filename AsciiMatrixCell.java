@@ -22,4 +22,20 @@ public class AsciiMatrixCell {
   public void set(int index, String newVal) throws ArrayIndexOutOfBoundsException {
     data[index] = newVal;
   }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder("(");
+    
+    for (int index = 0; index < size(); index++) {
+      sb.append(get(index));
+      if (index < size() - 1) { 
+        sb.append(", "); 
+      }
+    }
+
+    sb.append(")");
+    
+    return sb.toString();
+  }
 }
