@@ -47,4 +47,17 @@ public class AsciiMatrixRowTest {
     AsciiMatrixCell result = row.get(outOfBoundsIndex);
   }
 
+  @Test
+  public void testAdd() {
+    String key = "abc";
+    String value = "def";
+    AsciiMatrixCell cell = AsciiMatrixCell.parseCell(key + "," + value);
+    row.add(cell);
+
+    String expected = value;
+    String result = row.get(row.size() - 1).get(1);
+
+    assertEquals(expected, result);
+  }
+
 }

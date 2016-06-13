@@ -17,4 +17,8 @@ public class AsciiMatrixRow {
   public AsciiMatrixCell get(int index) throws IndexOutOfBoundsException {
     return data.get(index);
   }
+
+  public void add(AsciiMatrixCell cell) {
+    data.add(cell);
+  }
 }
