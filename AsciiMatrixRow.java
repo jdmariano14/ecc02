@@ -4,25 +4,13 @@ import java.util.Collections;
 public class AsciiMatrixRow {
   private ArrayList<AsciiMatrixCell> data;
 
-  public AsciiMatrixRow(int size) throws IllegalArgumentException {
+  public AsciiMatrixRow(int size, boolean autoFill) 
+      throws IllegalArgumentException {
     data = new ArrayList(size);
     for (int index = 0; index < size; index++) {
-      data.add(new AsciiMatrixCell());
+      data.add(new AsciiMatrixCell(autoFill));
     }
   }
-
-  public static AsciiMatrixRow parseRow(String str) {
-    str = str.trim();
-    String[] tokens = str.split("\\s*" + AsciiMatrixCell.CELL_DELIMITER + "\\s*");
-    AsciiMatrixRow row = new AsciiMatrixRow(tokens.length);
-
-    for (String token : tokens) {
-      row.add(AsciiMatrixCell.parseCell(token));
-    }
-
-    return row;
-  }
-
 
   public int size() {
     return data.size();

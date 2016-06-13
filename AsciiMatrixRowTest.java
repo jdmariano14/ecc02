@@ -16,7 +16,7 @@ public class AsciiMatrixRowTest {
    
   @Before
   public void before(){
-    row = new AsciiMatrixRow(DEFAULT_SIZE);
+    row = new AsciiMatrixRow(DEFAULT_SIZE, false);
   }
 
   @Test
@@ -24,7 +24,7 @@ public class AsciiMatrixRowTest {
     thrown.expect(IllegalArgumentException.class);
 
     int negativeSize = -1;
-    row = new AsciiMatrixRow(negativeSize);
+    row = new AsciiMatrixRow(negativeSize, false);
   }
 
   @Test
@@ -51,11 +51,11 @@ public class AsciiMatrixRowTest {
   public void testAdd() {
     String key = "abc";
     String value = "def";
-    AsciiMatrixCell cell = AsciiMatrixCell.parseCell(key + "," + value);
+    AsciiMatrixCell cell = new AsciiMatrixCell(false);
     row.add(cell);
 
-    String expected = value;
-    String result = row.get(row.size() - 1).get(1);
+    AsciiMatrixCell expected = cell;
+    AsciiMatrixCell result = row.get(row.size() - 1);
 
     assertEquals(expected, result);
   }
@@ -66,10 +66,15 @@ public class AsciiMatrixRowTest {
     String firstValue = "bb";
     String secondKey = "cc";
     String secondValue = "dd";
-    AsciiMatrixCell firstCell = AsciiMatrixCell.parseCell(firstKey + "," + firstValue);
-    AsciiMatrixCell secondCell = AsciiMatrixCell.parseCell(secondKey + "," + secondValue);
+
+    AsciiMatrixCell firstCell = new AsciiMatrixCell(2, false);
+    AsciiMatrixCell secondCell = new AsciiMatrixCell(2, false);
+    firstCell.set(0, firstKey);
+    firstCell.set(1, firstValue);
+    secondCell.set(0, secondKey);
+    secondCell.set(1, secondValue);
     
-    row = new AsciiMatrixRow(0);
+    row = new AsciiMatrixRow(0, false);
     row.add(secondCell);
     row.add(firstCell);
     row.sort();

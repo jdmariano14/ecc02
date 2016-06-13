@@ -14,7 +14,7 @@ public class AsciiMatrixCellTest {
    
   @Before
   public void before(){
-    cell = new AsciiMatrixCell();
+    cell = new AsciiMatrixCell(false);
   }
 
   @Test
@@ -25,7 +25,7 @@ public class AsciiMatrixCellTest {
   @Test
   public void testSizeWithManualConstructor() {
     int newSize = 3;
-    cell = new AsciiMatrixCell(newSize);
+    cell = new AsciiMatrixCell(newSize, false);
     
     assertTrue(cell.size() == newSize);
   }
@@ -35,11 +35,12 @@ public class AsciiMatrixCellTest {
     thrown.expect(NegativeArraySizeException.class);
 
     int negativeSize = -1;
-    cell = new AsciiMatrixCell(negativeSize);
+    cell = new AsciiMatrixCell(negativeSize, false);
   }
 
   @Test
   public void testGetterWithCorrectIndex() {
+    cell = new AsciiMatrixCell(true);
     String result = cell.get(0);
     
     assertNotNull(result);
@@ -82,19 +83,6 @@ public class AsciiMatrixCellTest {
   }
 
   @Test
-  public void testParseCell() {
-    String key = "   key";
-    String value = "value   ";
-    String parseThis = key + AsciiMatrixCell.ELEMENT_DELIMITER + value;
-    cell = AsciiMatrixCell.parseCell(parseThis);
-
-    String expected = value.trim();
-    String result = cell.get(1);
-    
-    assertEquals(expected, result);
-  }
-
-  @Test
   public void testConcatenate() {
     String key = "key";
     String value = "value";
@@ -115,7 +103,7 @@ public class AsciiMatrixCellTest {
     cell.set(0, low);
     cell.set(1, high);
 
-    AsciiMatrixCell greater = new AsciiMatrixCell(cell.size());
+    AsciiMatrixCell greater = new AsciiMatrixCell(cell.size(), false);
 
     greater.set(0, high);
     greater.set(1, low);

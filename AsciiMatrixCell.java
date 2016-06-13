@@ -17,15 +17,18 @@ public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
     ILLEGAL_CHARS.add(CELL_DELIMITER);
   }
 
-  public AsciiMatrixCell(int size) throws NegativeArraySizeException {
+  public AsciiMatrixCell(int size, boolean autoFill) 
+      throws NegativeArraySizeException {
     data = new String[size];
-    for (int index = 0; index < size; index++) {
-      data[index] = generateRandomAsciiCell(DEFAULT_ELEMENT_LENGTH);
+    if (autoFill) {
+      for (int index = 0; index < size; index++) {
+        data[index] = generateRandomAsciiCell(DEFAULT_ELEMENT_LENGTH);
+      }
     }
   }
 
-  public AsciiMatrixCell() {
-    this(DEFAULT_SIZE);
+  public AsciiMatrixCell(boolean autoFill) {
+    this(DEFAULT_SIZE, autoFill);
   }
 
   private String generateRandomAsciiCell(int length) {
@@ -41,20 +44,6 @@ public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
     }
 
     return sb.toString();
-  }
-
-  public static AsciiMatrixCell parseCell(String str) {
-    str = str.trim();
-    String[] tokens = str.split("\\s*" + ELEMENT_DELIMITER + "\\s*");
-
-
-    AsciiMatrixCell cell = new AsciiMatrixCell(tokens.length);
-
-    for (int index = 0; index < tokens.length; index++) {
-      cell.set(index, tokens[index]);
-    }
-
-    return cell;
   }
 
   public int size() {
