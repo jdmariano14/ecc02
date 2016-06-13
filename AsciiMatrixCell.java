@@ -1,4 +1,4 @@
-public class AsciiMatrixCell {
+public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
   public static final int DEFAULT_SIZE = 2;
 
   private String [] data;
@@ -49,6 +49,14 @@ public class AsciiMatrixCell {
 
   public String concatenate() {
     return concatenate("");
+  }
+
+  @Override
+  public int compareTo(AsciiMatrixCell other) {
+    String thisConcat = this.concatenate();
+    String otherConcat = other.concatenate();
+    
+    return thisConcat.compareToIgnoreCase(otherConcat);
   }
 
   @Override
