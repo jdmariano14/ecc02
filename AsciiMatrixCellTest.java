@@ -32,17 +32,15 @@ public class AsciiMatrixCellTest {
   }
 
   @Test
-  public void testSizeManualConstructorNegativeSize() {
+  public void testSizeManualConstructorWithNegativeSize() {
     thrown.expect(NegativeArraySizeException.class);
 
     int negativeSize = -1;
     cell = new AsciiMatrixCell(negativeSize);
   }
 
-
-
   @Test
-  public void testGetWithCorrectIndex() {
+  public void testGetterWithCorrectIndex() {
     String expected = null;
     String result = cell.get(0);
     
@@ -50,10 +48,29 @@ public class AsciiMatrixCellTest {
   }
 
   @Test
-  public void testGetWithOutOfBoundsIndex() {
+  public void testGetterWithOutOfBoundsIndex() {
     thrown.expect(ArrayIndexOutOfBoundsException.class);
     
     int outOfBoundsIndex = cell.size();
     String result = cell.get(outOfBoundsIndex);
+  }
+
+  @Test
+  public void testSetterWithCorrectIndex() {
+    String expected = "newVal";
+
+    cell.set(0, expected);
+
+    String result = cell.get(0);
+    
+    assertEquals(expected, result);
+  }
+
+  @Test
+  public void testSetterWithOutOfBoundsIndex() {
+    thrown.expect(ArrayIndexOutOfBoundsException.class);
+    
+    int outOfBoundsIndex = cell.size();
+    cell.set(outOfBoundsIndex, "foo");
   }
 }

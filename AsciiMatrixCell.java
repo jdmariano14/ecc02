@@ -18,4 +18,8 @@ public class AsciiMatrixCell {
   public String get(int index) throws ArrayIndexOutOfBoundsException {
     return data[index];
   }
+
+  public void set(int index, String newVal) throws ArrayIndexOutOfBoundsException {
+    data[index] = newVal;
+  }
 }
