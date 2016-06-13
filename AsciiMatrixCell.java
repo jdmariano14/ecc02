@@ -23,6 +23,17 @@ public class AsciiMatrixCell {
     data[index] = newVal;
   }
 
+  public static AsciiMatrixCell parseCell(String str) {
+    String[] tokens = str.split("\\s*,\\s+");
+    AsciiMatrixCell cell = new AsciiMatrixCell(tokens.length);
+
+    for (int index = 0; index < tokens.length; index++) {
+      cell.set(index, tokens[index]);
+    }
+
+    return cell;
+  }
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

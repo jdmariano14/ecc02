@@ -75,6 +75,21 @@ public class AsciiMatrixCellTest {
   }
 
   @Test
+  public void testParseCell() {
+    String key = "key";
+    String value = "value";
+
+    String parseThis = key + ", " + value;
+
+    cell = AsciiMatrixCell.parseCell(parseThis);
+
+    String expected = value;
+    String result = cell.get(1);
+    
+    assertEquals(expected, result);
+  }
+
+  @Test
   public void testToString() {
     String key = "key";
     String value = "value";
