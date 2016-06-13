@@ -60,4 +60,17 @@ public class AsciiMatrixRowTest {
     assertEquals(expected, result);
   }
 
+  @Test
+  public void testToString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(row.get(0));
+    sb.append(" " + AsciiMatrixCell.CELL_DELIMITER + " ");
+    sb.append(row.get(1));
+
+    String expected = sb.toString();
+    String result = row.toString();
+    
+    assertEquals(expected, result);
+  }
+
 }
