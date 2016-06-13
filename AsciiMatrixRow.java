@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class AsciiMatrixRow {
   private ArrayList<AsciiMatrixCell> data;
@@ -10,6 +11,19 @@ public class AsciiMatrixRow {
     }
   }
 
+  public static AsciiMatrixRow parseRow(String str) {
+    str = str.trim();
+    String[] tokens = str.split("\\s*" + AsciiMatrixCell.CELL_DELIMITER + "\\s*");
+    AsciiMatrixRow row = new AsciiMatrixRow(tokens.length);
+
+    for (String token : tokens) {
+      row.add(AsciiMatrixCell.parseCell(token));
+    }
+
+    return row;
+  }
+
+
   public int size() {
     return data.size();
   }
@@ -20,6 +34,10 @@ public class AsciiMatrixRow {
 
   public void add(AsciiMatrixCell cell) {
     data.add(cell);
+  }
+
+  public void sort() {
+    Collections.sort(data);
   }
 
   @Override

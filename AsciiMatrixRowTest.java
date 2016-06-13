@@ -61,6 +61,26 @@ public class AsciiMatrixRowTest {
   }
 
   @Test
+  public void testSort() {
+    String firstKey = "aa";
+    String firstValue = "bb";
+    String secondKey = "cc";
+    String secondValue = "dd";
+    AsciiMatrixCell firstCell = AsciiMatrixCell.parseCell(firstKey + "," + firstValue);
+    AsciiMatrixCell secondCell = AsciiMatrixCell.parseCell(secondKey + "," + secondValue);
+    
+    row = new AsciiMatrixRow(0);
+    row.add(secondCell);
+    row.add(firstCell);
+    row.sort();
+
+    AsciiMatrixCell expected = firstCell;
+    AsciiMatrixCell result = row.get(0);
+
+    assertEquals(expected, result);
+  }
+
+  @Test
   public void testToString() {
     StringBuilder sb = new StringBuilder();
     sb.append(row.get(0));
