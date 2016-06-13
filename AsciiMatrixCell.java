@@ -34,17 +34,25 @@ public class AsciiMatrixCell {
     return cell;
   }
 
-  @Override
-  public String toString() {
+  public String concatenate(String delimiter) {
     StringBuilder sb = new StringBuilder();
     
     for (int index = 0; index < size(); index++) {
       sb.append(get(index));
       if (index < size() - 1) { 
-        sb.append(", "); 
+        sb.append(delimiter); 
       }
     }
 
     return sb.toString();
+  }
+
+  public String concatenate() {
+    return concatenate("");
+  }
+
+  @Override
+  public String toString() {
+    return concatenate(", ");
   }
 }
