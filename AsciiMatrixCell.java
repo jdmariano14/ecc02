@@ -3,7 +3,7 @@ public class AsciiMatrixCell {
 
   private String [] data;
 
-  public AsciiMatrixCell(int elements) {
+  public AsciiMatrixCell(int elements) throws NegativeArraySizeException {
     data = new String[elements];
   }
 
@@ -13,5 +13,9 @@ public class AsciiMatrixCell {
 
   public int size() {
     return data.length;
+  }
+
+  public String get(int index) throws ArrayIndexOutOfBoundsException {
+    return data[index];
   }
 }
