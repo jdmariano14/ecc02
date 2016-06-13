@@ -3,6 +3,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import org.junit.rules.ExpectedException;
 
 public class AsciiMatrixCellTest {
@@ -41,10 +42,9 @@ public class AsciiMatrixCellTest {
 
   @Test
   public void testGetterWithCorrectIndex() {
-    String expected = null;
     String result = cell.get(0);
     
-    assertEquals(expected, result);
+    assertNotNull(result);
   }
 
   @Test
