@@ -55,10 +55,11 @@ public class AsciiMatrixCellTest {
 
   @Test
   public void testSetterWithCorrectIndex() {
-    String expected = "newVal";
+    String newVal = "  newVal  ";
 
-    cell.set(0, expected);
+    cell.set(0, newVal);
 
+    String expected = newVal.trim();
     String result = cell.get(0);
     
     assertEquals(expected, result);
@@ -67,7 +68,7 @@ public class AsciiMatrixCellTest {
   @Test
   public void testSetterWithIllegalCharacter() {
     thrown.expect(IllegalArgumentException.class);
-    char illegalChar = AsciiMatrixCell.DELIMITER;
+    char illegalChar = AsciiMatrixCell.ELEMENT_DELIMITER;
 
     cell.set(0, "foo" + illegalChar);
   }
@@ -82,12 +83,12 @@ public class AsciiMatrixCellTest {
 
   @Test
   public void testParseCell() {
-    String key = "key";
-    String value = "value";
-    String parseThis = key + AsciiMatrixCell.DELIMITER + value;
+    String key = "   key";
+    String value = "value   ";
+    String parseThis = key + AsciiMatrixCell.ELEMENT_DELIMITER + value;
     cell = AsciiMatrixCell.parseCell(parseThis);
 
-    String expected = value;
+    String expected = value.trim();
     String result = cell.get(1);
     
     assertEquals(expected, result);
@@ -131,7 +132,7 @@ public class AsciiMatrixCellTest {
     cell.set(0, key);
     cell.set(1, value);
 
-    String expected = key + AsciiMatrixCell.DELIMITER + value;
+    String expected = key + AsciiMatrixCell.ELEMENT_DELIMITER + " " + value;
     String result = cell.toString();
     
     assertEquals(expected, result);

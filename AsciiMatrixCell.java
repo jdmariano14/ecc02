@@ -3,16 +3,16 @@ import java.util.HashSet;
 public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
   public static final int DEFAULT_SIZE = 2;
   public static final int DEFAULT_ELEMENT_LENGTH = 3;
-  public static final char DELIMITER = ',';
+  public static final char ELEMENT_DELIMITER = ',';
+  public static final char CELL_DELIMITER = '|';
   public static final HashSet<Character> ILLEGAL_CHARS;
 
   private String [] data;
 
   static {
     ILLEGAL_CHARS = new HashSet();
-    ILLEGAL_CHARS.add(DELIMITER);
-    ILLEGAL_CHARS.add('(');
-    ILLEGAL_CHARS.add(')');
+    ILLEGAL_CHARS.add(ELEMENT_DELIMITER);
+    ILLEGAL_CHARS.add(CELL_DELIMITER);
   }
 
   public AsciiMatrixCell(int size) throws NegativeArraySizeException {
@@ -42,7 +42,10 @@ public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
   }
 
   public static AsciiMatrixCell parseCell(String str) {
-    String[] tokens = str.split(String.valueOf(DELIMITER));
+    str = str.trim();
+    String[] tokens = str.split("\\s*" + ELEMENT_DELIMITER + "\\s*");
+
+
     AsciiMatrixCell cell = new AsciiMatrixCell(tokens.length);
 
     for (int index = 0; index < tokens.length; index++) {
@@ -64,12 +67,12 @@ public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
       throws ArrayIndexOutOfBoundsException, IllegalArgumentException {
     for (char c : newVal.toCharArray()) {
       if (ILLEGAL_CHARS.contains(c)) {
-        String msg = "Input string contains an illegal character ('" + c + "'').";
+        String msg = "Input string contains an illegal character ('" + c + "').";
         throw new IllegalArgumentException(msg);
       }
     }
 
-    data[index] = newVal;
+    data[index] = newVal.trim();
   }
 
   private String concatenate(String delimiter) {
@@ -99,6 +102,6 @@ public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
 
   @Override
   public String toString() {
-    return concatenate(String.valueOf(DELIMITER));
+    return concatenate(ELEMENT_DELIMITER + " ");
   }
 }

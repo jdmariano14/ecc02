@@ -3,6 +3,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import org.junit.rules.ExpectedException;
 
 public class AsciiMatrixRowTest {
@@ -31,5 +32,19 @@ public class AsciiMatrixRowTest {
     assertTrue(row.size() == DEFAULT_SIZE);
   }
 
+  @Test
+  public void testGetterWithCorrectIndex() {
+    AsciiMatrixCell result = row.get(0);
+    
+    assertNotNull(result);
+  }
+
+  @Test
+  public void testGetterWithOutOfBoundsIndex() {
+    thrown.expect(ArrayIndexOutOfBoundsException.class);
+    
+    int outOfBoundsIndex = row.size();
+    AsciiMatrixCell result = row.get(outOfBoundsIndex);
+  }
 
 }
