@@ -1,8 +1,18 @@
+import java.util.HashSet;
+
 public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
   public static final int DEFAULT_SIZE = 2;
   public static final int DEFAULT_ELEMENT_LENGTH = 3;
+  public static final HashSet<Character> PROHIBITED_CHARS;
 
   private String [] data;
+
+  static {
+    PROHIBITED_CHARS = new HashSet();
+    PROHIBITED_CHARS.add(',');
+    PROHIBITED_CHARS.add('(');
+    PROHIBITED_CHARS.add(')');
+  }
 
   public AsciiMatrixCell(int elements) throws NegativeArraySizeException {
     data = new String[elements];
@@ -19,7 +29,11 @@ public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
     StringBuilder sb = new StringBuilder(length);
 
     for (int index = 0; index < length; index++) {
-      char randomChar = (char)(Math.random() * 256);
+      char randomChar;
+      do {
+        randomChar = (char)(Math.random() * 256);
+      } while (PROHIBITED_CHARS.contains(randomChar));
+
       sb.append(randomChar);
     }
 
