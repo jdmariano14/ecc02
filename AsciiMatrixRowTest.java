@@ -3,12 +3,11 @@ import org.junit.Before;
 import org.junit.Rule;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertNotNull;
 import org.junit.rules.ExpectedException;
 
 public class AsciiMatrixRowTest {
-  public static final int DEFAULT_SIZE = 2;
-
   AsciiMatrixRow row;
 
   @Rule
@@ -16,27 +15,12 @@ public class AsciiMatrixRowTest {
    
   @Before
   public void before(){
-    row = new AsciiMatrixRow(DEFAULT_SIZE, false);
-  }
-
-  @Test
-  public void testConstructorWithNegativeSize() {
-    thrown.expect(IllegalArgumentException.class);
-
-    int negativeSize = -1;
-    row = new AsciiMatrixRow(negativeSize, false);
+    row = new AsciiMatrixRow();
   }
 
   @Test
   public void testSize() {
-    assertTrue(row.size() == DEFAULT_SIZE);
-  }
-
-  @Test
-  public void testGetterWithCorrectIndex() {
-    AsciiMatrixCell result = row.get(0);
-    
-    assertNotNull(result);
+    assertTrue(row.size() == 0);
   }
 
   @Test
@@ -51,7 +35,7 @@ public class AsciiMatrixRowTest {
   public void testAdd() {
     String key = "abc";
     String value = "def";
-    AsciiMatrixCell cell = new AsciiMatrixCell(false);
+    AsciiMatrixCell cell = new AsciiMatrixCell();
     row.add(cell);
 
     AsciiMatrixCell expected = cell;
@@ -61,20 +45,27 @@ public class AsciiMatrixRowTest {
   }
 
   @Test
+  public void testAutoFill() {
+    row.autoFill(1);
+    AsciiMatrixCell result = row.get(0);
+    
+    assertNotNull(result);
+  }
+
+  @Test
   public void testSort() {
     String firstKey = "aa";
     String firstValue = "bb";
     String secondKey = "cc";
     String secondValue = "dd";
 
-    AsciiMatrixCell firstCell = new AsciiMatrixCell(2, false);
-    AsciiMatrixCell secondCell = new AsciiMatrixCell(2, false);
+    AsciiMatrixCell firstCell = new AsciiMatrixCell(2);
+    AsciiMatrixCell secondCell = new AsciiMatrixCell(2);
     firstCell.set(0, firstKey);
     firstCell.set(1, firstValue);
     secondCell.set(0, secondKey);
     secondCell.set(1, secondValue);
     
-    row = new AsciiMatrixRow(0, false);
     row.add(secondCell);
     row.add(firstCell);
     row.sort();
@@ -87,6 +78,8 @@ public class AsciiMatrixRowTest {
 
   @Test
   public void testToString() {
+    row.autoFill(2);
+    
     StringBuilder sb = new StringBuilder();
     sb.append(row.get(0));
     sb.append(" " + AsciiMatrixCell.CELL_DELIMITER + " ");
@@ -97,5 +90,4 @@ public class AsciiMatrixRowTest {
     
     assertEquals(expected, result);
   }
-
 }

@@ -17,33 +17,12 @@ public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
     ILLEGAL_CHARS.add(CELL_DELIMITER);
   }
 
-  public AsciiMatrixCell(int size, boolean autoFill) 
-      throws NegativeArraySizeException {
+  public AsciiMatrixCell(int size) throws NegativeArraySizeException {
     data = new String[size];
-    if (autoFill) {
-      for (int index = 0; index < size; index++) {
-        data[index] = generateRandomAsciiCell(DEFAULT_ELEMENT_LENGTH);
-      }
-    }
   }
 
-  public AsciiMatrixCell(boolean autoFill) {
-    this(DEFAULT_SIZE, autoFill);
-  }
-
-  private String generateRandomAsciiCell(int length) {
-    StringBuilder sb = new StringBuilder(length);
-
-    for (int index = 0; index < length; index++) {
-      char randomChar;
-      do {
-        randomChar = (char)(Math.random() * 256);
-      } while (ILLEGAL_CHARS.contains(randomChar));
-
-      sb.append(randomChar);
-    }
-
-    return sb.toString();
+  public AsciiMatrixCell() {
+    this(DEFAULT_SIZE);
   }
 
   public int size() {
@@ -66,6 +45,27 @@ public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
     data[index] = newVal.trim();
   }
 
+  protected void autoFill() {
+    for (int index = 0; index < size(); index++) {
+      data[index] = generateRandomAsciiCell(DEFAULT_ELEMENT_LENGTH);
+    }
+  }
+
+  private String generateRandomAsciiCell(int length) {
+    StringBuilder sb = new StringBuilder(length);
+
+    for (int index = 0; index < length; index++) {
+      char randomChar;
+      do {
+        randomChar = (char)(Math.random() * 256);
+      } while (ILLEGAL_CHARS.contains(randomChar));
+
+      sb.append(randomChar);
+    }
+
+    return sb.toString();
+  }
+
   private String concatenate(String delimiter) {
     StringBuilder sb = new StringBuilder();
     
@@ -79,7 +79,7 @@ public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
     return sb.toString();
   }
 
-  public String concatenate() {
+  protected String concatenate() {
     return concatenate("");
   }
 

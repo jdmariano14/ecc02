@@ -2,14 +2,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class AsciiMatrixRow {
+  
   private ArrayList<AsciiMatrixCell> data;
 
-  public AsciiMatrixRow(int size, boolean autoFill) 
-      throws IllegalArgumentException {
-    data = new ArrayList(size);
-    for (int index = 0; index < size; index++) {
-      data.add(new AsciiMatrixCell(autoFill));
-    }
+  public AsciiMatrixRow() {
+    data = new ArrayList();
   }
 
   public int size() {
@@ -18,6 +15,14 @@ public class AsciiMatrixRow {
 
   public AsciiMatrixCell get(int index) throws IndexOutOfBoundsException {
     return data.get(index);
+  }
+
+  protected void autoFill(int count) {
+    for (int index = 0; index < count; index++) {
+      AsciiMatrixCell cell = new AsciiMatrixCell();
+      cell.autoFill();
+      add(cell);
+    }
   }
 
   public void add(AsciiMatrixCell cell) {

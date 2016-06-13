@@ -3,6 +3,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertNotNull;
 import org.junit.rules.ExpectedException;
 
@@ -14,7 +15,7 @@ public class AsciiMatrixCellTest {
    
   @Before
   public void before(){
-    cell = new AsciiMatrixCell(false);
+    cell = new AsciiMatrixCell();
   }
 
   @Test
@@ -25,7 +26,7 @@ public class AsciiMatrixCellTest {
   @Test
   public void testSizeWithManualConstructor() {
     int newSize = 3;
-    cell = new AsciiMatrixCell(newSize, false);
+    cell = new AsciiMatrixCell(newSize);
     
     assertTrue(cell.size() == newSize);
   }
@@ -35,15 +36,15 @@ public class AsciiMatrixCellTest {
     thrown.expect(NegativeArraySizeException.class);
 
     int negativeSize = -1;
-    cell = new AsciiMatrixCell(negativeSize, false);
+    cell = new AsciiMatrixCell(negativeSize);
   }
 
   @Test
   public void testGetterWithCorrectIndex() {
-    cell = new AsciiMatrixCell(true);
+    cell = new AsciiMatrixCell();
     String result = cell.get(0);
     
-    assertNotNull(result);
+    assertNull(result);
   }
 
   @Test
@@ -52,6 +53,15 @@ public class AsciiMatrixCellTest {
     
     int outOfBoundsIndex = cell.size();
     String result = cell.get(outOfBoundsIndex);
+  }
+
+  @Test
+  public void testAutoFill() {
+    cell = new AsciiMatrixCell();
+    cell.autoFill();
+    String result = cell.get(0);
+    
+    assertNotNull(result);
   }
 
   @Test
@@ -103,7 +113,7 @@ public class AsciiMatrixCellTest {
     cell.set(0, low);
     cell.set(1, high);
 
-    AsciiMatrixCell greater = new AsciiMatrixCell(cell.size(), false);
+    AsciiMatrixCell greater = new AsciiMatrixCell(cell.size());
 
     greater.set(0, high);
     greater.set(1, low);
