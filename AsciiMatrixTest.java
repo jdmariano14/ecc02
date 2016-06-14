@@ -1,85 +1,95 @@
-import junit.framework.*;
+import java.util.ArrayList;
 
-public class AsciiMatrixTest extends TestCase {
-  protected AsciiMatrix m;
+import org.junit.Test;
+import org.junit.Before;
+import org.junit.Rule;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertNotNull;
+import org.junit.rules.ExpectedException;
+
+public class AsciiMatrixTest {
+  AsciiMatrix matrix;
+
+  @Rule
+  public final ExpectedException thrown = ExpectedException.none();
    
-  protected void setUp(){
-    m = new AsciiMatrix(2, 2);
+  @Before
+  public void before(){
+    matrix = new AsciiMatrix();
   }
 
-  public void testConstructorInitializes2DArrayOfCorrectRowNumber() {
-    assertTrue(m.data.length == 2);
+  @Test
+  public void testSize() {
+    assertTrue(matrix.size() == 0);
   }
 
-  public void testConstructorInitializes2DArrayOfCorrectColNumber() {
-    assertTrue(m.data[m.data.length - 1].length == 2);
+  @Test
+  public void testGetterWithOutOfBoundsIndex() {
+    thrown.expect(IndexOutOfBoundsException.class);
+    
+    int outOfBoundsIndex = matrix.size();
+    AsciiMatrixRow result = matrix.get(outOfBoundsIndex);
   }
 
-  public void testGenerateRandomAsciiHasCorrectLength() {
-    String result = m.generateRandomAsciiCell(3);
-    assertTrue(result.length() == 3);
-  }
+  @Test
+  public void testAdd() {
+    AsciiMatrixRow row = new AsciiMatrixRow();
+    row.autoFill(1);
 
-  public void testGetter() {
-    assertEquals(m.get(0, 0), m.data[0][0]);
-  }
+    matrix.add(row);
 
-  public void testSetter() {
-    String newVal = "zxc";
-    m.set(0, 0, newVal);
-    assertEquals(m.get(0, 0), newVal);
-  }
-
-  public void testMaxLengthUpdate() {
-    String newVal = m.get(0, 0) + "aaa";
-    m.set(0, 0, newVal);
-    assertTrue(m.maxLength == newVal.length());
-  }
-
-  public void testCountOccurrencesOne() {
-    m.set(0, 0, "bab");
-    assertTrue(m.countQueryOccurrencesInCell(0, 0, "a") == 1);
-  }
-
-  public void testCountOccurrencesMultipleNonContiguous() {
-    m.set(0, 0, "aabaa");
-    assertTrue(m.countQueryOccurrencesInCell(0, 0, "aa") == 2);
-  }
-
-  public void testCountOccurrencesMultipleContiguous() {
-    m.set(0, 0, "aaa");
-    assertTrue(m.countQueryOccurrencesInCell(0, 0, "aa") == 2);
-  }
-
-  public void testSearchResultsString() {
-    m.set(0, 0, "a");
-    m.set(0, 1, "bb");
-    m.set(1, 0, "ccc");
-    m.set(1, 1, "dada");
-
-    String expected = "0,0 with 1 occ." + System.lineSeparator() + "1,1 with 2 occ.";
-    String result = m.getSearchResults("a");
+    AsciiMatrixRow expected = row;
+    AsciiMatrixRow result = matrix.get(matrix.size() - 1);
 
     assertEquals(expected, result);
   }
 
-  public void testSearchResultsWithBlankQuery() {
-    String expected = "No query provided";
-    String result = m.getSearchResults("");
+  @Test
+  public void testSort() {
+    String firstRowFirstCell = "aa";
+    String firstRowSecondCell = "bb";
+    String secondRowFirstCell = "cc";
+    String secondRowSecondCell = "dd";
 
-    assertEquals(expected, result);
+    matrix.autoFill(2, 2);
+    matrix.get(0).get(0).set(0, firstRowSecondCell);
+    matrix.get(0).get(1).set(0, firstRowFirstCell);
+    matrix.get(1).get(0).set(0, secondRowSecondCell);
+    matrix.get(1).get(1).set(0, secondRowFirstCell);
+
+    matrix.sort();
+
+    String expected1 = firstRowFirstCell;
+    String result1 = matrix.get(0).get(0).get(0);
+    String expected2 = secondRowFirstCell;
+    String result2 = matrix.get(1).get(0).get(0);
+
+    assertEquals(expected1, result1);
+    assertEquals(expected2, result2);
   }
 
-  public void testToString() {
-    m.set(0, 0, "a");
-    m.set(0, 1, "bb");
-    m.set(1, 0, "ccc");
-    m.set(1, 1, "dddd");
-
-    String expected = "a    bb" + System.lineSeparator() + "ccc  dddd";
-    String result = m.toString();
-
-    assertEquals(expected, result);
+  @Test
+  public void testAutoFill() {
+    matrix.autoFill(1, 1);
+    AsciiMatrixRow result = matrix.get(0);
+    
+    assertNotNull(result);
   }
 
+  @Test
+  public void testGetQueryOccurrencesWithOneInMultipleRows() {
+    String query = "a";
+    matrix.autoFill(3, 3);
+    matrix.get(0).get(0).set(0, query);
+    matrix.get(1).get(1).set(0, query);
+    matrix.get(2).get(2).set(0, query);
+
+    ArrayList<ArrayList<int[]>> result = matrix.getQueryOccurrences(query);
+
+    assertTrue(result.get(0).get(0)[0] > 0);
+    assertTrue(result.get(1).get(1)[0] > 0);
+    assertTrue(result.get(2).get(2)[0] > 0);
+  }
 }

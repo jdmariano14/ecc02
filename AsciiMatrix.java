@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 
 public class AsciiMatrix {
- 
   private ArrayList<AsciiMatrixRow> data;
 
   public AsciiMatrix() {
@@ -34,8 +33,8 @@ public class AsciiMatrix {
     }
   }
 
-  public ArrayList getQueryOccurrences(String query) {
-    ArrayList<ArrayList> occurrences = new ArrayList(size());
+  public ArrayList<ArrayList<int[]>> getQueryOccurrences(String query) {
+    ArrayList<ArrayList<int[]>> occurrences = new ArrayList(size());
 
     for (AsciiMatrixRow row : data) {
       occurrences.add(row.getQueryOccurrences(query));
