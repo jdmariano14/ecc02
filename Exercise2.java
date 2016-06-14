@@ -24,6 +24,10 @@ public class Exercise2 {
       System.out.println(System.lineSeparator() + getMenu());
       choice = promptUserForInt("");
 
+      if (choice < 1 || choice > OPTIONS.length) {
+        continue;
+      }
+
       switch (OPTIONS[choice - 1]) {
         case "search": 
           searchMatrix(matrix);
