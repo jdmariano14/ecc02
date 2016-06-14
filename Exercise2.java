@@ -6,7 +6,7 @@ public class Exercise2 {
   private static final Scanner INPUT_SCANNER;
   private static final String[] OPTIONS = {
       "search", "edit", "print", "add row", 
-      "add cell", "sort", "exit"
+      "add cell", "sort", "reset", "exit"
     };
 
   static {
@@ -34,15 +34,27 @@ public class Exercise2 {
         case "print":
           printMatrixToConsole(matrix);
           break;
+        case "add row":
+          addRowToMatrix(matrix);
+          break;
+        case "add cell":
+          addCellToMatrix(matrix);
+          break;
         case "sort":
           sortMatrix(matrix);
+          break;
+        case "reset":
+          matrix = resetMatrix(matrix);
           break;
       }
     } while (choice != OPTIONS.length);
 
-    System.out.println("Goodbye.");
+    saveMatrix(matrix);
 
     INPUT_SCANNER.close();
+
+    System.out.println("Goodbye.");
+
     System.exit(0);
   }
 
@@ -107,7 +119,7 @@ public class Exercise2 {
   }
 
   private static void searchMatrix(AsciiMatrix matrix) {
-    String query = promptUserForLine("Enter the new value: ");
+    String query = promptUserForLine("Enter the query string: ");
 
     if (query.isEmpty()) {
       System.err.println("Blank query entered. Matrix search aborted.");
@@ -147,22 +159,10 @@ public class Exercise2 {
 
     try {
       matrix.get(row).get(col).set(ele, newVal);
-      saveMatrix(matrix);
     } catch (IndexOutOfBoundsException e) {
       System.err.println("Invalid index entered. Matrix update aborted.");
     } catch (IllegalArgumentException e) {
       System.err.println("Invalid character entered. Matrix update aborted.");
-    }
-  }
-
-  private static void saveMatrix(AsciiMatrix matrix) {
-    try {
-      matrix.setOutputStrategy(new Utf8OutputStrategy(matrix.getSource()));
-      matrix.outputContents();
-    } catch (IOException e) {
-      System.err.println(e.getMessage());
-    } catch (NullPointerException e) {
-      System.err.println("Source file could no longer be accessed. Matrix save aborted.");
     }
   }
 
@@ -175,9 +175,60 @@ public class Exercise2 {
     }
   }
 
+  private static void addRowToMatrix(AsciiMatrix matrix) {
+    matrix.add(new AsciiMatrixRow());
+    System.out.println("Row added. Matrix now has " + matrix.size() + " rows.");
+  }
+
+  private static void addCellToMatrix(AsciiMatrix matrix) {
+    int row = promptUserForInt("Enter row index (all indices are 0-based): ");
+    AsciiMatrixCell cell = new AsciiMatrixCell();
+
+    try {
+      matrix.get(row).add(cell);
+
+      for (int ctr = 0; ctr < AsciiMatrixConventions.DEFAULT_CELL_SIZE; ctr++) {
+        String newVal = promptUserForLine("Enter a value for element " + ctr + ": ");
+        cell.set(ctr, newVal);
+      }
+    } catch (IndexOutOfBoundsException e) {
+      System.err.println("Invalid index entered. Matrix update aborted.");
+    }
+  }  
+
   private static void sortMatrix(AsciiMatrix matrix) {
     matrix.sort();
-    saveMatrix(matrix);
+  }
+
+  private static AsciiMatrix resetMatrix(AsciiMatrix matrix) {
+    String src = null;
+
+    if (matrix.getSource() != null) {
+      src = matrix.getSource();
+    }
+
+    AsciiMatrix newMatrix = initializeAsciiMatrixFromConsole();
+
+    if (src != null) {
+      newMatrix.setSource(src);
+    }
+
+    return newMatrix;
+  }
+
+  private static void saveMatrix(AsciiMatrix matrix) {
+    try {
+      System.out.println("Saving matrix...");
+
+      matrix.setOutputStrategy(new Utf8OutputStrategy(matrix.getSource()));
+      matrix.outputContents();
+
+      System.out.println("Matrix saved to " + matrix.getSource() + ".");
+    } catch (IOException e) {
+      System.err.println(e.getMessage());
+    } catch (NullPointerException e) {
+      System.err.println("No output path could be determined. Matrix save aborted.");
+    }
   }
 
   private static int promptUserForInt(String promptMsg) {
