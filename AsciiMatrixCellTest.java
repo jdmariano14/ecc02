@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.junit.Before;
 import org.junit.Rule;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertNotNull;
@@ -70,19 +71,39 @@ public class AsciiMatrixCellTest {
   }
 
   @Test
-  public void testSetterWithIllegalCharacter() {
-    thrown.expect(IllegalArgumentException.class);
-    char illegalChar = AsciiMatrixConventions.TEXT_ELEMENT_DELIMITER;
-
-    cell.set(0, "foo" + illegalChar);
-  }
-
-  @Test
   public void testSetterWithOutOfBoundsIndex() {
     thrown.expect(ArrayIndexOutOfBoundsException.class);
     
     int outOfBoundsIndex = cell.size();
     cell.set(outOfBoundsIndex, "foo");
+  }
+
+  @Test
+  public void testIsValidWithValid() {
+    char legalChar = 'a';
+
+    assertTrue(AsciiMatrixCell.isValid(legalChar));
+  }
+
+  @Test
+  public void testIsValidWithNonAscii() {
+    char illegalChar = 0xFF;
+
+    assertFalse(AsciiMatrixCell.isValid(illegalChar));
+  }
+
+  @Test
+  public void testIsValidWithWhitespace() {
+    char illegalChar = ' ';
+
+    assertFalse(AsciiMatrixCell.isValid(illegalChar));
+  }
+
+  @Test
+  public void testIsValidWithDelimiter() {
+    char illegalChar = AsciiMatrixConventions.TEXT_ELEMENT_DELIMITER;
+
+    assertFalse(AsciiMatrixCell.isValid(illegalChar));
   }
 
   @Test

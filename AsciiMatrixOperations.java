@@ -2,7 +2,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class AsciiMatrixOperations {/*
+public class AsciiMatrixOperations {
+
+  public static void main(String [] args) {
+    AsciiMatrix matrix = new AsciiMatrix();
+    matrix.autoFill(3, 3);
+    matrix.setOutputStrategy(new ConsoleOutputStrategy());
+    matrix.output();
+  }
+
+/*
   // ****************************************
   // Main
   // ****************************************

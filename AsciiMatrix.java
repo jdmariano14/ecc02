@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 public class AsciiMatrix {
   private ArrayList<AsciiMatrixRow> data;
+  private AsciiMatrixOutputStrategy outputStrategy;
 
   public AsciiMatrix() {
     data = new ArrayList();
@@ -41,6 +42,14 @@ public class AsciiMatrix {
     }
 
     return occurrences;
+  }
+
+  public void setOutputStrategy(AsciiMatrixOutputStrategy strat) {
+    outputStrategy = strat;
+  }
+
+  public void output() {
+    outputStrategy.writeMatrix(this);
   }
 
   @Override

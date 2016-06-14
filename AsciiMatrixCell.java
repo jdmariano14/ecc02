@@ -19,14 +19,15 @@ public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
 
   public void set(int index, String newVal) 
       throws ArrayIndexOutOfBoundsException, IllegalArgumentException {
+    newVal = newVal.trim();
     for (char c : newVal.toCharArray()) {
-      if (AsciiMatrixConventions.isIllegal(c)) {
+      if (!isValid(c)) {
         String msg = "Input string contains an illegal character ('" + c + "').";
         throw new IllegalArgumentException(msg);
       }
     }
 
-    data[index] = newVal.trim();
+    data[index] = newVal;
   }
 
   public void autoFill() {
@@ -42,13 +43,20 @@ public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
       char randomChar;
       do {
         randomChar = (char)(Math.random() * 256);
-      } while (AsciiMatrixConventions.isIllegal(randomChar));
+      } while (!isValid(randomChar));
 
       sb.append(randomChar);
     }
 
     return sb.toString();
   }
+
+  public static boolean isValid(char c) {
+    return !AsciiMatrixConventions.isIllegal(c) 
+            && !CharacterHelper.isWhitespace(c) 
+            && CharacterHelper.isAscii(c);
+  }
+
 
   public int[] getQueryOccurrences(String query) {
     int[] occurrences = new int[size()];
