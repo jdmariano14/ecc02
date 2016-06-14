@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.Rule;
@@ -56,15 +58,6 @@ public class AsciiMatrixCellTest {
   }
 
   @Test
-  public void testAutoFill() {
-    cell = new AsciiMatrixCell();
-    cell.autoFill();
-    String result = cell.get(0);
-    
-    assertNotNull(result);
-  }
-
-  @Test
   public void testSetterWithCorrectIndex() {
     String newVal = "  newVal  ";
 
@@ -91,6 +84,52 @@ public class AsciiMatrixCellTest {
     int outOfBoundsIndex = cell.size();
     cell.set(outOfBoundsIndex, "foo");
   }
+
+  @Test
+  public void testAutoFill() {
+    cell = new AsciiMatrixCell();
+    cell.autoFill();
+    String result = cell.get(0);
+    
+    assertNotNull(result);
+  }
+
+  @Test
+  public void testGetQueryOccurrencesWithOneInMultipleElements() {
+    String query = "a";
+    cell.set(0, "b" + query + "b");
+    cell.set(1, query + "cc");
+
+    int [] result = cell.getQueryOccurrences(query);
+    int [] expected = {1, 1};
+
+    assertTrue(Arrays.equals(result, expected));
+  }
+
+  @Test
+  public void testGetQueryOccurrencesWithMultipleNonContiguousInFirstElement()  {
+    String query = "aa";
+    cell.set(0, query + "b" + query);
+    cell.set(1, "aca");
+
+    int [] result = cell.getQueryOccurrences(query);
+    int [] expected = {2, 0};
+
+    assertTrue(Arrays.equals(result, expected));
+  }
+
+  public void testGetQueryOccurrencesWithMultipleContiguousInOtherElement() {
+    String letter = "a";
+    String query = letter + letter;
+    cell.set(0, "foo");
+    cell.set(1, letter + letter + letter);
+
+    int [] result = cell.getQueryOccurrences(query);
+    int [] expected = {0, 2};
+
+    assertTrue(Arrays.equals(result, expected));
+  }
+
 
   @Test
   public void testConcatenate() {

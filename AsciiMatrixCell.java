@@ -29,7 +29,7 @@ public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
     data[index] = newVal.trim();
   }
 
-  protected void autoFill() {
+  public void autoFill() {
     for (int index = 0; index < size(); index++) {
       data[index] = generateRandomAsciiCell(AsciiMatrixConventions.DEFAULT_ELEMENT_LENGTH);
     }
@@ -50,6 +50,22 @@ public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
     return sb.toString();
   }
 
+  public int[] getQueryOccurrences(String query) {
+    int[] occurrences = new int[size()];
+
+    for (int index = 0; index < size(); index++) {
+      String element = get(index);
+      for (int pos = 0; pos <= element.length() - query.length(); pos++) {
+        String substr = element.substring(pos, pos + query.length());
+        if (substr.equals(query)) {
+          occurrences[index]++;
+        }
+      }
+    }
+
+    return occurrences;
+  }
+
   private String concatenate(String delimiter) {
     StringBuilder sb = new StringBuilder();
     
@@ -63,7 +79,7 @@ public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
     return sb.toString();
   }
 
-  protected String concatenate() {
+  public String concatenate() {
     return concatenate("");
   }
 
