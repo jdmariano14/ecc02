@@ -13,13 +13,14 @@ public class FileOutputStrategy implements AsciiMatrixOutputStrategy {
 
   public void writeMatrix(AsciiMatrix matrix) {
     Path path = Paths.get(filepath);
+    
     try (BufferedWriter writer = Files.newBufferedWriter(path)) {
       String matrixString = matrix.toString();
       writer.write(matrixString, 0, matrixString.length());
       writer.close();
     }
     catch (IOException e) {
-      System.err.println("Error accessing file.");
+      System.err.println("Error accessing file. Matrix contents were not output.");
     }
   }
 }

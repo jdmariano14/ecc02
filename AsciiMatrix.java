@@ -2,10 +2,17 @@ import java.util.ArrayList;
 
 public class AsciiMatrix {
   private ArrayList<AsciiMatrixRow> data;
+  private AsciiMatrixInputStrategy inputStrategy;
   private AsciiMatrixOutputStrategy outputStrategy;
 
   public AsciiMatrix() {
     data = new ArrayList();
+  }
+
+  public AsciiMatrix(AsciiMatrixInputStrategy strat) {
+    this();
+    inputStrategy = strat;
+    strat.readMatrix(this);
   }
 
   public int size() {
@@ -18,6 +25,10 @@ public class AsciiMatrix {
 
   public void add(AsciiMatrixRow row) {
     data.add(row);
+  }
+
+  public void clear() {
+    data.clear();
   }
 
   public void sort() {
@@ -44,11 +55,19 @@ public class AsciiMatrix {
     return occurrences;
   }
 
+  public void setInputStrategy(AsciiMatrixInputStrategy strat) {
+    inputStrategy = strat;
+  }
+
+  public void initializeFromInput() {
+    inputStrategy.readMatrix(this);
+  }
+
   public void setOutputStrategy(AsciiMatrixOutputStrategy strat) {
     outputStrategy = strat;
   }
 
-  public void output() {
+  public void outputContents() {
     outputStrategy.writeMatrix(this);
   }
 

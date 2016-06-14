@@ -4,11 +4,16 @@ import java.io.InputStreamReader;
 
 public class AsciiMatrixOperations {
 
-  public static void main(String [] args) {
+  public static void main(String [] args) {/*
     AsciiMatrix matrix = new AsciiMatrix();
     matrix.autoFill(3, 3);
     matrix.setOutputStrategy(new FileOutputStrategy("foo"));
-    matrix.output();
+    matrix.outputContents();*/
+
+    AsciiMatrix natrix = new AsciiMatrix(new FileInputStrategy("foo"));
+    natrix.setOutputStrategy(new ConsoleOutputStrategy());
+    natrix.outputContents();
+
   }
 
 /*
