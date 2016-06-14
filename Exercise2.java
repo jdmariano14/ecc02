@@ -22,7 +22,7 @@ public class Exercise2 {
 
     do {
       StringBuilder prompt = new StringBuilder("Enter the path to read from");
-      prompt.append(" (or leave blank to initialize in console): ");
+      prompt.append(" (leave blank to initialize in console): ");
 
       String path = promptUserForLine(prompt.toString());
 

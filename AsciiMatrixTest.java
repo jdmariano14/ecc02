@@ -79,6 +79,13 @@ public class AsciiMatrixTest {
   }
 
   @Test
+  public void testAutoFillWithNegativeArgument() {
+    thrown.expect(IllegalArgumentException.class);
+    
+    matrix.autoFill(-1, 1);
+  }
+
+  @Test
   public void testGetQueryOccurrencesWithOneInMultipleRows() {
     String query = "a";
     matrix.autoFill(3, 3);
