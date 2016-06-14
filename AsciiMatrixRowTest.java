@@ -47,14 +47,6 @@ public class AsciiMatrixRowTest {
   }
 
   @Test
-  public void testAutoFill() {
-    row.autoFill(1);
-    AsciiMatrixCell result = row.get(0);
-    
-    assertNotNull(result);
-  }
-
-  @Test
   public void testSort() {
     String firstKey = "aa";
     String firstValue = "bb";
@@ -79,6 +71,14 @@ public class AsciiMatrixRowTest {
   }
 
   @Test
+  public void testAutoFill() {
+    row.autoFill(1);
+    AsciiMatrixCell result = row.get(0);
+    
+    assertNotNull(result);
+  }
+
+  @Test
   public void testGetQueryOccurrencesWithOneInMultipleCells() {
     String query = "a";
     row.autoFill(3);
@@ -87,8 +87,8 @@ public class AsciiMatrixRowTest {
 
     ArrayList<int[]> result = row.getQueryOccurrences(query);
 
-    assertTrue(result.get(0)[0] == 1);
-    assertTrue(result.get(2)[0] == 1);
+    assertTrue(result.get(0)[0] > 0);
+    assertTrue(result.get(2)[0] > 0);
   }
 
   @Test

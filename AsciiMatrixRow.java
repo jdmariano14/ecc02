@@ -17,14 +17,6 @@ public class AsciiMatrixRow {
     return data.get(index);
   }
 
-  protected void autoFill(int count) {
-    for (int index = 0; index < count; index++) {
-      AsciiMatrixCell cell = new AsciiMatrixCell();
-      cell.autoFill();
-      add(cell);
-    }
-  }
-
   public void add(AsciiMatrixCell cell) {
     data.add(cell);
   }
@@ -33,13 +25,21 @@ public class AsciiMatrixRow {
     Collections.sort(data);
   }
 
+  public void autoFill(int cols) {
+    for (int ctr = 0; ctr < cols; ctr++) {
+      AsciiMatrixCell cell = new AsciiMatrixCell();
+      cell.autoFill();
+      add(cell);
+    }
+  }
+
   public ArrayList getQueryOccurrences(String query) {
     ArrayList<int[]> occurrences = new ArrayList(size());
     
     for (AsciiMatrixCell cell : data) {
       occurrences.add(cell.getQueryOccurrences(query));
     }
-    
+
     return occurrences;
   }
 

@@ -1,118 +1,46 @@
+import java.util.ArrayList;
+
 public class AsciiMatrix {
-  // ****************************************
-  // Constants
-  // ****************************************
-  static final String ALLOWED_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%^&*();:'\"<>,./[]{}-=_+";
-  // ****************************************
-  // Fields
-  // ****************************************
-  int maxLength;
+ 
+  private ArrayList<AsciiMatrixRow> data;
 
-  String[][] data;
-  // ****************************************
-  // Initialization
-  // ****************************************
-  public AsciiMatrix(int rows, int cols) {
-    data = new String[rows][cols];
-
-    int defaultLength = 3;
-
-    for (int r = 0; r < rows; r++) {
-      for (int c = 0; c < cols; c++) {
-        data[r][c] = generateRandomAsciiCell(defaultLength);
-      }
-    }
-
-    maxLength = defaultLength;
+  public AsciiMatrix() {
+    data = new ArrayList();
   }
 
-  String generateRandomAsciiCell(int len) {
-    StringBuilder sb = new StringBuilder(len);
-
-    for(int i = 0; i < len; i++) {
-      int rand = (int)(Math.random() * ALLOWED_CHARS.length());
-      sb.append(ALLOWED_CHARS.charAt(rand));
-    }
-
-    return sb.toString();
-  }
-  // ****************************************
-  // Accessors
-  // ****************************************
-  public String get(int row, int col) {
-    if (row < data.length) {
-      if (col < data[row].length) {
-        return data[row][col];
-      }
-    }
-    return "";
+  public int size() {
+    return data.size();
   }
 
-  public void set(int row, int col, String value) {
-    if (row < data.length) {
-      if (col < data[row].length) {
-        data[row][col] = value;
-        if (value.length() > maxLength) {
-          maxLength = value.length();
-        }
-      }
-    }
-  }
-  // ****************************************
-  // Count occurrences
-  // ****************************************
-  public String getSearchResults(String query) {
-    if (query.isEmpty()) {
-      return "No query provided";
-    }
-
-    StringBuilder results = new StringBuilder();
-
-    for (int r = 0; r < data.length; r++) {
-      for (int c = 0; c < data[r].length; c++) {
-        int occ = countQueryOccurrencesInCell(r, c, query);
-        if (occ > 0) {
-          results.append(r + "," + c + " with " + occ + " occ.");
-          results.append(System.lineSeparator());
-        }
-      }
-    }
-
-    return results.toString().trim();
+  public AsciiMatrixRow get(int index) throws IndexOutOfBoundsException {
+    return data.get(index);
   }
 
-  int countQueryOccurrencesInCell(int row, int col, String query) {
-    int occ = 0;
-
-    String cell = get(row, col);
-  
-    for (int i = 0; i <= cell.length() - query.length(); i++) {
-      if (cell.substring(i, i + query.length()).equals(query)) {
-        occ++;
-      }
-    }
-
-    return occ;
+  public void add(AsciiMatrixRow row) {
+    data.add(row);
   }
-  // ****************************************
-  // Representation
-  // ****************************************
-  @Override
-  public String toString() {
-    StringBuilder table = new StringBuilder();
 
-    for (int r = 0; r < data.length; r++) {
-      StringBuilder tableRow = new StringBuilder();
+  public void sort() {
+    for (AsciiMatrixRow row : data) {
+      row.sort();
+    }
+  }
 
-      for (int c = 0; c < data[r].length; c++) {
-        tableRow.append(String.format("%1$"+ (maxLength + 1) + "s", get(r, c)));
-        tableRow.append(" ");
-      }
+  public void autoFill(int rows, int cols) {
+    for (int ctr = 0; ctr < rows; ctr++) {
+      AsciiMatrixRow row = new AsciiMatrixRow();
+      row.autoFill(cols);
+      add(row);
+    }
+  }
 
-      table.append(tableRow.toString().trim());
-      table.append(System.lineSeparator());
+  public ArrayList getQueryOccurrences(String query) {
+    ArrayList<ArrayList> occurrences = new ArrayList(size());
+
+    for (AsciiMatrixRow row : data) {
+      occurrences.add(row.getQueryOccurrences(query));
     }
 
-    return table.toString().trim();
+    return occurrences;
   }
 }
