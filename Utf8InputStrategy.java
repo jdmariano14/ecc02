@@ -1,21 +1,22 @@
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.charset.StandardCharsets;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.util.Scanner;
 
-public class FileInputStrategy implements AsciiMatrixInputStrategy {
+public class Utf8InputStrategy implements AsciiMatrixInputStrategy {
   private String filepath;
 
-  public FileInputStrategy(String filepath) {
+  public Utf8InputStrategy(String filepath) {
     this.filepath = filepath;
   }
 
   public void readMatrix(AsciiMatrix matrix) {
     Path path = Paths.get(filepath);
 
-    try (BufferedReader reader = Files.newBufferedReader(path)) {
+    try (BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
       Scanner scanner = new Scanner(reader);
       matrix.clear();
 
@@ -66,6 +67,4 @@ public class FileInputStrategy implements AsciiMatrixInputStrategy {
 
     return cell;
   }
-
-
 }

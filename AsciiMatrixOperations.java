@@ -7,10 +7,10 @@ public class AsciiMatrixOperations {
   public static void main(String [] args) {
     AsciiMatrix matrix = new AsciiMatrix();
     matrix.autoFill(3, 3);
-    matrix.setOutputStrategy(new FileOutputStrategy("poo"));
+    matrix.setOutputStrategy(new Utf8OutputStrategy("poo"));
     matrix.outputContents();
 
-    AsciiMatrix natrix = new AsciiMatrix(new FileInputStrategy("foo"));
+    AsciiMatrix natrix = new AsciiMatrix(new Utf8InputStrategy("poo"));
     natrix.setOutputStrategy(new ConsoleOutputStrategy());
     natrix.outputContents();
 
