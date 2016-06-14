@@ -17,6 +17,10 @@ public class AsciiMatrixRow {
     return data.get(index);
   }
 
+  public void set(int index, AsciiMatrixCell cell) throws IndexOutOfBoundsException {
+    data.set(index, cell);
+  }
+
   protected void autoFill(int count) {
     for (int index = 0; index < count; index++) {
       AsciiMatrixCell cell = new AsciiMatrixCell();
