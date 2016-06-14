@@ -79,10 +79,10 @@ public class AsciiMatrixRowTest {
   @Test
   public void testToString() {
     row.autoFill(2);
-    
+
     StringBuilder sb = new StringBuilder();
     sb.append(row.get(0));
-    sb.append(" " + AsciiMatrixCell.CELL_DELIMITER + " ");
+    sb.append(AsciiMatrixConventions.textCellDivider());
     sb.append(row.get(1));
 
     String expected = sb.toString();

@@ -40,7 +40,7 @@ public class AsciiMatrixRow {
     for (int index = 0; index < size(); index++) {
       sb.append(get(index));
       if (index < size() - 1) {
-        sb.append(" " + AsciiMatrixCell.CELL_DELIMITER + " ");
+        sb.append(AsciiMatrixConventions.textCellDivider());
       }
     }
 

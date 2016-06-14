@@ -20,7 +20,7 @@ public class AsciiMatrixCellTest {
 
   @Test
   public void testSizeWithDefaultConstructor() {
-    assertTrue(cell.size() == AsciiMatrixCell.DEFAULT_SIZE);
+    assertTrue(cell.size() == AsciiMatrixConventions.DEFAULT_CELL_SIZE);
   }
 
   @Test
@@ -79,7 +79,7 @@ public class AsciiMatrixCellTest {
   @Test
   public void testSetterWithIllegalCharacter() {
     thrown.expect(IllegalArgumentException.class);
-    char illegalChar = AsciiMatrixCell.ELEMENT_DELIMITER;
+    char illegalChar = AsciiMatrixConventions.TEXT_ELEMENT_DELIMITER;
 
     cell.set(0, "foo" + illegalChar);
   }
@@ -130,7 +130,7 @@ public class AsciiMatrixCellTest {
     cell.set(0, key);
     cell.set(1, value);
 
-    String expected = key + AsciiMatrixCell.ELEMENT_DELIMITER + " " + value;
+    String expected = key + AsciiMatrixConventions.textElementDivider() + value;
     String result = cell.toString();
     
     assertEquals(expected, result);

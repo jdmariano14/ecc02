@@ -1,28 +1,12 @@
-import java.util.HashSet;
-
 public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
-  public static final int DEFAULT_SIZE = 2;
-  public static final int DEFAULT_ELEMENT_LENGTH = 3;
-
-  public static final char ELEMENT_DELIMITER = ',';
-  public static final char CELL_DELIMITER = '|';
-  
-  public static final HashSet<Character> ILLEGAL_CHARS;
-
   private String [] data;
-
-  static {
-    ILLEGAL_CHARS = new HashSet();
-    ILLEGAL_CHARS.add(ELEMENT_DELIMITER);
-    ILLEGAL_CHARS.add(CELL_DELIMITER);
-  }
 
   public AsciiMatrixCell(int size) throws NegativeArraySizeException {
     data = new String[size];
   }
 
   public AsciiMatrixCell() {
-    this(DEFAULT_SIZE);
+    this(AsciiMatrixConventions.DEFAULT_CELL_SIZE);
   }
 
   public int size() {
@@ -36,7 +20,7 @@ public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
   public void set(int index, String newVal) 
       throws ArrayIndexOutOfBoundsException, IllegalArgumentException {
     for (char c : newVal.toCharArray()) {
-      if (ILLEGAL_CHARS.contains(c)) {
+      if (AsciiMatrixConventions.isIllegal(c)) {
         String msg = "Input string contains an illegal character ('" + c + "').";
         throw new IllegalArgumentException(msg);
       }
@@ -47,7 +31,7 @@ public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
 
   protected void autoFill() {
     for (int index = 0; index < size(); index++) {
-      data[index] = generateRandomAsciiCell(DEFAULT_ELEMENT_LENGTH);
+      data[index] = generateRandomAsciiCell(AsciiMatrixConventions.DEFAULT_ELEMENT_LENGTH);
     }
   }
 
@@ -58,7 +42,7 @@ public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
       char randomChar;
       do {
         randomChar = (char)(Math.random() * 256);
-      } while (ILLEGAL_CHARS.contains(randomChar));
+      } while (AsciiMatrixConventions.isIllegal(randomChar));
 
       sb.append(randomChar);
     }
@@ -93,6 +77,6 @@ public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
 
   @Override
   public String toString() {
-    return concatenate(ELEMENT_DELIMITER + " ");
+    return concatenate(AsciiMatrixConventions.textElementDivider());
   }
 }
