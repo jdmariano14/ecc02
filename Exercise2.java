@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.IOException;
 
@@ -25,7 +26,7 @@ public class Exercise2 {
 
       switch (OPTIONS[choice - 1]) {
         case "search": 
-          //searchMatrix(matrix);
+          searchMatrix(matrix);
           break;
         case "edit": 
           editMatrixElement(matrix);
@@ -105,6 +106,39 @@ public class Exercise2 {
     return matrix;
   }
 
+  private static void searchMatrix(AsciiMatrix matrix) {
+    String query = promptUserForLine("Enter the new value: ");
+
+    if (query.isEmpty()) {
+      System.err.println("Blank query entered. Matrix search aborted.");
+    } else {
+      ArrayList results = matrix.getQueryOccurrences(query);  
+      printSeachResults(results);
+    }
+  }
+
+  private static void printSeachResults(ArrayList results) {
+    for (int row = 0; row < results.size(); row++) {
+      ArrayList rowResults = (ArrayList)results.get(row);
+
+      for (int col = 0; col < rowResults.size(); col++) {
+        int[] cellResults = (int[])rowResults.get(col);
+
+        for (int ele = 0; ele < cellResults.length; ele++) {
+          int occurrences = cellResults[ele];
+
+          if (occurrences > 0) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(row + "," + col + "," + ele);
+            sb.append(" with " + occurrences + " occ.");
+
+            System.out.println(sb.toString());
+          }
+        }
+      }
+    }
+  }
+
   private static void editMatrixElement(AsciiMatrix matrix) {
     int row = promptUserForInt("Enter row index (all indices are 0-based): ");
     int col = promptUserForInt("Enter column index: ");
@@ -159,96 +193,4 @@ public class Exercise2 {
     System.out.print(promptMsg);
     return INPUT_SCANNER.nextLine();
   }
-
-/*
-  // ****************************************
-  // Main
-  // ****************************************
-  public static void main(String args[]) {
-    AsciiMatrix matrix = initializeAsciiMatrix();
-
-    int choice = 0;
-    do {
-      System.out.println();
-      System.out.println(getMenu());
-
-      choice = promptUserForPostiveInt("");
-
-      switch (choice) {
-        case 1: 
-          searchMatrix(matrix);
-          break;
-        case 2: 
-          editMatrixCell(matrix);
-          break;
-        case 3: 
-          System.out.println(matrix);
-          break;
-        case 4:
-          matrix = initializeAsciiMatrix();
-          break; 
-      }
-    } while (choice != 5);
-
-    System.out.println("Goodbye.");
-  }
-  // ****************************************
-  // Menu
-  // ****************************************
-  // ****************************************
-  // Search matrix
-  // ****************************************
-  private static void searchMatrix(AsciiMatrix m) {
-    String query = promptUserForString("Enter the search query: ");
-    System.out.println(m.getSearchResults(query));
-  }
-  // ****************************************
-  // Initialize a matrix
-  // ****************************************
-  private static AsciiMatrix initializeAsciiMatrix() {
-    int rows = promptUserForPostiveInt("Enter the number of rows: ");
-    int cols = promptUserForPostiveInt("Enter the number of columns: ");
-
-    AsciiMatrix matrix = new AsciiMatrix(rows, cols);
-
-    System.out.println();
-    System.out.println(matrix);
-
-    return matrix;
-  }
-  // ****************************************
-  // Edit a cell
-  // ****************************************
-  
-  // ****************************************
-  // Prompts
-  // ****************************************
-  private static int promptUserForNonNegativeInt(String promptMsg) {
-    return promptUserForIntWithLowerBound(promptMsg, 0);
-  }
-
-  private static int promptUserForPostiveInt(String promptMsg) {
-    return promptUserForIntWithLowerBound(promptMsg, 1);
-  }
-
-  private static int promptUserForIntWithLowerBound(String promptMsg, int bound) {    
-    System.out.print(promptMsg);
-
-    int input;
-
-    BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-    
-    try {
-      input = Integer.parseInt(reader.readLine());
-      
-      if (input < bound) {
-        input = bound;
-      }
-    }
-    catch (IOException | NumberFormatException e) {
-      input = bound;
-    }
-
-    return input;
-  }*/
 }
