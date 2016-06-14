@@ -18,7 +18,7 @@ public class Utf8InputStrategy implements AsciiMatrixInputStrategy {
 
     BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8);
     Scanner scanner = new Scanner(reader);
-    matrix = new AsciiMatrix();
+    matrix.clear();
 
     while(scanner.hasNextLine()) {
       matrix.add(parseMatrixRow(scanner.nextLine()));

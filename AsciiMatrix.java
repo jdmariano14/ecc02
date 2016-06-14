@@ -21,6 +21,10 @@ public class AsciiMatrix {
   public void add(AsciiMatrixRow row) {
     data.add(row);
   }
+
+  public void clear() {
+    data.clear();
+  }
   
   public void sort() {
     for (AsciiMatrixRow row : data) {

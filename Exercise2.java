@@ -2,19 +2,62 @@ import java.util.Scanner;
 import java.io.IOException;
 
 public class Exercise2 {
-  private static final Scanner inputScanner;
+  private static final Scanner INPUT_SCANNER;
+  private static final String[] OPTIONS = {
+      "search", "edit", "print", "add row", 
+      "add cell", "sort", "exit"
+    };
 
   static {
-    inputScanner = new Scanner(System.in);
+    INPUT_SCANNER = new Scanner(System.in);
   }
 
   public static void main(String [] args) {
     System.out.println("Welcome.");
 
     AsciiMatrix matrix = initializeAsciiMatrixFromUserOption();
+    printMatrixToConsole(matrix);
 
-    matrix.setOutputStrategy(new ConsoleOutputStrategy());
-    //matrix.outputContents();
+    int choice = -1;
+    do {
+      System.out.println(System.lineSeparator() + getMenu());
+      choice = promptUserForInt("");
+
+      switch (OPTIONS[choice - 1]) {
+        case "search": 
+          //searchMatrix(matrix);
+          break;
+        case "edit": 
+          //editMatrixCell(matrix);
+          break;
+        case "print":
+          printMatrixToConsole(matrix);
+          break;
+        case "add row":
+          //matrix = initializeAsciiMatrix();
+          break; 
+      }
+    } while (choice != OPTIONS.length);
+
+    System.out.println("Goodbye.");
+
+    INPUT_SCANNER.close();
+    System.exit(0);
+  }
+
+  private static String getMenu() {
+    StringBuilder menu = new StringBuilder("Select an option:");
+    menu.append(System.lineSeparator());
+
+    for (int index = 0; index < OPTIONS.length; index++) {
+      menu.append((index + 1) + ". ");
+      menu.append(OPTIONS[index]);
+      if (index < OPTIONS.length - 1) {
+        menu.append(System.lineSeparator());
+      }
+    }
+
+    return menu.toString();
   }
 
   private static AsciiMatrix initializeAsciiMatrixFromUserOption() {
@@ -47,9 +90,9 @@ public class Exercise2 {
     AsciiMatrix matrix = null;
 
     do {
+      matrix = new AsciiMatrix();
       int rows = promptUserForInt("Enter the number of rows: ");
       int cols = promptUserForInt("Enter the number of columns: ");
-      matrix = new AsciiMatrix();
 
       try {
         matrix.autoFill(rows, cols);
@@ -62,14 +105,32 @@ public class Exercise2 {
     return matrix;
   }
 
+  private static void printMatrixToConsole(AsciiMatrix matrix) {
+    matrix.setOutputStrategy(new ConsoleOutputStrategy());
+    try {
+      matrix.outputContents();
+    } catch (Exception e) {
+
+    }
+  }
+
   private static int promptUserForInt(String promptMsg) {
-    System.out.print(promptMsg);
-    return inputScanner.nextInt();
+    int input = Integer.MIN_VALUE;
+
+    do {
+      try {
+        input = Integer.parseInt(promptUserForLine(promptMsg));
+      } catch (NumberFormatException e) {
+        System.out.println("Please enter an integer value.");
+      }
+    } while (input == Integer.MIN_VALUE);
+
+    return input;
   }
 
   private static String promptUserForLine(String promptMsg) {
     System.out.print(promptMsg);
-    return inputScanner.nextLine();
+    return INPUT_SCANNER.nextLine();
   }
 
 /*
@@ -107,18 +168,6 @@ public class Exercise2 {
   // ****************************************
   // Menu
   // ****************************************
-  public static String getMenu() {
-    StringBuilder menu = new StringBuilder();
-
-    menu.append("Select an option:" + System.lineSeparator());
-    menu.append("1. Search" + System.lineSeparator());
-    menu.append("2. Edit" + System.lineSeparator());
-    menu.append("3. Print" + System.lineSeparator());
-    menu.append("4. Reset" + System.lineSeparator());
-    menu.append("5. Exit" + System.lineSeparator());
-
-    return menu.toString().trim();
-  }
   // ****************************************
   // Search matrix
   // ****************************************
