@@ -2,6 +2,11 @@ import java.util.Scanner;
 import java.io.IOException;
 
 public class Exercise2 {
+  private static final Scanner inputScanner;
+
+  static {
+    inputScanner = new Scanner(System.in);
+  }
 
   public static void main(String [] args) {
     System.out.println("Welcome.");
@@ -40,12 +45,7 @@ public class Exercise2 {
 
   private static String promptUserForLine(String promptMsg) {
     System.out.print(promptMsg);
-
-    Scanner scanner = new Scanner(System.in);
-    String input = scanner.nextLine();
-    scanner.close();
-
-    return input;
+    return inputScanner.nextLine();
   }
 
 /*
