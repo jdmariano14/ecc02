@@ -1,19 +1,51 @@
-import java.io.BufferedReader;
+import java.util.Scanner;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
-public class AsciiMatrixOperations {
+public class Exercise2 {
 
   public static void main(String [] args) {
-    AsciiMatrix matrix = new AsciiMatrix();
-    matrix.autoFill(3, 3);
-    matrix.setOutputStrategy(new Utf8OutputStrategy("poo"));
-    matrix.outputContents();
+    System.out.println("Welcome.");
 
-    AsciiMatrix natrix = new AsciiMatrix(new Utf8InputStrategy("poo"));
-    natrix.setOutputStrategy(new ConsoleOutputStrategy());
-    natrix.outputContents();
+    AsciiMatrix matrix = initializeAsciiMatrixFromUserOption();
 
+    matrix.setOutputStrategy(new ConsoleOutputStrategy());
+    //matrix.outputContents();
+  }
+
+  private static AsciiMatrix initializeAsciiMatrixFromUserOption() {
+    AsciiMatrix matrix = null;
+
+    do {
+      StringBuilder prompt = new StringBuilder("Enter the path to read from");
+      prompt.append(" (or leave blank to initialize in console): ");
+
+      String path = promptUserForLine(prompt.toString());
+
+      if (path.isEmpty()) {
+        // matrix = initializeAsciiMatrixFromConsole();
+      } else {
+        try {
+          matrix = new AsciiMatrix();
+          matrix.setInputStrategy(new Utf8InputStrategy(path));
+          matrix.initializeFromInput();
+        } catch (IOException e) {
+          matrix = null;
+          System.err.println("Error accessing file. Matrix initializion aborted.");
+        }
+      }
+    } while (matrix == null);
+
+    return matrix;
+  }
+
+  private static String promptUserForLine(String promptMsg) {
+    System.out.print(promptMsg);
+
+    Scanner scanner = new Scanner(System.in);
+    String input = scanner.nextLine();
+    scanner.close();
+
+    return input;
   }
 
 /*
@@ -97,23 +129,6 @@ public class AsciiMatrixOperations {
   // ****************************************
   // Prompts
   // ****************************************
-  private static String promptUserForString(String promptMsg) {
-    System.out.print(promptMsg);
-
-    String input;
-
-    BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-    
-    try {
-      input = reader.readLine();
-    }
-    catch (IOException e) {
-      input = "";
-    }
-
-    return input;
-  }
-
   private static int promptUserForNonNegativeInt(String promptMsg) {
     return promptUserForIntWithLowerBound(promptMsg, 0);
   }

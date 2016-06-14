@@ -2,8 +2,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.charset.StandardCharsets;
-import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.BufferedWriter;
 
 public class Utf8OutputStrategy implements AsciiMatrixOutputStrategy {
   private String filepath;
@@ -12,16 +12,12 @@ public class Utf8OutputStrategy implements AsciiMatrixOutputStrategy {
     this.filepath = filepath;
   }
 
-  public void writeMatrix(AsciiMatrix matrix) {
+  public void writeMatrix(AsciiMatrix matrix) throws IOException{
     Path path = Paths.get(filepath);
-    
-    try (BufferedWriter writer = Files.newBufferedWriter(path, StandardCharsets.UTF_8)) {
-      String matrixString = matrix.toString();
-      writer.write(matrixString, 0, matrixString.length());
-      writer.close();
-    }
-    catch (IOException e) {
-      System.err.println("Error accessing file. Matrix contents were not output.");
-    }
+
+    BufferedWriter writer = Files.newBufferedWriter(path, StandardCharsets.UTF_8);
+    String matrixString = matrix.toString();
+    writer.write(matrixString, 0, matrixString.length());
+    writer.close();
   }
 }

@@ -47,17 +47,6 @@ public class AsciiMatrixTest {
   }
 
   @Test
-  public void testClear() {
-    AsciiMatrixRow row = new AsciiMatrixRow();
-    row.autoFill(1);
-
-    matrix.add(row);
-    matrix.clear();
-
-    assertTrue(matrix.size() == 0);
-  }
-
-  @Test
   public void testSort() {
     String firstRowFirstCell = "aa";
     String firstRowSecondCell = "bb";

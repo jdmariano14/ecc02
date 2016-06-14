@@ -13,20 +13,15 @@ public class Utf8InputStrategy implements AsciiMatrixInputStrategy {
     this.filepath = filepath;
   }
 
-  public void readMatrix(AsciiMatrix matrix) {
+  public void readMatrix(AsciiMatrix matrix) throws IOException {
     Path path = Paths.get(filepath);
 
-    try (BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
-      Scanner scanner = new Scanner(reader);
-      matrix.clear();
+    BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8);
+    Scanner scanner = new Scanner(reader);
+    matrix = new AsciiMatrix();
 
-      while(scanner.hasNextLine()) {
-        matrix.add(parseMatrixRow(scanner.nextLine()));
-      }
-    }
-    catch (IOException e) {
-      matrix = new AsciiMatrix();
-      System.err.println("Error accessing file. Empty matrix initialized.");
+    while(scanner.hasNextLine()) {
+      matrix.add(parseMatrixRow(scanner.nextLine()));
     }
   }
 

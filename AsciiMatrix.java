@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.io.IOException; 
 
 public class AsciiMatrix {
   private ArrayList<AsciiMatrixRow> data;
@@ -7,12 +8,6 @@ public class AsciiMatrix {
 
   public AsciiMatrix() {
     data = new ArrayList();
-  }
-
-  public AsciiMatrix(AsciiMatrixInputStrategy strat) {
-    this();
-    inputStrategy = strat;
-    strat.readMatrix(this);
   }
 
   public int size() {
@@ -26,11 +21,7 @@ public class AsciiMatrix {
   public void add(AsciiMatrixRow row) {
     data.add(row);
   }
-
-  public void clear() {
-    data.clear();
-  }
-
+  
   public void sort() {
     for (AsciiMatrixRow row : data) {
       row.sort();
@@ -59,7 +50,7 @@ public class AsciiMatrix {
     inputStrategy = strat;
   }
 
-  public void initializeFromInput() {
+  public void initializeFromInput() throws IOException {
     inputStrategy.readMatrix(this);
   }
 
@@ -67,7 +58,7 @@ public class AsciiMatrix {
     outputStrategy = strat;
   }
 
-  public void outputContents() {
+  public void outputContents() throws IOException {
     outputStrategy.writeMatrix(this);
   }
 
