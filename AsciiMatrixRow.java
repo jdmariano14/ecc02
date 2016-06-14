@@ -33,6 +33,16 @@ public class AsciiMatrixRow {
     Collections.sort(data);
   }
 
+  public ArrayList getQueryOccurrences(String query) {
+    ArrayList<int[]> occurrences = new ArrayList(size());
+    
+    for (AsciiMatrixCell cell : data) {
+      occurrences.add(cell.getQueryOccurrences(query));
+    }
+    
+    return occurrences;
+  }
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

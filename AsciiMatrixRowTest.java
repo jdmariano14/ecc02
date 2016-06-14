@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.Rule;
@@ -74,6 +76,19 @@ public class AsciiMatrixRowTest {
     AsciiMatrixCell result = row.get(0);
 
     assertEquals(expected, result);
+  }
+
+  @Test
+  public void testGetQueryOccurrencesWithOneInMultipleCells() {
+    String query = "a";
+    row.autoFill(3);
+    row.get(0).set(0, query);
+    row.get(2).set(0, query);
+
+    ArrayList<int[]> result = row.getQueryOccurrences(query);
+
+    assertTrue(result.get(0)[0] == 1);
+    assertTrue(result.get(2)[0] == 1);
   }
 
   @Test
