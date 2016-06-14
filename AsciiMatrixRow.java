@@ -25,7 +25,10 @@ public class AsciiMatrixRow {
     Collections.sort(data);
   }
 
-  public void autoFill(int cols) {
+  public void autoFill(int cols) throws IllegalArgumentException {
+    if (cols < 0) {
+      throw new IllegalArgumentException("Negative number of columns is not allowed.");
+    }
     for (int ctr = 0; ctr < cols; ctr++) {
       AsciiMatrixCell cell = new AsciiMatrixCell();
       cell.autoFill();

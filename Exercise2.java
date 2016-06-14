@@ -27,7 +27,7 @@ public class Exercise2 {
       String path = promptUserForLine(prompt.toString());
 
       if (path.isEmpty()) {
-        // matrix = initializeAsciiMatrixFromConsole();
+        matrix = initializeAsciiMatrixFromConsole();
       } else {
         try {
           matrix = new AsciiMatrix();
@@ -41,6 +41,30 @@ public class Exercise2 {
     } while (matrix == null);
 
     return matrix;
+  }
+
+  private static AsciiMatrix initializeAsciiMatrixFromConsole() {
+    AsciiMatrix matrix = null;
+
+    do {
+      int rows = promptUserForInt("Enter the number of rows: ");
+      int cols = promptUserForInt("Enter the number of columns: ");
+      matrix = new AsciiMatrix();
+
+      try {
+        matrix.autoFill(rows, cols);
+      } catch (IllegalArgumentException e) {
+        matrix = null;
+        System.err.println(e.getMessage());
+      }
+    } while (matrix == null);
+
+    return matrix;
+  }
+
+  private static int promptUserForInt(String promptMsg) {
+    System.out.print(promptMsg);
+    return inputScanner.nextInt();
   }
 
   private static String promptUserForLine(String promptMsg) {

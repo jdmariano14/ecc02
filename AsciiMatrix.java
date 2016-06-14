@@ -28,7 +28,11 @@ public class AsciiMatrix {
     }
   }
 
-  public void autoFill(int rows, int cols) {
+  public void autoFill(int rows, int cols) throws IllegalArgumentException {
+    if (rows < 0 || cols < 0) {
+      throw new IllegalArgumentException("Negative number of rows/columns is not allowed.");
+    }
+
     for (int ctr = 0; ctr < rows; ctr++) {
       AsciiMatrixRow row = new AsciiMatrixRow();
       row.autoFill(cols);
