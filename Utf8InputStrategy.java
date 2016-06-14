@@ -23,6 +23,8 @@ public class Utf8InputStrategy implements AsciiMatrixInputStrategy {
     while(scanner.hasNextLine()) {
       matrix.add(parseMatrixRow(scanner.nextLine()));
     }
+
+    matrix.setSource(filepath);
   }
 
   private AsciiMatrixRow parseMatrixRow(String input) {

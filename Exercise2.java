@@ -113,7 +113,7 @@ public class Exercise2 {
 
     try {
       matrix.get(row).get(col).set(ele, newVal);
-      saveMatrix(matrix, "poo");
+      saveMatrix(matrix);
     } catch (IndexOutOfBoundsException e) {
       System.err.println("Invalid index entered. Matrix update aborted.");
     } catch (IllegalArgumentException e) {
@@ -121,13 +121,14 @@ public class Exercise2 {
     }
   }
 
-  private static void saveMatrix(AsciiMatrix matrix, String filename) {
-    matrix.setOutputStrategy(new Utf8OutputStrategy(filename));
-
+  private static void saveMatrix(AsciiMatrix matrix) {
     try {
+      matrix.setOutputStrategy(new Utf8OutputStrategy(matrix.getSource()));
       matrix.outputContents();
     } catch (IOException e) {
       System.err.println(e.getMessage());
+    } catch (NullPointerException e) {
+      System.err.println("Source file could no longer be accessed. Matrix save aborted.");
     }
   }
 

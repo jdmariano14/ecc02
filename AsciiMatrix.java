@@ -2,12 +2,21 @@ import java.util.ArrayList;
 import java.io.IOException; 
 
 public class AsciiMatrix {
+  private String source;
   private ArrayList<AsciiMatrixRow> data;
   private AsciiMatrixInputStrategy inputStrategy;
   private AsciiMatrixOutputStrategy outputStrategy;
 
   public AsciiMatrix() {
     data = new ArrayList();
+  }
+
+  public String getSource() {
+    return source;
+  }
+
+  public void setSource(String src) {
+    source = src;
   }
 
   public int size() {
