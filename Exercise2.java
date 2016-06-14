@@ -168,7 +168,7 @@ public class Exercise2 {
     } catch (IndexOutOfBoundsException e) {
       System.err.println("Invalid index entered. Matrix update aborted.");
     } catch (IllegalArgumentException e) {
-      System.err.println("Invalid character entered. Matrix update aborted.");
+      System.err.println("Invalid character(s) entered. Matrix update aborted.");
     }
   }
 
