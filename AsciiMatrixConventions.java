@@ -24,7 +24,7 @@ public class AsciiMatrixConventions {
   }
 
   public static String textCellDivider() {
-    return " " + TEXT_CELL_DELIMITER + " ";
+    return "  " + TEXT_CELL_DELIMITER + "  ";
   }
 
 }
