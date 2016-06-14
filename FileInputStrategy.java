@@ -31,7 +31,13 @@ public class FileInputStrategy implements AsciiMatrixInputStrategy {
 
   private AsciiMatrixRow parseMatrixRow(String input) {
     input = input.trim();
-    String[] tokens = input.split("(\\s*[" + AsciiMatrixConventions.TEXT_CELL_DELIMITER + "]+\\s*)");
+
+    StringBuilder regex = new StringBuilder();
+    regex.append("(\\s*[");
+    regex.append(AsciiMatrixConventions.TEXT_CELL_DELIMITER);
+    regex.append("]+\\s*)");
+
+    String[] tokens = input.split(regex.toString());
 
     AsciiMatrixRow row = new AsciiMatrixRow();
 
@@ -44,7 +50,13 @@ public class FileInputStrategy implements AsciiMatrixInputStrategy {
 
   private AsciiMatrixCell parseMatrixCell(String input) {
     input = input.trim();
-    String[] tokens = input.split("\\s*[" + AsciiMatrixConventions.TEXT_ELEMENT_DELIMITER + "]+\\s*");
+
+    StringBuilder regex = new StringBuilder();
+    regex.append("(\\s*[");
+    regex.append(AsciiMatrixConventions.TEXT_ELEMENT_DELIMITER);
+    regex.append("]+\\s*)");
+
+    String[] tokens = input.split(regex.toString());
 
     AsciiMatrixCell cell = new AsciiMatrixCell(tokens.length);
 
