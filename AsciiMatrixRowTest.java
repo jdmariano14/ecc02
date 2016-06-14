@@ -32,28 +32,6 @@ public class AsciiMatrixRowTest {
   }
 
   @Test
-  public void testSetterWithCorrectIndex() {
-    AsciiMatrixCell cell = new AsciiMatrixCell();
-    AsciiMatrixCell otherCell = new AsciiMatrixCell();
-
-    row.add(otherCell);
-    row.set(0, cell);
-
-    AsciiMatrixCell expected = cell;
-    AsciiMatrixCell result = row.get(0);
-
-    assertEquals(expected, result);
-  }
-
-  @Test
-  public void testSetterWithOutOfBoundsIndex() {
-    thrown.expect(IndexOutOfBoundsException.class);
-    
-    int outOfBoundsIndex = row.size();
-    row.set(outOfBoundsIndex, new AsciiMatrixCell());
-  }
-
-  @Test
   public void testAdd() {
     String key = "abc";
     String value = "def";
