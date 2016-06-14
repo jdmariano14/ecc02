@@ -28,7 +28,7 @@ public class Exercise2 {
           //searchMatrix(matrix);
           break;
         case "edit": 
-          //editMatrixCell(matrix);
+          editMatrixElement(matrix);
           break;
         case "print":
           printMatrixToConsole(matrix);
@@ -103,6 +103,32 @@ public class Exercise2 {
     } while (matrix == null);
 
     return matrix;
+  }
+
+  private static void editMatrixElement(AsciiMatrix matrix) {
+    int row = promptUserForInt("Enter row index (all indices are 0-based): ");
+    int col = promptUserForInt("Enter column index: ");
+    int ele = promptUserForInt("Enter element index: ");
+    String newVal = promptUserForLine("Enter the new value: ");
+
+    try {
+      matrix.get(row).get(col).set(ele, newVal);
+      saveMatrix(matrix, "poo");
+    } catch (IndexOutOfBoundsException e) {
+      System.err.println("Invalid index entered. Matrix update aborted.");
+    } catch (IllegalArgumentException e) {
+      System.err.println("Invalid character entered. Matrix update aborted.");
+    }
+  }
+
+  private static void saveMatrix(AsciiMatrix matrix, String filename) {
+    matrix.setOutputStrategy(new Utf8OutputStrategy(filename));
+
+    try {
+      matrix.outputContents();
+    } catch (IOException e) {
+      System.err.println(e.getMessage());
+    }
   }
 
   private static void printMatrixToConsole(AsciiMatrix matrix) {
@@ -192,13 +218,7 @@ public class Exercise2 {
   // ****************************************
   // Edit a cell
   // ****************************************
-  private static void editMatrixCell(AsciiMatrix m) {
-    int row = promptUserForNonNegativeInt("Enter row (first is 0): ");
-    int col = promptUserForNonNegativeInt("Enter column (first is 0): ");
-    String newVal = promptUserForString("Enter the new value: ");
-
-    m.set(row, col, newVal);
-  }
+  
   // ****************************************
   // Prompts
   // ****************************************
