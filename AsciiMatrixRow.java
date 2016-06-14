@@ -33,7 +33,7 @@ public class AsciiMatrixRow {
     }
   }
 
-  public ArrayList getQueryOccurrences(String query) {
+  public ArrayList<int[]> getQueryOccurrences(String query) {
     ArrayList<int[]> occurrences = new ArrayList(size());
     
     for (AsciiMatrixCell cell : data) {
