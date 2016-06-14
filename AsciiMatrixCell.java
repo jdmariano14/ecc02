@@ -1,5 +1,11 @@
 public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
+  private static CharDomain domain;
+
   private String [] data;
+
+  static {
+    domain = new AsciiCharDomain();
+  }
 
   public AsciiMatrixCell(int size) throws NegativeArraySizeException {
     data = new String[size];
@@ -7,6 +13,10 @@ public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
 
   public AsciiMatrixCell() {
     this(AsciiMatrixConventions.DEFAULT_CELL_SIZE);
+  }
+
+  public static void setDomain(CharDomain d) {
+    domain = d;
   }
 
   public int size() {
@@ -32,18 +42,18 @@ public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
 
   public void autoFill() {
     for (int index = 0; index < size(); index++) {
-      data[index] = generateRandomAsciiCell(AsciiMatrixConventions.DEFAULT_ELEMENT_LENGTH);
+      data[index] = generateRandomCell(AsciiMatrixConventions.DEFAULT_ELEMENT_LENGTH);
     }
   }
 
-  private String generateRandomAsciiCell(int length) {
+  private String generateRandomCell(int length) {
     StringBuilder sb = new StringBuilder(length);
 
     for (int index = 0; index < length; index++) {
       char randomChar;
       do {
-        randomChar = (char)(Math.random() * 256);
-      } while (!isValid(randomChar));
+        randomChar = domain.getRandomChar();
+      } while (AsciiMatrixConventions.isIllegal(randomChar));
 
       sb.append(randomChar);
     }
@@ -52,9 +62,7 @@ public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
   }
 
   public static boolean isValid(char c) {
-    return !AsciiMatrixConventions.isIllegal(c) 
-            && !CharacterHelper.isWhitespace(c) 
-            && CharacterHelper.isAscii(c);
+    return !AsciiMatrixConventions.isIllegal(c) && domain.isInDomain(c);
   }
 
 
