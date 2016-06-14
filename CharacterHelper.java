@@ -8,4 +8,8 @@ public class CharacterHelper {
     return (String.valueOf(c)).matches("\\A\\s+\\z");
   }
 
+  public static boolean isEnglishLetter(char c) {
+    return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
+  }
+
 }

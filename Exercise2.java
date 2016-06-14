@@ -191,14 +191,16 @@ public class Exercise2 {
     AsciiMatrixCell cell = new AsciiMatrixCell();
 
     try {
-      matrix.get(row).add(cell);
-
       for (int ctr = 0; ctr < AsciiMatrixConventions.DEFAULT_CELL_SIZE; ctr++) {
         String newVal = promptUserForLine("Enter a value for element " + ctr + ": ");
         cell.set(ctr, newVal);
       }
+
+      matrix.get(row).add(cell);
     } catch (IndexOutOfBoundsException e) {
       System.err.println("Invalid index entered. Matrix update aborted.");
+    } catch (IllegalArgumentException e) {
+      System.err.println("Invalid character(s) entered. Matrix update aborted.");
     }
   }  
 
