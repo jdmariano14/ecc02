@@ -98,6 +98,9 @@ public class Exercise2 {
         } catch (IOException e) {
           matrix = null;
           System.err.println("Error accessing file. Matrix initializion aborted.");
+        } catch (IllegalArgumentException e) {
+          matrix = null;
+          System.err.println("Incompatible character domain used in file. Matrix initialization aborted.");
         }
       }
     } while (matrix == null);
