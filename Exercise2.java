@@ -34,9 +34,9 @@ public class Exercise2 {
         case "print":
           printMatrixToConsole(matrix);
           break;
-        case "add row":
-          //matrix = initializeAsciiMatrix();
-          break; 
+        case "sort":
+          sortMatrix(matrix);
+          break;
       }
     } while (choice != OPTIONS.length);
 
@@ -173,6 +173,11 @@ public class Exercise2 {
     } catch (Exception e) {
 
     }
+  }
+
+  private static void sortMatrix(AsciiMatrix matrix) {
+    matrix.sort();
+    saveMatrix(matrix);
   }
 
   private static int promptUserForInt(String promptMsg) {
