@@ -1,7 +1,7 @@
 import java.util.HashSet;
 
 public class AsciiMatrixConventions {  
-  public static final int DEFAULT_CELL_SIZE = 2;
+  public static int cellSize = 2;
   public static final int DEFAULT_ELEMENT_LENGTH = 3;
 
   public static final char TEXT_ELEMENT_DELIMITER = ',';
@@ -21,6 +21,14 @@ public class AsciiMatrixConventions {
 
   public static void setDomain(CharDomain d) {
     domain = d;
+  }
+
+  public static int getCellSize() {
+    return cellSize;
+  }
+
+  public static void setCellSize(int size) {
+    cellSize = size;
   }
 
   public static char getRandomChar() {

@@ -7,7 +7,7 @@ public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
   }
 
   public AsciiMatrixCell() {
-    this(AsciiMatrixConventions.DEFAULT_CELL_SIZE);
+    this(AsciiMatrixConventions.getCellSize());
   }
 
   public int size() {

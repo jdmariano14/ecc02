@@ -194,7 +194,7 @@ public class Exercise2 {
     AsciiMatrixCell cell = new AsciiMatrixCell();
 
     try {
-      for (int ctr = 0; ctr < AsciiMatrixConventions.DEFAULT_CELL_SIZE; ctr++) {
+      for (int ctr = 0; ctr < AsciiMatrixConventions.getCellSize(); ctr++) {
         String newVal = promptUserForLine("Enter a value for element " + ctr + ": ");
         cell.set(ctr, newVal);
       }

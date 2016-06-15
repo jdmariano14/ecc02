@@ -23,7 +23,7 @@ public class AsciiMatrixCellTest {
 
   @Test
   public void testSizeWithDefaultConstructor() {
-    assertTrue(cell.size() == AsciiMatrixConventions.DEFAULT_CELL_SIZE);
+    assertTrue(cell.size() == AsciiMatrixConventions.getCellSize());
   }
 
   @Test
