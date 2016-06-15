@@ -36,7 +36,7 @@ public class AsciiMatrixCellTest {
 
   @Test
   public void testManualConstructorWithNegativeSize() {
-    thrown.expect(NegativeArraySizeException.class);
+    thrown.expect(IllegalArgumentException.class);
 
     int negativeSize = -1;
     cell = new AsciiMatrixCell(negativeSize);
@@ -47,12 +47,12 @@ public class AsciiMatrixCellTest {
     cell = new AsciiMatrixCell();
     String result = cell.get(0);
     
-    assertNull(result);
+    assertNotNull(result);
   }
 
   @Test
   public void testGetterWithOutOfBoundsIndex() {
-    thrown.expect(ArrayIndexOutOfBoundsException.class);
+    thrown.expect(IndexOutOfBoundsException.class);
     
     int outOfBoundsIndex = cell.size();
     String result = cell.get(outOfBoundsIndex);
@@ -72,7 +72,7 @@ public class AsciiMatrixCellTest {
 
   @Test
   public void testSetterWithOutOfBoundsIndex() {
-    thrown.expect(ArrayIndexOutOfBoundsException.class);
+    thrown.expect(IndexOutOfBoundsException.class);
     
     int outOfBoundsIndex = cell.size();
     cell.set(outOfBoundsIndex, "foo");

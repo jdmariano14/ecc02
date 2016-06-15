@@ -1,9 +1,12 @@
+import java.util.ArrayList;
+
 public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
 
-  private String [] data;
+  private ArrayList<String> data;
 
-  public AsciiMatrixCell(int size) throws NegativeArraySizeException {
-    data = new String[size];
+  public AsciiMatrixCell(int size) throws IllegalArgumentException {
+    data = new ArrayList(size);
+    autoFill(size);
   }
 
   public AsciiMatrixCell() {
@@ -11,15 +14,15 @@ public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
   }
 
   public int size() {
-    return data.length;
+    return data.size();
   }
 
-  public String get(int index) throws ArrayIndexOutOfBoundsException {
-    return data[index];
+  public String get(int index) throws IndexOutOfBoundsException {
+    return data.get(index);
   }
 
   public void set(int index, String newVal) 
-      throws ArrayIndexOutOfBoundsException, IllegalArgumentException {
+      throws IndexOutOfBoundsException, IllegalArgumentException {
     newVal = newVal.trim();
     for (char c : newVal.toCharArray()) {
       if (!isValid(c)) {
@@ -28,13 +31,21 @@ public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
       }
     }
 
-    data[index] = newVal;
+    data.set(index, newVal);
+  }
+
+  public void autoFill(int targetSize) {
+    for (int index = 0; index < size(); index++) {
+      data.set(index, generateRandomCell(AsciiMatrixConventions.DEFAULT_ELEMENT_LENGTH));
+    }
+
+    for (int index = size(); index < targetSize; index++) {
+      data.add(index, generateRandomCell(AsciiMatrixConventions.DEFAULT_ELEMENT_LENGTH));
+    }
   }
 
   public void autoFill() {
-    for (int index = 0; index < size(); index++) {
-      data[index] = generateRandomCell(AsciiMatrixConventions.DEFAULT_ELEMENT_LENGTH);
-    }
+    autoFill(AsciiMatrixConventions.getCellSize());
   }
 
   private String generateRandomCell(int length) {
