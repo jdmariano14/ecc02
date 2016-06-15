@@ -1,7 +1,6 @@
 import java.util.HashSet;
 
-public class AsciiMatrixConventions {  
-  public static int cellSize = 2;
+public class AsciiMatrixConventions {
   public static final int DEFAULT_ELEMENT_LENGTH = 3;
 
   public static final char TEXT_ELEMENT_DELIMITER = ',';
@@ -9,6 +8,7 @@ public class AsciiMatrixConventions {
   
   private static final HashSet<Character> BLACKLIST;
 
+  private static int cellSize = 2;
   private static CharDomain domain;
 
   static {

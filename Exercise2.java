@@ -17,6 +17,7 @@ public class Exercise2 {
     System.out.println("Welcome.");
 
     AsciiMatrixConventions.setDomain(new AlphaCharDomain());
+    AsciiMatrixConventions.setCellSize(2);
 
     AsciiMatrix matrix = initializeAsciiMatrixFromUserOption();
     printMatrixToConsole(matrix);
