@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.ArrayList;
 
 import org.junit.Test;
@@ -92,7 +93,7 @@ public class AsciiMatrixRowTest {
     row.get(0).set(0, query);
     row.get(2).set(0, query);
 
-    ArrayList<int[]> result = row.getQueryOccurrences(query);
+    List<int[]> result = row.getQueryOccurrences(query);
 
     assertTrue(result.get(0)[0] > 0);
     assertTrue(result.get(2)[0] > 0);

@@ -1,8 +1,9 @@
+import java.util.List;
 import java.util.ArrayList;
 
 public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
 
-  private ArrayList<String> data;
+  private List<String> data;
 
   public AsciiMatrixCell(int size) throws IllegalArgumentException {
     data = new ArrayList(size);
@@ -35,11 +36,9 @@ public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
   }
 
   public void autoFill(int targetSize) {
-    for (int index = 0; index < size(); index++) {
-      data.set(index, generateRandomCell(AsciiMatrixConventions.DEFAULT_ELEMENT_LENGTH));
-    }
+    data.clear();
 
-    for (int index = size(); index < targetSize; index++) {
+    for (int index = 0; index < targetSize; index++) {
       data.add(index, generateRandomCell(AsciiMatrixConventions.DEFAULT_ELEMENT_LENGTH));
     }
   }

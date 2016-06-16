@@ -1,9 +1,10 @@
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class AsciiMatrixRow {
   
-  private ArrayList<AsciiMatrixCell> data;
+  private List<AsciiMatrixCell> data;
 
   public AsciiMatrixRow() {
     data = new ArrayList();
@@ -36,8 +37,8 @@ public class AsciiMatrixRow {
     }
   }
 
-  public ArrayList<int[]> getQueryOccurrences(String query) {
-    ArrayList<int[]> occurrences = new ArrayList(size());
+  public List<int[]> getQueryOccurrences(String query) {
+    List<int[]> occurrences = new ArrayList(size());
     
     for (AsciiMatrixCell cell : data) {
       occurrences.add(cell.getQueryOccurrences(query));

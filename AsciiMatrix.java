@@ -1,9 +1,10 @@
+import java.util.List;
 import java.util.ArrayList;
 import java.io.IOException; 
 
 public class AsciiMatrix {
   private String source;
-  private ArrayList<AsciiMatrixRow> data;
+  private List<AsciiMatrixRow> data;
   private AsciiMatrixInputStrategy inputStrategy;
   private AsciiMatrixOutputStrategy outputStrategy;
 
@@ -53,8 +54,8 @@ public class AsciiMatrix {
     }
   }
 
-  public ArrayList<ArrayList<int[]>> getQueryOccurrences(String query) {
-    ArrayList<ArrayList<int[]>> occurrences = new ArrayList(size());
+  public List<List<int[]>> getQueryOccurrences(String query) {
+    List<List<int[]>> occurrences = new ArrayList(size());
 
     for (AsciiMatrixRow row : data) {
       occurrences.add(row.getQueryOccurrences(query));

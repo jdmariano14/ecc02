@@ -1,3 +1,4 @@
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.IOException;
@@ -134,14 +135,14 @@ public class Exercise2 {
     if (query.isEmpty()) {
       System.err.println("Blank query entered. Matrix search aborted.");
     } else {
-      ArrayList results = matrix.getQueryOccurrences(query);  
+      List results = matrix.getQueryOccurrences(query);  
       printSeachResults(results);
     }
   }
 
-  private static void printSeachResults(ArrayList results) {
+  private static void printSeachResults(List results) {
     for (int row = 0; row < results.size(); row++) {
-      ArrayList rowResults = (ArrayList)results.get(row);
+      List rowResults = (ArrayList)results.get(row);
 
       for (int col = 0; col < rowResults.size(); col++) {
         int[] cellResults = (int[])rowResults.get(col);
@@ -195,7 +196,7 @@ public class Exercise2 {
     AsciiMatrixCell cell = new AsciiMatrixCell();
 
     try {
-      for (int ctr = 0; ctr < AsciiMatrixConventions.getCellSize(); ctr++) {
+      for (int ctr = 0; ctr < cell.size(); ctr++) {
         String newVal = promptUserForLine("Enter a value for element " + ctr + ": ");
         cell.set(ctr, newVal);
       }
