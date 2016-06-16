@@ -37,6 +37,7 @@ public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
 
   public void autoFill(int targetSize) {
     data.clear();
+    ((ArrayList)data).ensureCapacity(targetSize);
 
     for (int index = 0; index < targetSize; index++) {
       data.add(index, generateRandomCell(AsciiMatrixConventions.DEFAULT_ELEMENT_LENGTH));
