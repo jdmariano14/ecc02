@@ -18,7 +18,7 @@ public class Exercise2 {
   public static void main(String [] args) {
     System.out.println("Welcome.");
 
-    AsciiMatrixConventions.setDomain(new AsciiCharDomain());
+    AsciiMatrixConventions.setDomain(new AlphaCharDomain());
     AsciiMatrixConventions.setCellSize(2);
 
     AsciiMatrix matrix = initializeAsciiMatrixFromUserOption();
@@ -220,7 +220,20 @@ public class Exercise2 {
   }  
 
   private static void sortMatrix(AsciiMatrix matrix) {
-    matrix.sort();
+    int row = promptUserForInt("Enter row index (all indices are 0-based): ");
+    String order = promptUserForLine("Enter asc or desc (default: asc): ");
+
+    try {
+      if (order.isEmpty()) {
+        matrix.get(row).sort();
+      } else if (!order.equals("desc")) {
+        matrix.get(row).sort();
+      } else {
+        matrix.get(row).sortDescending();
+      }
+    } catch (IndexOutOfBoundsException e) {
+      System.err.println("Invalid index entered. Matrix sort aborted.");
+    }
   }
 
   private static AsciiMatrix resetMatrix(AsciiMatrix matrix) {
@@ -243,19 +256,16 @@ public class Exercise2 {
   }
 
   private static void saveMatrixAs(AsciiMatrix matrix) {
-    String prompt = "";
     String path = "";
 
     if (matrix.getSource() == null) {
-      prompt = "Enter the filename (leave blank to abort): ";
-      path = promptUserForLine(prompt);
+      path = promptUserForLine("Enter the filename (leave blank to abort): ");
 
       if (!path.isEmpty()) {
         saveMatrix(matrix, path);
       }
     } else {
-      prompt = "Enter the filename (" + matrix.getSource() + "): ";
-      path = promptUserForLine(prompt);
+      path = promptUserForLine("Enter the filename (" + matrix.getSource() + "): ");
 
       if (path.isEmpty()) {
         saveMatrix(matrix);
@@ -274,6 +284,7 @@ public class Exercise2 {
 
       System.out.println("Matrix saved to " + path + ".");
     } catch (IOException e) {
+      e.printStackTrace();
       System.err.println(e.getMessage());
     }
   }

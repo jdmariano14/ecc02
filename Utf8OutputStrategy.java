@@ -1,11 +1,11 @@
+import java.util.List;
+import java.util.LinkedList;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.nio.charset.StandardCharsets;
 import java.io.IOException;
-import java.io.BufferedWriter;
-import java.io.PrintWriter;
 
 public class Utf8OutputStrategy implements AsciiMatrixOutputStrategy {
   private String filepath;
@@ -16,36 +16,28 @@ public class Utf8OutputStrategy implements AsciiMatrixOutputStrategy {
 
   public void writeMatrix(AsciiMatrix matrix) throws IOException {
     Path path = Paths.get(filepath);
+    List<String> lines = new LinkedList();
 
-    BufferedWriter bw = Files.newBufferedWriter(path, 
-      StandardCharsets.UTF_8, 
-      StandardOpenOption.TRUNCATE_EXISTING
-    );
-    PrintWriter writer = new PrintWriter(bw);
-
-    writer.println("<matrix>");
+    lines.add("<matrix>");
 
     for (AsciiMatrixRow row : matrix) {
-      writer.println("<row>");
+      lines.add("<row>");
 
       for (AsciiMatrixCell cell : row) {
-        writer.println("<cell>");
+        lines.add("<cell>");
 
         for (String element : cell) {
-          writer.print("<element>");
-          writer.print(element);
-          writer.println("</element>");
+          lines.add("<element>" +  element + "</element>");
         }
 
-        writer.println("</cell>");
+        lines.add("</cell>");
       }
 
-      writer.println("</row>");
+      lines.add("</row>");
     }
 
-    writer.print("</matrix>");
+    lines.add("</matrix>");
 
-    writer.close();
-    bw.close();
+    Files.write(path, lines, StandardCharsets.UTF_8);
   }
 }
