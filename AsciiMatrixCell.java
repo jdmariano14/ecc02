@@ -2,7 +2,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
+public class AsciiMatrixCell implements Comparable<AsciiMatrixCell>, Iterable<String> {
 
   private List<String> data;
 
@@ -37,6 +37,10 @@ public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
 
   public void clear() {
     data.clear();
+  }
+
+  public Iterator<String> iterator() {
+    return data.iterator();
   }
 
   public void autoFill(int targetSize) {

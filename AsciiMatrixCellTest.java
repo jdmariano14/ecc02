@@ -78,6 +78,21 @@ public class AsciiMatrixCellTest {
   }
 
   @Test
+  public void testIterator() {
+    StringBuilder sb = new StringBuilder();
+    int expected = 0;
+    
+    for (String element : cell) {
+      sb.append(element);
+      expected += element.length();
+    }
+
+    int result = sb.toString().length();
+
+    assertTrue(expected == result);
+  }
+
+  @Test
   public void testIsValidWithValid() {
     char legalChar = 'a';
 
