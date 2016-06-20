@@ -48,6 +48,21 @@ public class AsciiMatrixRowTest {
   }
 
   @Test
+  public void testIterator() {
+    AsciiMatrixCell result = null;
+
+    row.autoFill(2);
+
+    AsciiMatrixCell expected = row.get(row.size() - 1);
+
+    for (AsciiMatrixCell cell : row) {
+      result = cell;
+    }
+
+    assertEquals(expected, result);
+  }
+
+  @Test
   public void testSort() {
     String firstKey = "aa";
     String firstValue = "bb";

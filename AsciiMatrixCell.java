@@ -43,7 +43,11 @@ public class AsciiMatrixCell implements Comparable<AsciiMatrixCell>, Iterable<St
     return data.iterator();
   }
 
-  public void autoFill(int targetSize) {
+  public void autoFill(int targetSize) throws IllegalArgumentException {
+    if (targetSize < 0) {
+      throw new IllegalArgumentException("Negative number of columns is not allowed.");
+    }
+
     data.clear();
     ((ArrayList)data).ensureCapacity(targetSize);
 

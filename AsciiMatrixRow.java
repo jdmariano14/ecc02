@@ -1,8 +1,9 @@
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 
-public class AsciiMatrixRow {
+public class AsciiMatrixRow implements Iterable<AsciiMatrixCell> {
   
   private List<AsciiMatrixCell> data;
 
@@ -22,6 +23,10 @@ public class AsciiMatrixRow {
     data.add(cell);
   }
 
+  public Iterator<AsciiMatrixCell> iterator() {
+    return data.iterator();
+  }
+
   public void sort() {
     Collections.sort(data);
   }
@@ -30,11 +35,14 @@ public class AsciiMatrixRow {
     Collections.sort(data, Collections.reverseOrder());
   }
 
-  public void autoFill(int cols) throws IllegalArgumentException {
-    if (cols < 0) {
+  public void autoFill(int targetSize) throws IllegalArgumentException {
+    if (targetSize < 0) {
       throw new IllegalArgumentException("Negative number of columns is not allowed.");
     }
-    for (int ctr = 0; ctr < cols; ctr++) {
+
+    data.clear();
+
+    for (int ctr = 0; ctr < targetSize; ctr++) {
       AsciiMatrixCell cell = new AsciiMatrixCell();
       cell.autoFill();
       add(cell);
