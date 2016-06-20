@@ -11,6 +11,8 @@ public class Exercise2 {
       "reset", "save", "exit"
     };
 
+  private static boolean dirty = false;
+
   static {
     INPUT_SCANNER = new Scanner(System.in);
   }
@@ -18,14 +20,14 @@ public class Exercise2 {
   public static void main(String [] args) {
     System.out.println("Welcome.");
 
-    AsciiMatrixConventions.setDomain(new AlphaCharDomain());
+    AsciiMatrixConventions.setDomain(new KeyboardCharDomain());
     AsciiMatrixConventions.setCellSize(2);
 
     AsciiMatrix matrix = initializeAsciiMatrixFromUserOption();
     printMatrixToConsole(matrix);
 
     int choice = -1;
-    do {
+    for (;;) {
       System.out.println(System.lineSeparator() + getMenu());
       choice = promptUserForInt("");
 
@@ -58,14 +60,11 @@ public class Exercise2 {
         case "save":
           saveMatrixAs(matrix);
           break;
+        case "exit":
+          confirmExit();
+          break;
       }
-    } while (choice != OPTIONS.length);
-
-    INPUT_SCANNER.close();
-
-    System.out.println("Goodbye.");
-
-    System.exit(0);
+    }
   }
 
   private static String getMenu() {
@@ -180,6 +179,8 @@ public class Exercise2 {
 
     try {
       matrix.get(row).get(col).set(ele, newVal);
+      dirty = true;
+      System.out.println("Matrix updated successfully.");
     } catch (IndexOutOfBoundsException e) {
       System.err.println("Invalid index entered. Matrix update aborted.");
     } catch (IllegalArgumentException e) {
@@ -198,6 +199,7 @@ public class Exercise2 {
 
   private static void addRowToMatrix(AsciiMatrix matrix) {
     matrix.add(new AsciiMatrixRow());
+    dirty = true;
     System.out.println("Row added. Matrix now has " + matrix.size() + " rows.");
   }
 
@@ -212,6 +214,10 @@ public class Exercise2 {
       }
 
       matrix.get(row).add(cell);
+
+      dirty = true;
+      int cells = matrix.get(row).size();
+      System.out.println("Cell added. Row " + row + " now has " + cells + " cells.");
     } catch (IndexOutOfBoundsException e) {
       System.err.println("Invalid index entered. Matrix update aborted.");
     } catch (IllegalArgumentException e) {
@@ -231,6 +237,9 @@ public class Exercise2 {
       } else {
         matrix.get(row).sortDescending();
       }
+      
+      dirty = true;
+      System.out.println("Matrix sorted successfully.");
     } catch (IndexOutOfBoundsException e) {
       System.err.println("Invalid index entered. Matrix sort aborted.");
     }
@@ -249,6 +258,7 @@ public class Exercise2 {
       newMatrix = matrix;
       System.out.println("Matrix reset failed.");
     } else {
+      dirty = true;
       System.out.println("Matrix reset successfully.");
     }
 
@@ -282,6 +292,7 @@ public class Exercise2 {
       matrix.setOutputStrategy(new Utf8OutputStrategy(path));
       matrix.outputContents();
 
+      dirty = false;
       System.out.println("Matrix saved to " + path + ".");
     } catch (IOException e) {
       e.printStackTrace();
@@ -296,6 +307,20 @@ public class Exercise2 {
     catch (NullPointerException e) {
       System.err.println("Output path could not be determined. Matrix save aborted."); 
     }
+  }
+
+  private static void confirmExit() {
+    if (dirty) {
+      String confirm = promptUserForLine("You have unsaved changes. Continue to exit? (y/n) ");
+
+      if (!confirm.toLowerCase().equals("y")) {
+        return;
+      }
+    }
+
+    INPUT_SCANNER.close();
+    System.out.println("Goodbye.");
+    System.exit(0);
   }
 
   private static int promptUserForInt(String promptMsg) {
