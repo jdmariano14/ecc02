@@ -5,13 +5,8 @@ public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
 
   private List<String> data;
 
-  public AsciiMatrixCell(int size) throws IllegalArgumentException {
-    data = new ArrayList(size);
-    autoFill(size);
-  }
-
   public AsciiMatrixCell() {
-    this(AsciiMatrixConventions.getCellSize());
+    data = new ArrayList();
   }
 
   public int size() {

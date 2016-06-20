@@ -56,10 +56,10 @@ public class Utf8InputStrategy implements AsciiMatrixInputStrategy {
 
     String[] tokens = input.split(regex.toString());
 
-    AsciiMatrixCell cell = new AsciiMatrixCell(tokens.length);
+    AsciiMatrixCell cell = new AsciiMatrixCell();
 
-    for (int index = 0; index < tokens.length; index++) {
-      cell.set(index, tokens[index]);
+    for (String token : tokens) {
+      cell.add(token);
     }
 
     return cell;

@@ -54,12 +54,12 @@ public class AsciiMatrixRowTest {
     String secondKey = "cc";
     String secondValue = "dd";
 
-    AsciiMatrixCell firstCell = new AsciiMatrixCell(2);
-    AsciiMatrixCell secondCell = new AsciiMatrixCell(2);
-    firstCell.set(0, firstKey);
-    firstCell.set(1, firstValue);
-    secondCell.set(0, secondKey);
-    secondCell.set(1, secondValue);
+    AsciiMatrixCell firstCell = new AsciiMatrixCell();
+    AsciiMatrixCell secondCell = new AsciiMatrixCell();
+    firstCell.add(firstKey);
+    firstCell.add(firstValue);
+    secondCell.add(secondKey);
+    secondCell.add(secondValue);
     
     row.add(secondCell);
     row.add(firstCell);

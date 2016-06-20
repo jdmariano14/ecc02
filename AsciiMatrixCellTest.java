@@ -19,32 +19,11 @@ public class AsciiMatrixCellTest {
   @Before
   public void before(){
     cell = new AsciiMatrixCell();
-  }
-
-  @Test
-  public void testSizeWithDefaultConstructor() {
-    assertTrue(cell.size() == AsciiMatrixConventions.getCellSize());
-  }
-
-  @Test
-  public void testSizeWithManualConstructor() {
-    int newSize = 3;
-    cell = new AsciiMatrixCell(newSize);
-    
-    assertTrue(cell.size() == newSize);
-  }
-
-  @Test
-  public void testManualConstructorWithNegativeSize() {
-    thrown.expect(IllegalArgumentException.class);
-
-    int negativeSize = -1;
-    cell = new AsciiMatrixCell(negativeSize);
+    cell.autoFill();
   }
 
   @Test
   public void testGetterWithCorrectIndex() {
-    cell = new AsciiMatrixCell();
     String result = cell.get(0);
     
     assertNotNull(result);
@@ -91,8 +70,8 @@ public class AsciiMatrixCellTest {
 
   @Test
   public void testClear() {
-    cell.autoFill(2);
-    
+    cell.autoFill();
+
     cell.clear();
 
     assertTrue(cell.size() == 0);
@@ -124,15 +103,6 @@ public class AsciiMatrixCellTest {
     char illegalChar = AsciiMatrixConventions.TEXT_ELEMENT_DELIMITER;
 
     assertFalse(AsciiMatrixCell.isValid(illegalChar));
-  }
-
-  @Test
-  public void testAutoFill() {
-    cell = new AsciiMatrixCell();
-    cell.autoFill();
-    String result = cell.get(0);
-    
-    assertNotNull(result);
   }
 
   @Test
@@ -190,13 +160,14 @@ public class AsciiMatrixCellTest {
     String low = "aaa";
     String high = "ZZZ";
 
-    cell.set(0, low);
-    cell.set(1, high);
+    cell.clear();
+    cell.add(low);
+    cell.add(high);
 
-    AsciiMatrixCell greater = new AsciiMatrixCell(cell.size());
+    AsciiMatrixCell greater = new AsciiMatrixCell();
 
-    greater.set(0, high);
-    greater.set(1, low);
+    greater.add(high);
+    greater.add(low);
 
     int result = cell.compareTo(greater);
 
