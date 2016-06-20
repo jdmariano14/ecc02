@@ -72,6 +72,30 @@ public class AsciiMatrixRowTest {
   }
 
   @Test
+  public void testSortDescending() {
+    String firstKey = "aa";
+    String firstValue = "bb";
+    String secondKey = "cc";
+    String secondValue = "dd";
+
+    AsciiMatrixCell firstCell = new AsciiMatrixCell();
+    AsciiMatrixCell secondCell = new AsciiMatrixCell();
+    firstCell.add(firstKey);
+    firstCell.add(firstValue);
+    secondCell.add(secondKey);
+    secondCell.add(secondValue);
+    
+    row.add(firstCell);
+    row.add(secondCell);
+    row.sortDescending();
+
+    AsciiMatrixCell expected = secondCell;
+    AsciiMatrixCell result = row.get(0);
+
+    assertEquals(expected, result);
+  }
+
+  @Test
   public void testAutoFill() {
     row.autoFill(1);
     AsciiMatrixCell result = row.get(0);

@@ -26,6 +26,10 @@ public class AsciiMatrixRow {
     Collections.sort(data);
   }
 
+  public void sortDescending() {
+    Collections.sort(data, Collections.reverseOrder());
+  }
+
   public void autoFill(int cols) throws IllegalArgumentException {
     if (cols < 0) {
       throw new IllegalArgumentException("Negative number of columns is not allowed.");
