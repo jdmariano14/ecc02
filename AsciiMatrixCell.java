@@ -20,7 +20,6 @@ public class AsciiMatrixCell implements Comparable<AsciiMatrixCell>, Iterable<St
 
   public void set(int index, String newVal) 
       throws IndexOutOfBoundsException, IllegalArgumentException {
-    newVal = newVal.trim();
     for (char c : newVal.toCharArray()) {
       if (!isValid(c)) {
         String msg = "Input string contains an illegal character ('" + c + "').";

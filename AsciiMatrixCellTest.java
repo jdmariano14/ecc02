@@ -39,11 +39,11 @@ public class AsciiMatrixCellTest {
 
   @Test
   public void testSetterWithCorrectIndex() {
-    String newVal = "  newVal  ";
+    String newVal = "  new1234Val" + AsciiMatrixConventions.TEXT_ELEMENT_DELIMITER + "   ";
 
     cell.set(0, newVal);
 
-    String expected = newVal.trim();
+    String expected = newVal;
     String result = cell.get(0);
     
     assertEquals(expected, result);
@@ -102,20 +102,6 @@ public class AsciiMatrixCellTest {
   @Test
   public void testIsValidWithNonAscii() {
     char illegalChar = 0xFF;
-
-    assertFalse(AsciiMatrixCell.isValid(illegalChar));
-  }
-
-  @Test
-  public void testIsValidWithWhitespace() {
-    char illegalChar = ' ';
-
-    assertFalse(AsciiMatrixCell.isValid(illegalChar));
-  }
-
-  @Test
-  public void testIsValidWithDelimiter() {
-    char illegalChar = AsciiMatrixConventions.TEXT_ELEMENT_DELIMITER;
 
     assertFalse(AsciiMatrixCell.isValid(illegalChar));
   }

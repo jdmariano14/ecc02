@@ -6,18 +6,12 @@ public class AsciiMatrixConventions {
 
   public static final char TEXT_ELEMENT_DELIMITER = ',';
   public static final char TEXT_CELL_DELIMITER = '|';
-  
-  private static final Set<Character> BLACKLIST;
 
   private static int cellSize = 2;
   private static CharDomain domain;
 
   static {
     domain = new AsciiCharDomain();
-
-    BLACKLIST = new HashSet();
-    BLACKLIST.add(TEXT_ELEMENT_DELIMITER);
-    BLACKLIST.add(TEXT_CELL_DELIMITER);
   }
 
   public static void setDomain(CharDomain d) {
@@ -37,7 +31,7 @@ public class AsciiMatrixConventions {
   }
 
   public static boolean isIllegal(char c) {
-    return BLACKLIST.contains(c) || !domain.isInDomain(c);
+    return !domain.isInDomain(c);
   }
 
   public static String textElementDivider() {
