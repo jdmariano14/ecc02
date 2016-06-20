@@ -27,7 +27,7 @@ public class Utf8OutputStrategy implements AsciiMatrixOutputStrategy {
         lines.add("<cell>");
 
         for (String element : cell) {
-          lines.add("<element>" +  element + "</element>");
+          lines.add("<element>" +  escapeTags(element) + "</element>");
         }
 
         lines.add("</cell>");
@@ -39,5 +39,12 @@ public class Utf8OutputStrategy implements AsciiMatrixOutputStrategy {
     lines.add("</matrix>");
 
     Files.write(path, lines, StandardCharsets.UTF_8);
+  }
+
+  private String escapeTags(String str) {
+    char escapeChar = 0x00FF;
+    String escape = str.replaceAll("<", escapeChar + "<" + escapeChar)
+                       .replaceAll(">", escapeChar + ">" + escapeChar);
+    return escape;
   }
 }

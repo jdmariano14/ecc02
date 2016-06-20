@@ -69,13 +69,20 @@ public class Utf8InputStrategy implements AsciiMatrixInputStrategy {
       String nextElement = scanBetweenDelimters(cellScanner, "<element>", "</element>");
 
       if (!nextElement.isEmpty()) {
-        cell.add(nextElement);
+        cell.add(unescapeTags(nextElement));
       }
     }
 
     cellScanner.close();
 
     return cell;
+  }
+
+  private String unescapeTags(String str) {
+    char esacpeChar = 0x00FF;
+    String unescape = str.replaceAll(esacpeChar + "<" + esacpeChar, "<")
+                         .replaceAll(esacpeChar + ">" + esacpeChar, ">");
+    return unescape;
   }
 
   private String scanBetweenDelimters(Scanner scanner, String opening, String closing) {
