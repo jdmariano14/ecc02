@@ -35,6 +35,14 @@ public class AsciiMatrixCell implements Comparable<AsciiMatrixCell> {
     data.set(index, newVal);
   }
 
+  public void add(String element) {
+    data.add(element);
+  }
+
+  public void clear() {
+    data.clear();
+  }
+
   public void autoFill(int targetSize) {
     data.clear();
     ((ArrayList)data).ensureCapacity(targetSize);

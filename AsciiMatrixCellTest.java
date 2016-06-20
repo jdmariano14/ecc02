@@ -79,6 +79,26 @@ public class AsciiMatrixCellTest {
   }
 
   @Test
+  public void testAdd() {
+    String expected = "foo";
+
+    cell.add(expected);
+
+    String result = cell.get(cell.size() - 1);
+
+    assertEquals(expected, result);
+  }
+
+  @Test
+  public void testClear() {
+    cell.autoFill(2);
+    
+    cell.clear();
+
+    assertTrue(cell.size() == 0);
+  }
+
+  @Test
   public void testIsValidWithValid() {
     char legalChar = 'a';
 
