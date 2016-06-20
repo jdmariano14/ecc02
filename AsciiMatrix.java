@@ -1,8 +1,9 @@
 import java.util.List;
 import java.util.ArrayList;
-import java.io.IOException; 
+import java.util.Iterator;
+import java.io.IOException;
 
-public class AsciiMatrix {
+public class AsciiMatrix implements Iterable<AsciiMatrixRow> {
   private String source;
   private List<AsciiMatrixRow> data;
   private AsciiMatrixInputStrategy inputStrategy;
@@ -35,7 +36,11 @@ public class AsciiMatrix {
   public void clear() {
     data.clear();
   }
-  
+
+  public Iterator<AsciiMatrixRow> iterator() {
+    return data.iterator();
+  }
+
   public void sort() {
     for (AsciiMatrixRow row : data) {
       row.sort();
