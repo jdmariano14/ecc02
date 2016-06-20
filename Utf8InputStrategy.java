@@ -79,9 +79,9 @@ public class Utf8InputStrategy implements AsciiMatrixInputStrategy {
   }
 
   private String unescapeTags(String str) {
-    char esacpeChar = 0x00FF;
-    String unescape = str.replaceAll(esacpeChar + "<" + esacpeChar, "<")
-                         .replaceAll(esacpeChar + ">" + esacpeChar, ">");
+    char escapeChar = 0x00FF;
+    String unescape = str.replaceAll(escapeChar + "<" + escapeChar, "<")
+                         .replaceAll(escapeChar + ">" + escapeChar, ">");
     return unescape;
   }
 
