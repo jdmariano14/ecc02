@@ -57,7 +57,7 @@ public class Exercise2 {
       }
     } while (choice != OPTIONS.length);
 
-    saveMatrix(matrix);
+    // saveMatrix(matrix);
 
     INPUT_SCANNER.close();
 

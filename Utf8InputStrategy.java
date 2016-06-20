@@ -17,51 +17,85 @@ public class Utf8InputStrategy implements AsciiMatrixInputStrategy {
     Path path = Paths.get(filepath);
 
     BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8);
-    Scanner scanner = new Scanner(reader);
-    matrix.clear();
+    Scanner fileScanner = new Scanner(reader);
 
-    while(scanner.hasNextLine()) {
-      matrix.add(parseMatrixRow(scanner.nextLine()));
+    while (fileScanner.hasNext()) {
+      matrix.clear();
+      String nextMatrix = scanBetweenDelimters(fileScanner, "<matrix>", "</matrix>");
+      parseMatrix(matrix, nextMatrix);
     }
+
+    fileScanner.close();
 
     matrix.setSource(filepath);
   }
 
-  private AsciiMatrixRow parseMatrixRow(String input) {
-    input = input.trim();
+  private void parseMatrix(AsciiMatrix matrix, String input) {
+    Scanner matrixScanner = new Scanner(input);
 
-    StringBuilder regex = new StringBuilder();
-    regex.append("(\\s*[");
-    regex.append(AsciiMatrixConventions.TEXT_CELL_DELIMITER);
-    regex.append("]+\\s*)");
+    while (matrixScanner.hasNext()) {
+      String nextRow = scanBetweenDelimters(matrixScanner, "<row>", "</row>");
 
-    String[] tokens = input.split(regex.toString());
-
-    AsciiMatrixRow row = new AsciiMatrixRow();
-
-    for (String token : tokens) {
-      row.add(parseMatrixCell(token));
+      if (!nextRow.isEmpty()) {
+        matrix.add(parseMatrixRow(nextRow));
+      }
     }
+
+    matrixScanner.close();
+  }
+
+  private AsciiMatrixRow parseMatrixRow(String input) {
+    AsciiMatrixRow row = new AsciiMatrixRow();
+    Scanner rowScanner = new Scanner(input);
+
+    while (rowScanner.hasNext()) {
+      String nextCell = scanBetweenDelimters(rowScanner, "<cell>", "</cell>");
+
+      if (!nextCell.isEmpty()) {
+        row.add(parseMatrixCell(nextCell));
+      }
+    }
+
+    rowScanner.close();
 
     return row;
   }
 
   private AsciiMatrixCell parseMatrixCell(String input) {
-    input = input.trim();
-
-    StringBuilder regex = new StringBuilder();
-    regex.append("(\\s*[");
-    regex.append(AsciiMatrixConventions.TEXT_ELEMENT_DELIMITER);
-    regex.append("]+\\s*)");
-
-    String[] tokens = input.split(regex.toString());
-
     AsciiMatrixCell cell = new AsciiMatrixCell();
+    Scanner cellScanner = new Scanner(input);
 
-    for (String token : tokens) {
-      cell.add(token);
+    while (cellScanner.hasNext()) {
+      String nextElement = scanBetweenDelimters(cellScanner, "<element>", "</element>");
+
+      if (!nextElement.isEmpty()) {
+        cell.add(nextElement);
+      }
     }
 
+    cellScanner.close();
+
     return cell;
+  }
+
+  private String scanBetweenDelimters(Scanner scanner, String opening, String closing) {
+    scanner.useDelimiter(getDelimiter(opening, closing));
+
+    String result = scanner.next();
+
+    if (result.contains(closing)) {
+      result = result.substring(0, result.indexOf(closing));
+    }
+
+    return result;
+  }
+
+  private String getDelimiter(String opening, String closing) {
+    StringBuilder delimiter = new StringBuilder();
+    delimiter.append("(" + closing + ")*");
+    delimiter.append("\\s*");
+    delimiter.append("(" + opening + ")+");
+
+    return delimiter.toString();
   }
 }
