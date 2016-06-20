@@ -7,7 +7,7 @@ public class Exercise2 {
   private static final Scanner INPUT_SCANNER;
   private static final String[] OPTIONS = {
       "search", "edit", "print",
-      "add row",  "add cell", "sort",
+      "add row", "add cell", "sort",
       "reset", "save", "exit"
     };
 
@@ -206,6 +206,7 @@ public class Exercise2 {
   private static void addCellToMatrix(AsciiMatrix matrix) {
     int row = promptUserForInt("Enter row index (all indices are 0-based): ");
     AsciiMatrixCell cell = new AsciiMatrixCell();
+    cell.autoFill();
 
     try {
       for (int ctr = 0; ctr < cell.size(); ctr++) {
@@ -258,7 +259,6 @@ public class Exercise2 {
       newMatrix = matrix;
       System.out.println("Matrix reset failed.");
     } else {
-      dirty = true;
       System.out.println("Matrix reset successfully.");
     }
 
@@ -291,6 +291,7 @@ public class Exercise2 {
 
       matrix.setOutputStrategy(new Utf8OutputStrategy(path));
       matrix.outputContents();
+      matrix.setSource(path);
 
       dirty = false;
       System.out.println("Matrix saved to " + path + ".");
