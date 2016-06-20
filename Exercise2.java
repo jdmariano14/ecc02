@@ -6,8 +6,9 @@ import java.io.IOException;
 public class Exercise2 {
   private static final Scanner INPUT_SCANNER;
   private static final String[] OPTIONS = {
-      "search", "edit", "print", "add row", 
-      "add cell", "sort", "reset", "exit"
+      "search", "edit", "print",
+      "add row",  "add cell", "sort",
+      "reset", "save", "exit"
     };
 
   static {
@@ -54,10 +55,11 @@ public class Exercise2 {
         case "reset":
           matrix = resetMatrix(matrix);
           break;
+        case "save":
+          saveMatrixAs(matrix);
+          break;
       }
     } while (choice != OPTIONS.length);
-
-    // saveMatrix(matrix);
 
     INPUT_SCANNER.close();
 
@@ -93,19 +95,27 @@ public class Exercise2 {
       if (path.isEmpty()) {
         matrix = initializeAsciiMatrixFromConsole();
       } else {
-        try {
-          matrix = new AsciiMatrix();
-          matrix.setInputStrategy(new Utf8InputStrategy(path));
-          matrix.initializeFromInput();
-        } catch (IOException e) {
-          matrix = null;
-          System.err.println("Error accessing file. Matrix initializion aborted.");
-        } catch (IllegalArgumentException e) {
-          matrix = null;
-          System.err.println("Incompatible character domain used in file. Matrix initialization aborted.");
-        }
+        matrix = initializeMatrixFromFile(path);
       }
     } while (matrix == null);
+
+    return matrix;
+  }
+
+  private static AsciiMatrix initializeMatrixFromFile(String path) {
+    AsciiMatrix matrix = null;
+
+    try {
+      matrix = new AsciiMatrix();
+      matrix.setInputStrategy(new Utf8InputStrategy(path));
+      matrix.initializeFromInput();
+    } catch (IOException e) {
+      matrix = null;
+      System.err.println("Error accessing file. Matrix initializion aborted.");
+    } catch (IllegalArgumentException e) {
+      matrix = null;
+      System.err.println("Incompatible character domain used in file. Matrix initialization aborted.");
+    }
 
     return matrix;
   }
@@ -214,33 +224,66 @@ public class Exercise2 {
   }
 
   private static AsciiMatrix resetMatrix(AsciiMatrix matrix) {
-    String src = null;
+    AsciiMatrix newMatrix = null;
 
-    if (matrix.getSource() != null) {
-      src = matrix.getSource();
+    if (matrix.getSource() == null) {
+      newMatrix = initializeAsciiMatrixFromConsole();
+    } else {
+      newMatrix = initializeMatrixFromFile(matrix.getSource());
     }
 
-    AsciiMatrix newMatrix = initializeAsciiMatrixFromConsole();
-
-    if (src != null) {
-      newMatrix.setSource(src);
+    if (newMatrix == null) {
+      newMatrix = matrix;
+      System.out.println("Matrix reset failed.");
+    } else {
+      System.out.println("Matrix reset successfully.");
     }
 
     return newMatrix;
   }
 
-  private static void saveMatrix(AsciiMatrix matrix) {
+  private static void saveMatrixAs(AsciiMatrix matrix) {
+    String prompt = "";
+    String path = "";
+
+    if (matrix.getSource() == null) {
+      prompt = "Enter the filename (leave blank to abort): ";
+      path = promptUserForLine(prompt);
+
+      if (!path.isEmpty()) {
+        saveMatrix(matrix, path);
+      }
+    } else {
+      prompt = "Enter the filename (" + matrix.getSource() + "): ";
+      path = promptUserForLine(prompt);
+
+      if (path.isEmpty()) {
+        saveMatrix(matrix);
+      } else {
+        saveMatrix(matrix, path);
+      }
+    }
+  } 
+
+  private static void saveMatrix(AsciiMatrix matrix, String path) {
     try {
       System.out.println("Saving matrix...");
 
-      matrix.setOutputStrategy(new Utf8OutputStrategy(matrix.getSource()));
+      matrix.setOutputStrategy(new Utf8OutputStrategy(path));
       matrix.outputContents();
 
-      System.out.println("Matrix saved to " + matrix.getSource() + ".");
+      System.out.println("Matrix saved to " + path + ".");
     } catch (IOException e) {
       System.err.println(e.getMessage());
-    } catch (NullPointerException e) {
-      System.err.println("No output path could be determined. Matrix save aborted.");
+    }
+  }
+
+  private static void saveMatrix(AsciiMatrix matrix) {
+    try {
+      saveMatrix(matrix, matrix.getSource());
+    }
+    catch (NullPointerException e) {
+      System.err.println("Output path could not be determined. Matrix save aborted."); 
     }
   }
 
