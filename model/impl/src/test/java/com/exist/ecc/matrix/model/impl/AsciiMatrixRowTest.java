@@ -1,0 +1,157 @@
+package com.exist.ecc.matrix.model.impl;
+
+import java.util.List;
+import java.util.ArrayList;
+
+import org.junit.Test;
+import org.junit.Before;
+import org.junit.Rule;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertNotNull;
+import org.junit.rules.ExpectedException;
+
+public class AsciiMatrixRowTest {
+  AsciiMatrixRow row;
+
+  @Rule
+  public final ExpectedException thrown = ExpectedException.none();
+   
+  @Before
+  public void before(){
+    row = new AsciiMatrixRow();
+  }
+
+  @Test
+  public void testSize() {
+    assertTrue(row.size() == 0);
+  }
+
+  @Test
+  public void testGetterWithOutOfBoundsIndex() {
+    thrown.expect(IndexOutOfBoundsException.class);
+    
+    int outOfBoundsIndex = row.size();
+    AsciiMatrixCell result = row.get(outOfBoundsIndex);
+  }
+
+  @Test
+  public void testAdd() {
+    String key = "abc";
+    String value = "def";
+    AsciiMatrixCell cell = new AsciiMatrixCell();
+    row.add(cell);
+
+    AsciiMatrixCell expected = cell;
+    AsciiMatrixCell result = row.get(row.size() - 1);
+
+    assertEquals(expected, result);
+  }
+
+  @Test
+  public void testIterator() {
+    AsciiMatrixCell result = null;
+
+    row.autoFill(2);
+
+    AsciiMatrixCell expected = row.get(row.size() - 1);
+
+    for (AsciiMatrixCell cell : row) {
+      result = cell;
+    }
+
+    assertEquals(expected, result);
+  }
+
+  @Test
+  public void testSort() {
+    String firstKey = "aa";
+    String firstValue = "bb";
+    String secondKey = "cc";
+    String secondValue = "dd";
+
+    AsciiMatrixCell firstCell = new AsciiMatrixCell();
+    AsciiMatrixCell secondCell = new AsciiMatrixCell();
+    firstCell.add(firstKey);
+    firstCell.add(firstValue);
+    secondCell.add(secondKey);
+    secondCell.add(secondValue);
+    
+    row.add(secondCell);
+    row.add(firstCell);
+    row.sort();
+
+    AsciiMatrixCell expected = firstCell;
+    AsciiMatrixCell result = row.get(0);
+
+    assertEquals(expected, result);
+  }
+
+  @Test
+  public void testSortDescending() {
+    String firstKey = "aa";
+    String firstValue = "bb";
+    String secondKey = "cc";
+    String secondValue = "dd";
+
+    AsciiMatrixCell firstCell = new AsciiMatrixCell();
+    AsciiMatrixCell secondCell = new AsciiMatrixCell();
+    firstCell.add(firstKey);
+    firstCell.add(firstValue);
+    secondCell.add(secondKey);
+    secondCell.add(secondValue);
+    
+    row.add(firstCell);
+    row.add(secondCell);
+    row.sortDescending();
+
+    AsciiMatrixCell expected = secondCell;
+    AsciiMatrixCell result = row.get(0);
+
+    assertEquals(expected, result);
+  }
+
+  @Test
+  public void testAutoFill() {
+    row.autoFill(1);
+    AsciiMatrixCell result = row.get(0);
+    
+    assertNotNull(result);
+  }
+
+  @Test
+  public void testAutoFillWithNegativeArgument() {
+    thrown.expect(IllegalArgumentException.class);
+    
+    row.autoFill(-1);
+  }
+
+  @Test
+  public void testGetQueryOccurrencesWithOneInMultipleCells() {
+    String query = "a";
+    row.autoFill(3);
+    row.get(0).set(0, query);
+    row.get(2).set(0, query);
+
+    List<int[]> result = row.getQueryOccurrences(query);
+
+    assertTrue(result.get(0)[0] > 0);
+    assertTrue(result.get(2)[0] > 0);
+  }
+
+  @Test
+  public void testToString() {
+    row.autoFill(2);
+
+    StringBuilder sb = new StringBuilder();
+    sb.append(row.get(0));
+    sb.append(AsciiMatrixConventions.textCellDivider());
+    sb.append(row.get(1));
+
+    String expected = sb.toString();
+    String result = row.toString();
+    
+    assertEquals(expected, result);
+  }
+}
