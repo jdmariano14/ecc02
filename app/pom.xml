@@ -15,13 +15,13 @@
   <dependencies>
     <dependency>
       <groupId>com.exist.ecc</groupId>
-      <artifactId>matrix-model-impl</artifactId>
+      <artifactId>matrix-model</artifactId>
       <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>com.exist.ecc</groupId>
-      <artifactId>matrix-service-impl</artifactId>
+      <artifactId>matrix-service</artifactId>
       <version>${project.version}</version>
     </dependency>
   </dependencies>

@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.IOException;
 
-import com.exist.ecc.matrix.service.impl.*;
-import com.exist.ecc.matrix.model.impl.*;
+import com.exist.ecc.matrix.service.*;
+import com.exist.ecc.matrix.model.*;
 
 public class Exercise5 {
   private static final Scanner INPUT_SCANNER;
