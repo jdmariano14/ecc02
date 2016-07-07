@@ -56,28 +56,28 @@ public abstract class AbstractCharMatrix implements CharMatrix {
 
   private void validateRowIndex(int row) throws IllegalArgumentException {
     if (row >= rows()) {
-      throw new IllegalArgumentException("Row index out of bounds.");
+      throw new IllegalArgumentException("row index out of bounds");
     }
 
     if (row < 0) {
-      throw new IllegalArgumentException("Negative row index not allowed.");
+      throw new IllegalArgumentException("negative row index not allowed");
     }
   }
 
   private void validateColumnIndex(int col) throws IllegalArgumentException {
     if (col >= cols()) {
-      throw new IllegalArgumentException("Column index out of bounds.");
+      throw new IllegalArgumentException("column index out of bounds");
     }
 
     if (col < 0) {
-      throw new IllegalArgumentException("Negative column index not allowed.");
+      throw new IllegalArgumentException("negative column index not allowed");
     }
   }
 
   private void validateContent(String content) throws IllegalArgumentException {
     for (char c : content.toCharArray()) {
       if (!domain.contains(c)) {
-        String msg = "Input contains an illegal character ('" + c + "').";
+        String msg = "input contains an illegal character ('" + c + "')";
         throw new IllegalArgumentException(msg);
       }
     }
