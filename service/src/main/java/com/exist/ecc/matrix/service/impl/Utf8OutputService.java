@@ -17,24 +17,16 @@ import com.exist.ecc.matrix.service.api.CharMatrixOutputService;
 public class Utf8OutputService implements CharMatrixOutputService {
   private String filepath;
 
-  public Utf8OutputService(String filepath) throws IllegalArgumentException {
-    try {
-      this.filepath = Paths.get(filepath).toString();
-    } catch (Exception e) {
-      throw new IllegalArgumentException("Could not find or access file.");
-    }
+  public Utf8OutputService(String filepath) {
+    this.filepath = filepath;
   }
 
   public String getOutputPath() {
     return filepath;
   }
 
-  public void setOutputPath(String filepath) throws IllegalArgumentException {
-    try {
-      this.filepath = Paths.get(filepath).toString();
-    } catch (Exception e) {
-      throw new IllegalArgumentException("Could not find or access file.");
-    }
+  public void setOutputPath(String filepath) {
+    this.filepath = filepath;
   }
 
   public void writeMatrix(CharMatrix matrix) throws IOException {

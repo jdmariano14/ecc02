@@ -12,10 +12,15 @@
   <artifactId>matrix-service</artifactId>
   <name>${project.artifactId}</name>
 
-  <dependencies>
+  <dependencies>    
     <dependency>
       <groupId>com.exist.ecc</groupId>
       <artifactId>matrix-model</artifactId>
+    </dependency>
+    
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
     </dependency>
   </dependencies>
 </project>

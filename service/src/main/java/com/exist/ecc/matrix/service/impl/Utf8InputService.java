@@ -1,14 +1,18 @@
 package com.exist.ecc.matrix.service.impl;
 
+import java.util.List;
+import java.util.LinkedList;
+
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
+import java.util.stream.Stream;
+
+import java.io.IOException;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.charset.StandardCharsets;
-
-import java.io.IOException;
-import java.io.BufferedReader;
-
-import java.util.Scanner;
 
 import com.exist.ecc.matrix.model.api.CharMatrix;
 
@@ -38,79 +42,63 @@ public class Utf8InputService implements CharMatrixInputService {
   }
 
   public void readMatrix(CharMatrix matrix) throws IOException {
-    Path path = Paths.get(filepath);
+    Stream<String> lines = Files.lines(Paths.get(filepath));
 
-    BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8);
-    Scanner fileScanner = new Scanner(reader);
+    String wholeFile = lines.reduce("", (a, b) -> a + b);
 
-    while (fileScanner.hasNext()) {
+    List<String> matrixStrings = getElements(wholeFile, "matrix");
+
+    for (String matrixString : matrixStrings) {
       matrix.clear();
-      String nextMatrix = scanBetweenDelimters(fileScanner, "<matrix>", "</matrix>");
-      parseMatrix(matrix, nextMatrix);
+      parseMatrix(matrix, matrixString);
     }
-
-    fileScanner.close();
-
-    matrix.setSource(filepath);
   }
 
-  private void parseMatrix(CharMatrix matrix, String input) {
-    Scanner matrixScanner = new Scanner(input);
+  private void parseMatrix(CharMatrix matrix, String matrixString) {
+    int rowNum = 0;
 
-    int row = 0;
+    List<String> rowStrings = getElements(matrixString, "row");
 
-    while (matrixScanner.hasNext()) {
-      String nextRow = scanBetweenDelimters(matrixScanner, "<row>", "</row>");
-
-      if (!nextRow.isEmpty()) {
-        matrix.addRow();
-        parseMatrixRow(matrix, row, nextRow);
-        row++;
-      }
+    for (String rowString : rowStrings) {
+      matrix.addRow();
+      parseMatrixRow(matrix, rowNum, rowString);
+      rowNum++;
     }
-
-    matrixScanner.close();
   }
 
-  private void parseMatrixRow(CharMatrix matrix, int row, String input) {
-    Scanner rowScanner = new Scanner(input);
+  private void parseMatrixRow(CharMatrix matrix, int row, String rowString) {
+    List<String> cellStrings = getElements(rowString, "cell");
+    
+    for (String cellString : cellStrings) {
+      String key = unescapeTags(getElements(cellString, "key").get(0));
+      String value = unescapeTags(getElements(cellString, "value").get(0));
 
-    while (rowScanner.hasNext()) {
-      String nextCell = scanBetweenDelimters(rowScanner, "<cell>", "</cell>");
-
-      if (!nextCell.isEmpty()) {
-        String[] cell = parseMatrixCell(nextCell);
-
-        matrix.put(row, cell[0], cell[1]);
-      }
+      matrix.put(row, key, value);
     }
-
-    rowScanner.close();
   }
 
-  public String[] parseMatrixCell(String input) {
-    String[] cell = new String[2];
-    Scanner cellScanner = new Scanner(input);
+  private List<String> getElements(String input, String elementName) {
+    List<String> elements = new LinkedList();
 
-    while (cellScanner.hasNext(getDelimiter("<key>", "</key>"))) {
-      String nextKey = scanBetweenDelimters(cellScanner, "<key>", "</key>");
+    String openingTag = "<" + elementName + ">";
+    String closingTag = "</" + elementName + ">";
 
-      if (!nextKey.isEmpty()) {
-        cell[0] = unescapeTags(nextKey);
-      }
+    Pattern pattern = Pattern.compile(enclosedByTags(openingTag, closingTag), Pattern.DOTALL);
+
+    Matcher matcher = pattern.matcher(input);
+
+    while (matcher.find()) {
+      int startPos = matcher.start() + openingTag.length();
+      int endPos = matcher.end() - closingTag.length();
+
+      elements.add(input.substring(startPos, endPos));
     }
 
-    while (cellScanner.hasNext(getDelimiter("<value>", "</value>"))) {
-      String nextValue = scanBetweenDelimters(cellScanner, "<value>", "</value>");
+    return elements;
+  }
 
-      if (!nextValue.isEmpty()) {
-        cell[1] = unescapeTags(nextValue);
-      }
-    }
-
-    cellScanner.close();
-
-    return cell;
+  private String enclosedByTags(String openingTag, String closingTag) {
+    return openingTag + ".*?" + closingTag;
   }
 
   private String unescapeTags(String str) {
@@ -118,26 +106,5 @@ public class Utf8InputService implements CharMatrixInputService {
     String unescape = str.replaceAll(escapeChar + "<" + escapeChar, "<")
                          .replaceAll(escapeChar + ">" + escapeChar, ">");
     return unescape;
-  }
-
-  private String scanBetweenDelimters(Scanner scanner, String opening, String closing) {
-    scanner.useDelimiter(getDelimiter(opening, closing));
-
-    String result = scanner.next();
-
-    if (result.contains(closing)) {
-      result = result.substring(0, result.indexOf(closing));
-    }
-
-    return result;
-  }
-
-  private String getDelimiter(String opening, String closing) {
-    StringBuilder delimiter = new StringBuilder();
-    delimiter.append("(" + closing + ")*");
-    delimiter.append("\\s*");
-    delimiter.append("(" + opening + ")+");
-
-    return delimiter.toString();
   }
 }

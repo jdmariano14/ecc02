@@ -3,18 +3,16 @@ package com.exist.ecc.matrix.service;
 import com.exist.ecc.matrix.model.api.CharMatrix;
 import com.exist.ecc.matrix.model.api.CharDomain;
 
-public class CharMatrixPopulatorService {
+public class CharMatrixPopulateService {
   public void populate(CharMatrix matrix, int rows, int cols, int length) throws IllegalArgumentException {
     validateRowCount(rows);
     validateColCount(cols);
 
     matrix.clear();
 
-    while (matrix.rows() < rows) {
+    for (int row = 0; row < rows; row++) {
       matrix.addRow();
-    }
 
-    for (int row = 0; row < rows; rows++) {
       for (int col = 0; col < cols; col++) {
         String key = generateRandomContent(matrix, length);
         String value = generateRandomContent(matrix, length);

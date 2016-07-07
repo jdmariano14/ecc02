@@ -4,6 +4,7 @@ public interface CharDomain {
 
   public default char getRandomChar() {
     char randomChar;
+
     do {
       randomChar = (char)(Math.random() * 256);
     } while (!contains(randomChar));

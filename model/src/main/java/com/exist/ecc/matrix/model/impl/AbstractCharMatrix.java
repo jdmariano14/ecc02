@@ -65,6 +65,29 @@ public abstract class AbstractCharMatrix implements CharMatrix {
     validateRowIndex(row);
   }
 
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+
+    for (int row = 0; row < rows(); row++) {
+      for (int col = 0; col < cols(); col++) {
+        sb.append(getKey(row, col));
+        sb.append(", ");
+        sb.append(getValue(row, col));
+
+        if (col < cols() - 1) {
+          sb.append("  |  ");
+        }
+      }
+
+      if (row < rows() - 1) {
+        sb.append(System.lineSeparator());
+      }
+    }
+    
+    return sb.toString();
+  }
+
   private void validateRowIndex(int row) throws IllegalArgumentException {
     if (row >= rows()) {
       throw new IllegalArgumentException("row index out of bounds");
