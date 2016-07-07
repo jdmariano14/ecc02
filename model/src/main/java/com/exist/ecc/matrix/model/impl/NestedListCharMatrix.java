@@ -3,6 +3,7 @@ package com.exist.ecc.matrix.model.impl;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
 import com.exist.ecc.matrix.model.api.CharDomain;
 
@@ -65,7 +66,14 @@ public class NestedListCharMatrix extends AbstractCharMatrix {
 
   public void sortRow(int row) {
     super.sortRow(row);
-    // Collections.sort(data.get(row));
+
+    Comparator<List<String>> order = (List<String> cell1, List<String> cell2) -> {
+      String cell1Concat = cell1.get(0) + cell1.get(1);
+      String cell2Concat = cell2.get(0) + cell2.get(1);
+      return cell1Concat.compareToIgnoreCase(cell2Concat);
+    };
+
+    Collections.sort(data.get(row), order);
   }
 
   public void clear() {
