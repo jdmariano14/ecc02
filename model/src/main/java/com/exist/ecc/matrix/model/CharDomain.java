@@ -1,6 +1,7 @@
 package com.exist.ecc.matrix.model;
 
 public abstract class CharDomain {
+
   public char getRandomChar() {
     char randomChar;
     do {
