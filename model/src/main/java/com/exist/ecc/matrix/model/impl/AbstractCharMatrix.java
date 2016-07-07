@@ -1,6 +1,9 @@
-package com.exist.ecc.matrix.model.api;
+package com.exist.ecc.matrix.model.impl;
 
 import java.nio.file.Paths;
+
+import com.exist.ecc.matrix.model.api.CharMatrix;
+import com.exist.ecc.matrix.model.api.CharDomain;
 
 public abstract class AbstractCharMatrix implements CharMatrix {
   protected String source;
@@ -8,6 +11,10 @@ public abstract class AbstractCharMatrix implements CharMatrix {
 
   public AbstractCharMatrix(CharDomain domain) {
     this.domain = domain;
+  }
+
+  public CharDomain getDomain() {
+    return domain;
   }
 
   public String getSource() {
@@ -52,6 +59,10 @@ public abstract class AbstractCharMatrix implements CharMatrix {
     validateRowIndex(row);
     validateContent(key);
     validateContent(value);
+  }
+
+  public void sortRow(int row) throws IllegalArgumentException {
+    validateRowIndex(row);
   }
 
   private void validateRowIndex(int row) throws IllegalArgumentException {

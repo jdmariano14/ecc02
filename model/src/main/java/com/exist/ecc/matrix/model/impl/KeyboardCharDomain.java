@@ -1,6 +1,8 @@
-package com.exist.ecc.matrix.model;
+package com.exist.ecc.matrix.model.impl;
 
-public class KeyboardCharDomain extends CharDomain {
+import com.exist.ecc.matrix.model.api.CharDomain;
+
+public class KeyboardCharDomain implements CharDomain {
   private StringBuilder allowedChars;
 
   public KeyboardCharDomain() {
@@ -16,7 +18,7 @@ public class KeyboardCharDomain extends CharDomain {
     allowedChars.append(System.lineSeparator());
   }
 
-  public boolean isInDomain(char c) {
+  public boolean contains(char c) {
     return allowedChars.toString().indexOf(c) >= 0;
   }
 }

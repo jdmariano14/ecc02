@@ -1,16 +1,12 @@
-package com.exist.ecc.matrix.model.api;
-
-import java.util.List;
-import java.util.ArrayList;
+package com.exist.ecc.matrix.model.impl;
 
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.Rule;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertNotNull;
 import org.junit.rules.ExpectedException;
+
+import com.exist.ecc.matrix.model.api.CharMatrix;
+import com.exist.ecc.matrix.model.api.CharDomain;
 
 public class AbstractCharMatrixTest {
   private static final int ROWS = 1;
@@ -251,5 +247,26 @@ public class AbstractCharMatrixTest {
     thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage("character");
     matrix.put(ROWS - 1, LEGAL_CONTENT, "kalaberber");
+  }
+
+  @Test
+  public void testSortRowWithValidArguments() {
+    matrix.sortRow(ROWS - 1);
+  }
+
+  @Test
+  public void testSortRowWithOutOfBoundsRowIndex() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("row");
+    thrown.expectMessage("out of bounds");
+    matrix.sortRow(ROWS);
+  }
+
+  @Test
+  public void testSortRowWithNegativeRowIndex() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("row");
+    thrown.expectMessage("negative");
+    matrix.sortRow(-1);
   }
 }

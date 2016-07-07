@@ -2,6 +2,8 @@ package com.exist.ecc.matrix.model.api;
 
 public interface CharMatrix {
 
+  public abstract CharDomain getDomain();
+
   public abstract String getSource();
 
   public abstract void setSource(String newSource) throws IllegalArgumentException;
@@ -21,6 +23,8 @@ public interface CharMatrix {
   public abstract int cols();
 
   public abstract void addRow();
+
+  public abstract void sortRow(int row) throws IllegalArgumentException;
 
   public abstract void clear();
 
