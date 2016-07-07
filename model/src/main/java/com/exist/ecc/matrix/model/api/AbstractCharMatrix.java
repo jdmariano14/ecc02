@@ -6,6 +6,10 @@ public abstract class AbstractCharMatrix implements CharMatrix {
   protected String source;
   protected CharDomain domain;
 
+  public AbstractCharMatrix(CharDomain domain) {
+    this.domain = domain;
+  }
+
   public String getSource() {
     return source;
   }
