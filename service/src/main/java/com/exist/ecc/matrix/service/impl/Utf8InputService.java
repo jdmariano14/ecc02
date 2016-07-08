@@ -44,7 +44,7 @@ public class Utf8InputService implements CharMatrixInputService {
   public void readMatrix(CharMatrix matrix) throws IOException {
     Stream<String> lines = Files.lines(Paths.get(filepath));
 
-    String wholeFile = lines.reduce("", (a, b) -> a + b);
+    String wholeFile = lines.reduce("", (a, b) -> a + System.lineSeparator() + b);
 
     List<String> matrixStrings = getElements(wholeFile, "matrix");
 
