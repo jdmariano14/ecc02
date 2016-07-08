@@ -66,14 +66,14 @@ public class Utf8InputService implements CharMatrixInputService {
     }
   }
 
-  private void parseMatrixRow(CharMatrix matrix, int row, String rowString) {
+  private void parseMatrixRow(CharMatrix matrix, int rowNum, String rowString) {
     List<String> cellStrings = getElements(rowString, "cell");
     
     for (String cellString : cellStrings) {
       String key = unescapeTags(getElements(cellString, "key").get(0));
       String value = unescapeTags(getElements(cellString, "value").get(0));
 
-      matrix.put(row, key, value);
+      matrix.put(rowNum, key, value);
     }
   }
 
@@ -84,7 +84,6 @@ public class Utf8InputService implements CharMatrixInputService {
     String closingTag = "</" + elementName + ">";
 
     Pattern pattern = Pattern.compile(enclosedByTags(openingTag, closingTag), Pattern.DOTALL);
-
     Matcher matcher = pattern.matcher(input);
 
     while (matcher.find()) {
@@ -105,6 +104,7 @@ public class Utf8InputService implements CharMatrixInputService {
     char escapeChar = 0x00FF;
     String unescape = str.replaceAll(escapeChar + "<" + escapeChar, "<")
                          .replaceAll(escapeChar + ">" + escapeChar, ">");
+                         
     return unescape;
   }
 }
