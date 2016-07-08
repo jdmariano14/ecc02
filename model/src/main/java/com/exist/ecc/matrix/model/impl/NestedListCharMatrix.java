@@ -49,11 +49,11 @@ public class NestedListCharMatrix extends AbstractCharMatrix {
     return data.size();
   }
 
-  public int cols() {
+  public int cols(int row) {
     int cols = 0;
 
     if (!data.isEmpty()) {
-      cols = data.get(0).size();
+      cols = data.get(row).size();
     }
 
     return cols;

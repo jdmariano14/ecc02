@@ -31,27 +31,27 @@ public abstract class AbstractCharMatrix implements CharMatrix {
 
   public String getKey(int row, int col) throws IllegalArgumentException {
     validateRowIndex(row);
-    validateColumnIndex(col);
+    validateColumnIndex(row, col);
 
     return "";
   }
 
   public void setKey(int row, int col, String newKey) throws IllegalArgumentException {
     validateRowIndex(row);
-    validateColumnIndex(col);
+    validateColumnIndex(row, col);
     validateContent(newKey);
   }
 
   public String getValue(int row, int col) throws IllegalArgumentException {
     validateRowIndex(row);
-    validateColumnIndex(col);
+    validateColumnIndex(row, col);
 
     return "";
   }
 
   public void setValue(int row, int col, String newValue) throws IllegalArgumentException {
     validateRowIndex(row);
-    validateColumnIndex(col);
+    validateColumnIndex(row, col);
     validateContent(newValue);
   }
 
@@ -70,12 +70,12 @@ public abstract class AbstractCharMatrix implements CharMatrix {
     StringBuilder sb = new StringBuilder();
 
     for (int row = 0; row < rows(); row++) {
-      for (int col = 0; col < cols(); col++) {
+      for (int col = 0; col < cols(row); col++) {
         sb.append(getKey(row, col));
         sb.append(", ");
         sb.append(getValue(row, col));
 
-        if (col < cols() - 1) {
+        if (col < cols(row) - 1) {
           sb.append("  |  ");
         }
       }
@@ -98,8 +98,8 @@ public abstract class AbstractCharMatrix implements CharMatrix {
     }
   }
 
-  private void validateColumnIndex(int col) throws IllegalArgumentException {
-    if (col >= cols()) {
+  private void validateColumnIndex(int row, int col) throws IllegalArgumentException {
+    if (col >= cols(row)) {
       throw new IllegalArgumentException("column index out of bounds");
     }
 

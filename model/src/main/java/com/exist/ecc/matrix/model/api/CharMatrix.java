@@ -20,7 +20,7 @@ public interface CharMatrix {
 
   public abstract int rows();
 
-  public abstract int cols();
+  public abstract int cols(int row);
 
   public abstract void addRow();
 

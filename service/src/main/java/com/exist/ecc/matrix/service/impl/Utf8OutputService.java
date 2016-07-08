@@ -38,7 +38,7 @@ public class Utf8OutputService implements CharMatrixOutputService {
     for (int row = 0; row < matrix.rows(); row++) {
       lines.add("\t<row>");
 
-      for (int col = 0; col < matrix.cols(); col++) {
+      for (int col = 0; col < matrix.cols(row); col++) {
         lines.add("\t\t<cell>");
         lines.add("\t\t\t<key>" + escapeTags(matrix.getKey(row, col)) + "</key>");
         lines.add("\t\t\t<value>" + escapeTags(matrix.getValue(row, col)) + "</value>");

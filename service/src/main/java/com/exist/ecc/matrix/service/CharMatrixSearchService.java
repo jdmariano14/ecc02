@@ -1,16 +1,23 @@
 package com.exist.ecc.matrix.service;
 
+import java.util.List;
+import java.util.ArrayList;
+
 import com.exist.ecc.matrix.model.api.CharMatrix;
 
 public class CharMatrixSearchService {
-  public int[][][] getQueryOccurrences(CharMatrix matrix, String query) {
-    int[][][] occ = new int[matrix.rows()][matrix.cols()][2];
+  public List<int[][]> getQueryOccurrences(CharMatrix matrix, String query) {
+    List occ = new ArrayList(matrix.rows());
 
     for (int row = 0; row < matrix.rows(); row++) {
-      for (int col = 0; col < matrix.cols(); col++) {
-        occ[row][col][0] = getQueryOccurrencesInString(matrix.getKey(row, col), query);
-        occ[row][col][1] = getQueryOccurrencesInString(matrix.getValue(row, col), query);
+      int[][] rowOcc = new int[matrix.cols(row)][2];
+
+      for (int col = 0; col < matrix.cols(row); col++) {
+        rowOcc[col][0] = getQueryOccurrencesInString(matrix.getKey(row, col), query);
+        rowOcc[col][1] = getQueryOccurrencesInString(matrix.getValue(row, col), query);
       }
+
+      occ.add(rowOcc);
     }
 
     return occ;

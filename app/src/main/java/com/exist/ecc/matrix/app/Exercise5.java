@@ -158,16 +158,16 @@ public class Exercise5 {
       System.err.println("Blank query entered. Matrix search aborted.");
     } else {
       CharMatrixSearchService searcher = new CharMatrixSearchService();
-      int[][][] results = searcher.getQueryOccurrences(matrix, query);
+      List<int[][]> results = searcher.getQueryOccurrences(matrix, query);
       printSeachResults(results);
     }
   }
 
-  private static void printSeachResults(int[][][] results) {
-    for (int row = 0; row < results.length; row++) {
-      for (int col = 0; col < results[row].length; col++) {
-        for (int ele = 0; ele < results[row][col].length; ele++) {
-          int occurrences = results[row][col][ele];
+  private static void printSeachResults(List<int[][]> results) {
+    for (int row = 0; row < results.size(); row++) {
+      for (int col = 0; col < results.get(row).length; col++) {
+        for (int ele = 0; ele < results.get(row)[col].length; ele++) {
+          int occurrences = results.get(row)[col][ele];
 
           if (occurrences > 0) {
             StringBuilder sb = new StringBuilder();

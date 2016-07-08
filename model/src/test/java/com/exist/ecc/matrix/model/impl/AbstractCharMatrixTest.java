@@ -25,7 +25,7 @@ public class AbstractCharMatrixTest {
        return AbstractCharMatrixTest.ROWS;
     }
 
-    public int cols() {
+    public int cols(int row) {
        return AbstractCharMatrixTest.COLS;
     }
 
