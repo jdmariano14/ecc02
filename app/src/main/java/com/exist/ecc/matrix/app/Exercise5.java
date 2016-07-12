@@ -3,7 +3,15 @@ package com.exist.ecc.matrix.app;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.stream.Stream;
+
 import java.io.IOException;
+import java.io.InputStream;
+
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import com.exist.ecc.matrix.model.api.CharMatrix;
 import com.exist.ecc.matrix.model.api.CharDomain;
@@ -16,12 +24,6 @@ import com.exist.ecc.matrix.service.CharMatrixSearchService;
 
 import com.exist.ecc.matrix.service.impl.Utf8InputService;
 import com.exist.ecc.matrix.service.impl.Utf8OutputService;
-
-import java.util.stream.Stream;
-
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class Exercise5 {
   private static final Scanner INPUT_SCANNER;
@@ -104,30 +106,24 @@ public class Exercise5 {
     CharMatrix matrix = null;
 
     do {
-      String pathString;
-      Path inputPath;
+      String pathString = null;
 
       StringBuilder prompt = new StringBuilder("Enter the path to read from");
       prompt.append(" (leave blank to initialize in console): ");
 
       pathString = promptUserForLine(prompt.toString());
-
-      try {
-        inputPath = pathString.isEmpty()
-                    ? Exercise5.getClass().getResource("/default").toURI()
-                    : Paths.get(pathString);
-
-        matrix = initializeMatrixFromFile(inputPath);
-      } catch (Exception e) {
-        matrix = null;
-        System.err.println("Error accessing file. Matrix initializion aborted.");
+      
+      if (pathString.isEmpty()) {
+        matrix = initializeCharMatrixFromDefaultFile();
+      } else {
+        matrix = initializeCharMatrixFromExternalFile(Paths.get(pathString));
       }
     } while (matrix == null);
 
     return matrix;
   }
 
-  private static CharMatrix initializeMatrixFromFile(Path inputPath) {
+  private static CharMatrix initializeCharMatrixFromExternalFile(Path inputPath) {
     CharMatrix matrix = null;
 
     matrix = new NestedListCharMatrix(new KeyboardCharDomain());
@@ -141,6 +137,31 @@ public class Exercise5 {
     } catch (IllegalArgumentException e) {
       matrix = null;
       System.err.println("Incompatible character domain used in file. Matrix initialization aborted.");
+    }
+
+    return matrix;
+  }
+
+  private static CharMatrix initializeCharMatrixFromDefaultFile() {
+    CharMatrix matrix = null;
+
+    try {
+      InputStream in = Exercise5.class.getResourceAsStream("/default");
+      Path tmpPath = Paths.get(".temporary_char_matrix_file");
+
+      Files.copy(in, tmpPath, StandardCopyOption.REPLACE_EXISTING);
+      in.close();
+
+      matrix = initializeCharMatrixFromExternalFile(tmpPath);
+
+      Files.delete(tmpPath); 
+    } catch (IOException e) {
+      matrix = null;
+      System.err.println("Error accessing default matrix. Initialize from console instead.");
+    } 
+
+    if (matrix == null) {
+      matrix = initializeCharMatrixFromConsole();
     }
 
     return matrix;
@@ -260,9 +281,9 @@ public class Exercise5 {
     CharMatrix newMatrix = null;
 
     if (matrix.getSource() == null) {
-      newMatrix = initializeCharMatrixFromConsole();
+      newMatrix = initializeCharMatrixFromDefaultFile();
     } else {
-      newMatrix = initializeMatrixFromFile(matrix.getSource());
+      newMatrix = initializeCharMatrixFromExternalFile(matrix.getSource());
     }
 
     if (newMatrix == null) {
