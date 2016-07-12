@@ -1,12 +1,14 @@
 package com.exist.ecc.matrix.model.api;
 
+import java.nio.file.Path;
+
 public interface CharMatrix {
 
   public abstract CharDomain getDomain();
 
-  public abstract String getSource();
+  public abstract Path getSource();
 
-  public abstract void setSource(String newSource) throws IllegalArgumentException;
+  public abstract void setSource(Path newSource);
 
   public abstract String getKey(int row, int col) throws IllegalArgumentException;
 

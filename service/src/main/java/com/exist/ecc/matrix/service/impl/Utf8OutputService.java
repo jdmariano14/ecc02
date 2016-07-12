@@ -15,22 +15,21 @@ import com.exist.ecc.matrix.model.api.CharMatrix;
 import com.exist.ecc.matrix.service.api.CharMatrixOutputService;
 
 public class Utf8OutputService implements CharMatrixOutputService {
-  private String filepath;
+  private Path outputPath;
 
-  public Utf8OutputService(String filepath) {
-    this.filepath = filepath;
+  public Utf8OutputService(Path outputPath) {
+    this.outputPath = outputPath;
   }
 
-  public String getOutputPath() {
-    return filepath;
+  public Path getOutputPath() {
+    return outputPath;
   }
 
-  public void setOutputPath(String filepath) {
-    this.filepath = filepath;
+  public void setOutputPath(Path outputPath) {
+    this.outputPath = outputPath;
   }
 
   public void writeMatrix(CharMatrix matrix) throws IOException {
-    Path path = Paths.get(filepath);
     List<String> lines = new LinkedList();
 
     lines.add("<matrix>");
@@ -50,7 +49,7 @@ public class Utf8OutputService implements CharMatrixOutputService {
 
     lines.add("</matrix>");
 
-    Files.write(path, lines, StandardCharsets.UTF_8);
+    Files.write(outputPath, lines, StandardCharsets.UTF_8);
   }
 
   private String escapeTags(String str) {

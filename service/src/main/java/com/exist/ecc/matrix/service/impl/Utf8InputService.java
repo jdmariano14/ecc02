@@ -19,30 +19,22 @@ import com.exist.ecc.matrix.model.api.CharMatrix;
 import com.exist.ecc.matrix.service.api.CharMatrixInputService;
 
 public class Utf8InputService implements CharMatrixInputService {
-  private String filepath;
+  private Path inputPath;
 
-  public Utf8InputService(String filepath) throws IllegalArgumentException {
-    try {
-      this.filepath = Paths.get(filepath).toString();
-    } catch (Exception e) {
-      throw new IllegalArgumentException("Could not find or access file.");
-    }
+  public Utf8InputService(Path inputPath) {
+    this.inputPath = inputPath;
   }
 
-  public String getInputPath() {
-    return filepath;
+  public Path getInputPath() {
+    return inputPath;
   }
 
-  public void setInputPath(String filepath) {
-    try {
-      this.filepath = Paths.get(filepath).toString();
-    } catch (Exception e) {
-      throw new IllegalArgumentException("Could not find or access file.");
-    }
+  public void setInputPath(Path inputPath) {
+    this.inputPath = inputPath;
   }
 
   public void readMatrix(CharMatrix matrix) throws IOException {
-    Stream<String> lines = Files.lines(Paths.get(filepath));
+    Stream<String> lines = Files.lines(inputPath);
 
     String wholeFile = lines.reduce("", (a, b) -> a + System.lineSeparator() + b);
 

@@ -1,12 +1,13 @@
 package com.exist.ecc.matrix.model.impl;
 
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import com.exist.ecc.matrix.model.api.CharMatrix;
 import com.exist.ecc.matrix.model.api.CharDomain;
 
 public abstract class AbstractCharMatrix implements CharMatrix {
-  protected String source;
+  protected Path source;
   protected CharDomain domain;
 
   public AbstractCharMatrix(CharDomain domain) {
@@ -17,16 +18,12 @@ public abstract class AbstractCharMatrix implements CharMatrix {
     return domain;
   }
 
-  public String getSource() {
+  public Path getSource() {
     return source;
   }
 
-  public void setSource(String newSource) throws IllegalArgumentException {
-    try {
-      source = Paths.get(newSource).toString();
-    } catch (Exception e) {
-      throw new IllegalArgumentException("Could not find or access file.");
-    }
+  public void setSource(Path newSource) {
+    this.source = newSource;
   }
 
   public String getKey(int row, int col) throws IllegalArgumentException {

@@ -17,6 +17,12 @@ import com.exist.ecc.matrix.service.CharMatrixSearchService;
 import com.exist.ecc.matrix.service.impl.Utf8InputService;
 import com.exist.ecc.matrix.service.impl.Utf8OutputService;
 
+import java.util.stream.Stream;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 public class Exercise5 {
   private static final Scanner INPUT_SCANNER;
   private static final String[] OPTIONS = {
@@ -98,27 +104,36 @@ public class Exercise5 {
     CharMatrix matrix = null;
 
     do {
+      String pathString;
+      Path inputPath;
+
       StringBuilder prompt = new StringBuilder("Enter the path to read from");
       prompt.append(" (leave blank to initialize in console): ");
 
-      String path = promptUserForLine(prompt.toString());
+      pathString = promptUserForLine(prompt.toString());
 
-      if (path.isEmpty()) {
-        matrix = initializeCharMatrixFromConsole();
-      } else {
-        matrix = initializeMatrixFromFile(path);
+      try {
+        inputPath = pathString.isEmpty()
+                    ? Exercise5.getClass().getResource("/default").toURI()
+                    : Paths.get(pathString);
+
+        matrix = initializeMatrixFromFile(inputPath);
+      } catch (Exception e) {
+        matrix = null;
+        System.err.println("Error accessing file. Matrix initializion aborted.");
       }
     } while (matrix == null);
 
     return matrix;
   }
 
-  private static CharMatrix initializeMatrixFromFile(String path) {
+  private static CharMatrix initializeMatrixFromFile(Path inputPath) {
     CharMatrix matrix = null;
 
+    matrix = new NestedListCharMatrix(new KeyboardCharDomain());
+    Utf8InputService utf8reader = new Utf8InputService(inputPath);
+
     try {
-      matrix = new NestedListCharMatrix(new KeyboardCharDomain());
-      Utf8InputService utf8reader = new Utf8InputService(path);
       utf8reader.readMatrix(matrix);
     } catch (IOException e) {
       matrix = null;
@@ -212,12 +227,14 @@ public class Exercise5 {
     try {
       String key = promptUserForLine("Enter the key: ");
       String value = promptUserForLine("Enter the value: ");
+      int cells;
 
       matrix.put(row, key, value);
 
       dirty = true;
-      //int cells = matrix.get(row).size();
-      //System.out.println("Cell added. Row " + row + " now has " + cells + " cells.");
+      cells = matrix.cols(row);
+
+      System.out.println("Cell added. Row " + row + " now has " + cells + " cells.");
     } catch (IllegalArgumentException e) {
       System.err.println("Error: " + e.getMessage() + ". Matrix update aborted.");
     }
@@ -264,34 +281,42 @@ public class Exercise5 {
   }
 
   private static void saveMatrixAs(CharMatrix matrix) {
-    String path = "";
+    String pathString = "";
 
     if (matrix.getSource() == null) {
-      path = promptUserForLine("Enter the filename (leave blank to abort): ");
+      pathString = promptUserForLine("Enter the filename (leave blank to abort): ");
 
-      if (!path.isEmpty()) {
-        saveMatrix(matrix, path);
+      if (!pathString.isEmpty()) {
+        try {
+          saveMatrix(matrix, Paths.get(pathString)); 
+        } catch (Exception e) {
+          System.err.println("Cannot access file. Matrix sort aborted.");
+        }
       }
     } else {
-      path = promptUserForLine("Enter the filename (" + matrix.getSource() + "): ");
+      pathString = promptUserForLine("Enter the filename (" + matrix.getSource() + "): ");
 
-      if (path.isEmpty()) {
+      if (pathString.isEmpty()) {
         saveMatrix(matrix);
       } else {
-        saveMatrix(matrix, path);
+        try {
+          saveMatrix(matrix, Paths.get(pathString)); 
+        } catch (Exception e) {
+          System.err.println("Cannot access file. Matrix sort aborted.");
+        }
       }
     }
   } 
 
-  private static void saveMatrix(CharMatrix matrix, String path) {
+  private static void saveMatrix(CharMatrix matrix, Path outputPath) {
     try {
       System.out.println("Saving matrix...");
 
-      Utf8OutputService output = new Utf8OutputService(path);
+      Utf8OutputService output = new Utf8OutputService(outputPath);
       output.writeMatrix(matrix);
 
       dirty = false;
-      System.out.println("Matrix saved to " + path + ".");
+      System.out.println("Matrix saved to " + outputPath.toString() + ".");
     } catch (IOException e) {
       e.printStackTrace();
       System.err.println(e.getMessage());
