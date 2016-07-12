@@ -44,6 +44,8 @@ public class Utf8InputService implements CharMatrixInputService {
       matrix.clear();
       parseMatrix(matrix, matrixString);
     }
+
+    matrix.setSource(inputPath);
   }
 
   private void parseMatrix(CharMatrix matrix, String matrixString) {
