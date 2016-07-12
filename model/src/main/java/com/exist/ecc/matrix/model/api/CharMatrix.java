@@ -28,6 +28,8 @@ public interface CharMatrix {
 
   public abstract void sortRow(int row) throws IllegalArgumentException;
 
+  public abstract void sortRow(int row, boolean descending) throws IllegalArgumentException;
+
   public abstract void clear();
 
 }

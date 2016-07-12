@@ -62,6 +62,10 @@ public abstract class AbstractCharMatrix implements CharMatrix {
     validateRowIndex(row);
   }
 
+  public void sortRow(int row, boolean descending) throws IllegalArgumentException {
+    validateRowIndex(row);
+  }
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

@@ -245,15 +245,10 @@ public class Exercise5 {
     String order = promptUserForLine("Enter asc or desc (default: asc): ");
 
     try {
-      if (order.isEmpty()) {
-        matrix.sortRow(row);
-      } else if (!order.equals("desc")) {
-        matrix.sortRow(row);
-      } else {
-        // TODO descending sort
-        // matrix.sortRowDescending(row);
-      }
+      boolean desc = order.equals("desc");
       
+      matrix.sortRow(row, desc);
+  
       dirty = true;
       System.out.println("Matrix sorted successfully.");
     } catch (IllegalArgumentException e) {

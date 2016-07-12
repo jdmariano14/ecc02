@@ -76,6 +76,24 @@ public class NestedListCharMatrix extends AbstractCharMatrix {
     Collections.sort(data.get(row), order);
   }
 
+  public void sortRow(int row, boolean descending) {
+    super.sortRow(row, descending);
+
+    Comparator<List<String>> order;
+
+    if (descending) {
+      order = (List<String> cell1, List<String> cell2) -> {
+        String cell1Concat = cell1.get(0) + cell1.get(1);
+        String cell2Concat = cell2.get(0) + cell2.get(1);
+        return cell2Concat.compareToIgnoreCase(cell1Concat);
+      };
+    
+      Collections.sort(data.get(row), order);
+    } else {
+      sortRow(row);
+    }
+  }
+
   public void clear() {
     data.clear();
   }
