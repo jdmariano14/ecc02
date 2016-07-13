@@ -1,4 +1,4 @@
-package com.exist.ecc.matrix.model.impl;
+  package com.exist.ecc.matrix.model.impl;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -56,6 +56,12 @@ public abstract class AbstractCharMatrix implements CharMatrix {
     validateRowIndex(row);
     validateContent(key);
     validateContent(value);
+  }
+
+  public int cols(int row) throws IllegalArgumentException {
+    validateRowIndex(row);
+
+    return 0;
   }
 
   public void sortRow(int row) throws IllegalArgumentException {

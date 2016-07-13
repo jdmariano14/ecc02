@@ -22,7 +22,7 @@ public interface CharMatrix {
 
   public abstract int rows();
 
-  public abstract int cols(int row);
+  public abstract int cols(int row) throws IllegalArgumentException;
 
   public abstract void addRow();
 

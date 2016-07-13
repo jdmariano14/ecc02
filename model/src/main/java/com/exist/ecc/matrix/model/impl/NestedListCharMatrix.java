@@ -49,12 +49,10 @@ public class NestedListCharMatrix extends AbstractCharMatrix {
     return data.size();
   }
 
-  public int cols(int row) {
-    int cols = 0;
+  public int cols(int row) throws IllegalArgumentException {
+    super.cols(row);
 
-    if (!data.isEmpty()) {
-      cols = data.get(row).size();
-    }
+    int cols = data.isEmpty() ? 0 : data.get(row).size();
 
     return cols;
   }

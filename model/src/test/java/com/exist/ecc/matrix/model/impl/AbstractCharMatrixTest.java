@@ -26,7 +26,9 @@ public class AbstractCharMatrixTest {
     }
 
     public int cols(int row) {
-       return AbstractCharMatrixTest.COLS;
+      super.cols(row);
+      
+      return AbstractCharMatrixTest.COLS;
     }
 
     public void addRow() {
@@ -247,6 +249,27 @@ public class AbstractCharMatrixTest {
     thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage("character");
     matrix.put(ROWS - 1, LEGAL_CONTENT, "kalaberber");
+  }
+
+  @Test
+  public void testColsWithValidArguments() {
+    matrix.cols(ROWS - 1);
+  }
+
+  @Test
+  public void testColsWithOutOfBoundsRowIndex() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("row");
+    thrown.expectMessage("out of bounds");
+    matrix.cols(ROWS);
+  }
+
+  @Test
+  public void testColsWithNegativeRowIndex() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("row");
+    thrown.expectMessage("negative");
+    matrix.cols(-1);
   }
 
   @Test
