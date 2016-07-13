@@ -39,10 +39,16 @@ public class Exercise5 {
     INPUT_SCANNER = new Scanner(System.in);
   }
 
-  public static void main(String [] args) {
+  public static void main(String[] args) {
     System.out.println("Welcome.");
 
-    CharMatrix matrix = initializeCharMatrixFromUserOption();
+    CharMatrix matrix;
+
+    try {
+      matrix = initializeCharMatrixFromExternalFile(Paths.get(args[0]));
+    } catch (Exception e) {
+      matrix = initializeCharMatrixFromDefaultFile();
+    }
 
     System.out.println(matrix);
 
@@ -100,27 +106,6 @@ public class Exercise5 {
     }
 
     return menu.toString();
-  }
-
-  private static CharMatrix initializeCharMatrixFromUserOption() {
-    CharMatrix matrix = null;
-
-    do {
-      String pathString = null;
-
-      StringBuilder prompt = new StringBuilder("Enter the path to read from");
-      prompt.append(" (leave blank to initialize in console): ");
-
-      pathString = promptUserForLine(prompt.toString());
-      
-      if (pathString.isEmpty()) {
-        matrix = initializeCharMatrixFromDefaultFile();
-      } else {
-        matrix = initializeCharMatrixFromExternalFile(Paths.get(pathString));
-      }
-    } while (matrix == null);
-
-    return matrix;
   }
 
   private static CharMatrix initializeCharMatrixFromExternalFile(Path inputPath) {
