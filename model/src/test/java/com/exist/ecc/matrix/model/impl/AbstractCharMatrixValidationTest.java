@@ -7,6 +7,7 @@ import org.junit.rules.ExpectedException;
 
 import com.exist.ecc.matrix.model.api.CharMatrix;
 import com.exist.ecc.matrix.model.api.CharDomain;
+import com.exist.ecc.matrix.model.api.BaseDummyCharDomain;
 
 public class AbstractCharMatrixValidationTest {
   private static final int ROWS = 1;
@@ -16,8 +17,8 @@ public class AbstractCharMatrixValidationTest {
 
   AbstractCharMatrix matrix;
 
-  private class DummyCharMatrix extends AbstractCharMatrix {
-    public DummyCharMatrix(CharDomain domain) {
+  private class DummyAbstractCharMatrix extends BaseDummyAbstractCharMatrix {
+    public DummyAbstractCharMatrix(CharDomain domain) {
       super(domain);
     }
 
@@ -25,26 +26,12 @@ public class AbstractCharMatrixValidationTest {
        return AbstractCharMatrixValidationTest.ROWS;
     }
 
-    protected String getKeyImplementation(int row, int col) { return ""; }
-
-    protected void setKeyImplementation(int row, int col, String newKey) {}
-
-    protected String getValueImplementation(int row, int col) { return ""; }
-
-    protected void setValueImplementation(int row, int col, String newKey) {}
-
-    protected void putImplementation(int row, String key, String value) {}
-
-    protected int colsImplementation(int row) { return AbstractCharMatrixValidationTest.COLS; }
-
-    protected void sortRowImplementation(int row, boolean descending) {}
-
-    public void addRow() {}
-
-    public void clear() {}
+    protected int colsImplementation(int row) { 
+      return AbstractCharMatrixValidationTest.COLS; 
+    }    
   }
 
-  private class DummyCharDomain implements CharDomain {
+  private class DummyCharDomain extends BaseDummyCharDomain {
     public boolean contains(char c) {
       return c == AbstractCharMatrixValidationTest.LEGAL_CHAR;
     }
@@ -54,8 +41,8 @@ public class AbstractCharMatrixValidationTest {
   public final ExpectedException thrown = ExpectedException.none();
    
   @Before
-  public void before(){
-    matrix = new DummyCharMatrix(new DummyCharDomain());
+  public void before() {
+    matrix = new DummyAbstractCharMatrix(new DummyCharDomain());
   }
 
   @Test

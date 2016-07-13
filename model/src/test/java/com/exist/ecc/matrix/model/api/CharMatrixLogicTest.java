@@ -14,14 +14,8 @@ import static org.junit.Assert.assertEquals;
 public abstract class CharMatrixLogicTest {
   protected CharMatrix matrix;
 
-  protected class DummyCharDomain implements CharDomain {
-    public boolean contains(char c) {
-      return true;
-    }
-  }
-
   protected CharDomain getDefaultCharDomain() {
-    return new DummyCharDomain();
+    return new BaseDummyCharDomain();
   }
 
   @Rule
