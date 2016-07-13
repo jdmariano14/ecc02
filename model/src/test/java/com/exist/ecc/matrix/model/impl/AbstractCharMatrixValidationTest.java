@@ -8,7 +8,7 @@ import org.junit.rules.ExpectedException;
 import com.exist.ecc.matrix.model.api.CharMatrix;
 import com.exist.ecc.matrix.model.api.CharDomain;
 
-public class AbstractCharMatrixTest {
+public class AbstractCharMatrixValidationTest {
   private static final int ROWS = 1;
   private static final int COLS = 1;
   private static final char LEGAL_CHAR = 'a';
@@ -22,13 +22,13 @@ public class AbstractCharMatrixTest {
     }
 
     public int rows() {
-       return AbstractCharMatrixTest.ROWS;
+       return AbstractCharMatrixValidationTest.ROWS;
     }
 
     public int cols(int row) {
       super.cols(row);
       
-      return AbstractCharMatrixTest.COLS;
+      return AbstractCharMatrixValidationTest.COLS;
     }
 
     public void addRow() {
@@ -42,7 +42,7 @@ public class AbstractCharMatrixTest {
 
   private class DummyCharDomain implements CharDomain {
     public boolean contains(char c) {
-      return c == AbstractCharMatrixTest.LEGAL_CHAR;
+      return c == AbstractCharMatrixValidationTest.LEGAL_CHAR;
     }
   }
 
