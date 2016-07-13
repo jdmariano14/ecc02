@@ -256,6 +256,14 @@ public class AbstractCharMatrixValidationTest {
   }
 
   @Test
+  public void testPutWithMultipleErrors() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("row");
+    thrown.expectMessage("character");
+    matrix.put(ROWS, "kalaberber", "kalaberber");
+  }
+
+  @Test
   public void testColsWithValidArguments() {
     matrix.cols(ROWS - 1);
   }

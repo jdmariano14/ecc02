@@ -1,10 +1,8 @@
 package com.exist.ecc.matrix.model.impl;
 
 import java.util.Arrays;
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Set;
-import java.util.TreeSet;
+import java.util.HashSet;
 import java.util.stream.Stream;
 import static java.util.stream.Collectors.joining;
 
@@ -121,8 +119,8 @@ public abstract class AbstractCharMatrix implements CharMatrix {
     return sb.toString();
   }
 
-  protected List<String> validateRowIndex(int row) {
-    List<String> errors = new ArrayList();
+  protected Set<String> validateRowIndex(int row) {
+    Set<String> errors = new HashSet();
 
     if (row >= rows()) {
       errors.add("row index out of bounds (" + row + ")");
@@ -135,11 +133,15 @@ public abstract class AbstractCharMatrix implements CharMatrix {
     return errors;
   }
 
-  protected List<String> validateColumnIndex(int row, int col) {
-    List<String> errors = new ArrayList();
+  protected Set<String> validateColumnIndex(int row, int col) {
+    Set<String> errors = new HashSet();
 
-    if (col >= cols(row)) {
-      errors.add("column index out of bounds (" + row + ", " + col + ")");
+    try {
+      if (col >= cols(row)) {
+        errors.add("column index out of bounds (" + row + ", " + col + ")");
+      }
+    } catch (IllegalArgumentException e) {
+      errors.add(e.getMessage());
     }
 
     if (col < 0) {
@@ -149,9 +151,9 @@ public abstract class AbstractCharMatrix implements CharMatrix {
     return errors;
   }
 
-  protected List<String> validateContent(String content) {
-    List<String> errors = new ArrayList();
-    Set<Character> illegalChars = new TreeSet();
+  protected Set<String> validateContent(String content) {
+    Set<String> errors = new HashSet();
+    Set<Character> illegalChars = new HashSet();
 
     for (char c : content.toCharArray()) {
       if (!domain.contains(c)) {
@@ -171,9 +173,10 @@ public abstract class AbstractCharMatrix implements CharMatrix {
     return errors;
   }
 
-  protected void validateAndThrow(List<String>... validations) throws IllegalArgumentException {
+  protected void validateAndThrow(Set<String>... validations) throws IllegalArgumentException {
     String errors = Arrays.stream(validations)
                     .flatMap(x -> x.stream())
+                    .distinct()
                     .collect(joining("; "));
 
     if (!errors.isEmpty()) {
