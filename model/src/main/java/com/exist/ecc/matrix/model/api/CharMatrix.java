@@ -1,7 +1,5 @@
 package com.exist.ecc.matrix.model.api;
 
-import java.util.List;
-
 import java.nio.file.Path;
 
 public interface CharMatrix {
