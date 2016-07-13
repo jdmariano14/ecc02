@@ -189,30 +189,37 @@ public class Exercise5 {
 
   private static void searchMatrix(CharMatrix matrix) {
     String query = promptUserForLine("Enter the query string: ");
+    StringBuilder sb = new StringBuilder();
 
     if (query.isEmpty()) {
       System.err.println("Blank query entered. Matrix search aborted.");
     } else {
       CharMatrixSearchService searcher = new CharMatrixSearchService();
-      List<int[][]> results = searcher.getQueryOccurrences(matrix, query);
-      printSeachResults(results);
-    }
-  }
 
-  private static void printSeachResults(List<int[][]> results) {
-    for (int row = 0; row < results.size(); row++) {
-      for (int col = 0; col < results.get(row).length; col++) {
-        for (int ele = 0; ele < results.get(row)[col].length; ele++) {
-          int occurrences = results.get(row)[col][ele];
+      for (int row = 0; row < matrix.rows(); row++) {
+        for (int col = 0; col < matrix.cols(row); col++) {
+          int keyOcc = searcher.getQueryOccurrencesInKey(matrix, query, row, col);
+          int valOcc = searcher.getQueryOccurrencesInValue(matrix, query, row, col);
 
-          if (occurrences > 0) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(row + "," + col + " (" + ((ele > 0) ? "value" : "key") + ")");
-            sb.append(" with " + occurrences + " occ.");
+          if (keyOcc > 0) {
+            sb.append(row + "," + col + " (key)");
+            sb.append(" with " + keyOcc + " occ.");
+            sb.append(System.lineSeparator());
+          }
 
-            System.out.println(sb.toString());
+          if (valOcc > 0) {
+            sb.append(row + "," + col + " (value)");
+            sb.append(" with " + valOcc + " occ.");
+            sb.append(System.lineSeparator());
           }
         }
+      }
+
+      String results = sb.toString();
+
+      if (!results.isEmpty()) {
+        System.out.println();
+        System.out.print(results);
       }
     }
   }

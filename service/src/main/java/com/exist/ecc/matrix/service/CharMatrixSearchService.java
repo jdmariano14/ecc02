@@ -6,21 +6,20 @@ import java.util.ArrayList;
 import com.exist.ecc.matrix.model.api.CharMatrix;
 
 public class CharMatrixSearchService {
-  public List<int[][]> getQueryOccurrences(CharMatrix matrix, String query) {
-    List occ = new ArrayList(matrix.rows());
+  public int getQueryOccurrencesInKey(CharMatrix matrix, String query, int row, int col)
+        throws IllegalArgumentException {
+    validateRowIndex(matrix, row);
+    validateColumnIndex(matrix, row, col);
 
-    for (int row = 0; row < matrix.rows(); row++) {
-      int[][] rowOcc = new int[matrix.cols(row)][2];
+    return getQueryOccurrencesInString(matrix.getKey(row, col), query);
+  }
 
-      for (int col = 0; col < matrix.cols(row); col++) {
-        rowOcc[col][0] = getQueryOccurrencesInString(matrix.getKey(row, col), query);
-        rowOcc[col][1] = getQueryOccurrencesInString(matrix.getValue(row, col), query);
-      }
+  public int getQueryOccurrencesInValue(CharMatrix matrix, String query, int row, int col)
+        throws IllegalArgumentException {
+    validateRowIndex(matrix, row);
+    validateColumnIndex(matrix, row, col);
 
-      occ.add(rowOcc);
-    }
-
-    return occ;
+    return getQueryOccurrencesInString(matrix.getValue(row, col), query);
   }
 
   private int getQueryOccurrencesInString(String input, String query) {
@@ -35,5 +34,25 @@ public class CharMatrixSearchService {
     }
 
     return occ;
+  }
+
+  private void validateRowIndex(CharMatrix matrix, int row) throws IllegalArgumentException {
+    if (row >= matrix.rows()) {
+      throw new IllegalArgumentException("row index out of bounds");
+    }
+
+    if (row < 0) {
+      throw new IllegalArgumentException("negative row index not allowed");
+    }
+  }
+
+  private void validateColumnIndex(CharMatrix matrix, int row, int col) throws IllegalArgumentException {
+    if (col >= matrix.cols(row)) {
+      throw new IllegalArgumentException("column index out of bounds");
+    }
+
+    if (col < 0) {
+      throw new IllegalArgumentException("negative column index not allowed");
+    }
   }
 }
