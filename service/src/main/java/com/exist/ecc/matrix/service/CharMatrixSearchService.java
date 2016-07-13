@@ -6,18 +6,14 @@ import java.util.ArrayList;
 import com.exist.ecc.matrix.model.api.CharMatrix;
 
 public class CharMatrixSearchService {
-  public int getQueryOccurrencesInKey(CharMatrix matrix, String query, int row, int col)
+  public int getQueryOccurrencesInKey(CharMatrix matrix, String query, int row, int col) 
         throws IllegalArgumentException {
-    validateRowIndex(matrix, row);
-    validateColumnIndex(matrix, row, col);
 
     return getQueryOccurrencesInString(matrix.getKey(row, col), query);
   }
 
   public int getQueryOccurrencesInValue(CharMatrix matrix, String query, int row, int col)
         throws IllegalArgumentException {
-    validateRowIndex(matrix, row);
-    validateColumnIndex(matrix, row, col);
 
     return getQueryOccurrencesInString(matrix.getValue(row, col), query);
   }
@@ -34,25 +30,5 @@ public class CharMatrixSearchService {
     }
 
     return occ;
-  }
-
-  private void validateRowIndex(CharMatrix matrix, int row) throws IllegalArgumentException {
-    if (row >= matrix.rows()) {
-      throw new IllegalArgumentException("row index out of bounds");
-    }
-
-    if (row < 0) {
-      throw new IllegalArgumentException("negative row index not allowed");
-    }
-  }
-
-  private void validateColumnIndex(CharMatrix matrix, int row, int col) throws IllegalArgumentException {
-    if (col >= matrix.cols(row)) {
-      throw new IllegalArgumentException("column index out of bounds");
-    }
-
-    if (col < 0) {
-      throw new IllegalArgumentException("negative column index not allowed");
-    }
   }
 }

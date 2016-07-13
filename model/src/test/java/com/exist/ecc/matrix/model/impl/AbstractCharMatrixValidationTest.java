@@ -25,19 +25,23 @@ public class AbstractCharMatrixValidationTest {
        return AbstractCharMatrixValidationTest.ROWS;
     }
 
-    public int cols(int row) {
-      super.cols(row);
-      
-      return AbstractCharMatrixValidationTest.COLS;
-    }
+    protected String getKeyImplementation(int row, int col) { return ""; }
 
-    public void addRow() {
+    protected void setKeyImplementation(int row, int col, String newKey) {}
 
-    }
+    protected String getValueImplementation(int row, int col) { return ""; }
 
-    public void clear() {
+    protected void setValueImplementation(int row, int col, String newKey) {}
 
-    }
+    protected void putImplementation(int row, String key, String value) {}
+
+    protected int colsImplementation(int row) { return AbstractCharMatrixValidationTest.COLS; }
+
+    protected void sortRowImplementation(int row, boolean descending) {}
+
+    public void addRow() {}
+
+    public void clear() {}
   }
 
   private class DummyCharDomain implements CharDomain {

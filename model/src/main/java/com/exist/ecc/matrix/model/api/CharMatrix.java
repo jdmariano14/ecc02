@@ -1,5 +1,7 @@
 package com.exist.ecc.matrix.model.api;
 
+import java.util.List;
+
 import java.nio.file.Path;
 
 public interface CharMatrix {
@@ -26,10 +28,11 @@ public interface CharMatrix {
 
   public abstract void addRow();
 
-  public abstract void sortRow(int row) throws IllegalArgumentException;
-
   public abstract void sortRow(int row, boolean descending) throws IllegalArgumentException;
 
+  public default void sortRow(int row) throws IllegalArgumentException {
+    sortRow(row, false);
+  }
+  
   public abstract void clear();
-
 }

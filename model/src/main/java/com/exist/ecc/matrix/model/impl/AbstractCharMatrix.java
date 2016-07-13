@@ -1,4 +1,12 @@
-  package com.exist.ecc.matrix.model.impl;
+package com.exist.ecc.matrix.model.impl;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.stream.Stream;
+import static java.util.stream.Collectors.joining;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -27,50 +35,68 @@ public abstract class AbstractCharMatrix implements CharMatrix {
   }
 
   public String getKey(int row, int col) throws IllegalArgumentException {
-    validateRowIndex(row);
-    validateColumnIndex(row, col);
+    validateAndThrow(validateRowIndex(row), 
+                     validateColumnIndex(row, col));
 
-    return "";
+    return getKeyImplementation(row, col);
   }
+
+  protected abstract String getKeyImplementation(int row, int col);
 
   public void setKey(int row, int col, String newKey) throws IllegalArgumentException {
-    validateRowIndex(row);
-    validateColumnIndex(row, col);
-    validateContent(newKey);
+    validateAndThrow(validateRowIndex(row), 
+                     validateColumnIndex(row, col),
+                     validateContent(newKey));
+
+    setKeyImplementation(row, col, newKey);
   }
+
+  protected abstract void setKeyImplementation(int row, int col, String newKey);
 
   public String getValue(int row, int col) throws IllegalArgumentException {
-    validateRowIndex(row);
-    validateColumnIndex(row, col);
+    validateAndThrow(validateRowIndex(row), 
+                     validateColumnIndex(row, col));
 
-    return "";
+    return getValueImplementation(row, col);
   }
+
+  protected abstract String getValueImplementation(int row, int col);
 
   public void setValue(int row, int col, String newValue) throws IllegalArgumentException {
-    validateRowIndex(row);
-    validateColumnIndex(row, col);
-    validateContent(newValue);
+    validateAndThrow(validateRowIndex(row), 
+                     validateColumnIndex(row, col),
+                     validateContent(newValue));
+
+    setValueImplementation(row, col, newValue);
   }
+
+  protected abstract void setValueImplementation(int row, int col, String newKey);
 
   public void put(int row, String key, String value) throws IllegalArgumentException {
-    validateRowIndex(row);
-    validateContent(key);
-    validateContent(value);
+    validateAndThrow(validateRowIndex(row),
+                     validateContent(key),
+                     validateContent(value));
+
+    putImplementation(row, key, value);
   }
+
+  protected abstract void putImplementation(int row, String key, String value);
 
   public int cols(int row) throws IllegalArgumentException {
-    validateRowIndex(row);
+    validateAndThrow(validateRowIndex(row));
 
-    return 0;
+    return colsImplementation(row);
   }
 
-  public void sortRow(int row) throws IllegalArgumentException {
-    validateRowIndex(row);
-  }
+  protected abstract int colsImplementation(int row);
 
   public void sortRow(int row, boolean descending) throws IllegalArgumentException {
-    validateRowIndex(row);
+    validateAndThrow(validateRowIndex(row));
+
+    sortRowImplementation(row, descending);
   }
+
+  protected abstract void sortRowImplementation(int row, boolean descending);
 
   @Override
   public String toString() {
@@ -95,32 +121,63 @@ public abstract class AbstractCharMatrix implements CharMatrix {
     return sb.toString();
   }
 
-  private void validateRowIndex(int row) throws IllegalArgumentException {
+  protected List<String> validateRowIndex(int row) {
+    List<String> errors = new ArrayList();
+
     if (row >= rows()) {
-      throw new IllegalArgumentException("row index out of bounds");
+      errors.add("row index out of bounds (" + row + ")");
     }
 
     if (row < 0) {
-      throw new IllegalArgumentException("negative row index not allowed");
+      errors.add("negative row index not allowed (" + row + ")");
     }
+
+    return errors;
   }
 
-  private void validateColumnIndex(int row, int col) throws IllegalArgumentException {
+  protected List<String> validateColumnIndex(int row, int col) {
+    List<String> errors = new ArrayList();
+
     if (col >= cols(row)) {
-      throw new IllegalArgumentException("column index out of bounds");
+      errors.add("column index out of bounds (" + row + ", " + col + ")");
     }
 
     if (col < 0) {
-      throw new IllegalArgumentException("negative column index not allowed");
+      errors.add("negative column index not allowed (" + row + ", " + col + ")");
     }
+
+    return errors;
   }
 
-  private void validateContent(String content) throws IllegalArgumentException {
+  protected List<String> validateContent(String content) {
+    List<String> errors = new ArrayList();
+    Set<Character> illegalChars = new TreeSet();
+
     for (char c : content.toCharArray()) {
       if (!domain.contains(c)) {
-        String msg = "input contains an illegal character ('" + c + "')";
-        throw new IllegalArgumentException(msg);
+        illegalChars.add(c);
       }
+    }
+
+    if (!illegalChars.isEmpty()) {
+      String illegalCharString = illegalChars
+                                 .stream()
+                                 .map(c -> String.valueOf(c))
+                                 .collect(joining(", "));
+      
+      errors.add("input contains illegal character(s): " + illegalCharString);
+    }
+
+    return errors;
+  }
+
+  protected void validateAndThrow(List<String>... validations) throws IllegalArgumentException {
+    String errors = Arrays.stream(validations)
+                    .flatMap(x -> x.stream())
+                    .collect(joining("; "));
+
+    if (!errors.isEmpty()) {
+      throw new IllegalArgumentException(errors);
     }
   }
 }
