@@ -5,9 +5,6 @@ import com.exist.ecc.matrix.model.api.CharDomain;
 
 public class CharMatrixPopulateService {
   public void populate(CharMatrix matrix, int rows, int cols, int length) throws IllegalArgumentException {
-    validateRowCount(rows);
-    validateColCount(cols);
-
     matrix.clear();
 
     for (int row = 0; row < rows; row++) {
@@ -31,17 +28,5 @@ public class CharMatrixPopulateService {
     }
 
     return sb.toString();
-  }
-
-  private void validateRowCount(int rows) throws IllegalArgumentException {
-    if (rows < 0) {
-      throw new IllegalArgumentException("negative rows not allowed");
-    }
-  }
-
-  private void validateColCount(int cols) throws IllegalArgumentException {
-    if (cols < 0) {
-      throw new IllegalArgumentException("negative columns not allowed");
-    }
   }
 }

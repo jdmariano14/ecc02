@@ -10,7 +10,6 @@ import com.exist.ecc.matrix.model.api.BaseDummyCharMatrix;
 import com.exist.ecc.matrix.model.api.CharDomain;
 
 public class CharMatrixSearchServiceTest {
-
   CharMatrix matrix;
   CharMatrixSearchService searcher;
 
