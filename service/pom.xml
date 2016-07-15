@@ -14,7 +14,7 @@
 
   <dependencies>    
     <dependency>
-      <groupId>com.exist.ecc</groupId>
+      <groupId>${project.groupId}</groupId>
       <artifactId>matrix-model</artifactId>
     </dependency>
     
