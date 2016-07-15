@@ -104,4 +104,20 @@ public class CharMatrixPopulateServiceTest {
 
     assertTrue(expected == result);
   }
+
+  @Test
+  public void testPopulateResetsExistingMatrix() {
+    int expected = 1;
+    int result;
+
+    for (int i = 0; i < expected + 1; i++) {
+      matrix.addRow();
+    }
+
+    populator.populate(matrix, expected, expected, expected);
+
+    result = matrix.rows();
+
+    assertTrue(expected == result);
+  }
 }
