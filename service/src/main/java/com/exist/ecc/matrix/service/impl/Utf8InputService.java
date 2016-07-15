@@ -64,10 +64,14 @@ public class Utf8InputService implements CharMatrixInputService {
     List<String> cellStrings = getElements(rowString, "cell");
     
     for (String cellString : cellStrings) {
-      String key = unescapeTags(getElements(cellString, "key").get(0));
-      String value = unescapeTags(getElements(cellString, "value").get(0));
+      try {
+        String key = unescapeTags(getElements(cellString, "key").get(0));
+        String value = unescapeTags(getElements(cellString, "value").get(0));
 
-      matrix.put(rowNum, key, value);
+        matrix.put(rowNum, key, value);
+      } catch (NullPointerException e) {
+        
+      }
     }
   }
 
