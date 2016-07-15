@@ -6,22 +6,23 @@ import org.junit.Before;
 import static org.junit.Assert.assertTrue;
 
 import com.exist.ecc.matrix.model.api.CharMatrix;
-import com.exist.ecc.matrix.model.api.BaseDummyCharMatrix;
 import com.exist.ecc.matrix.model.api.CharDomain;
+
+import com.exist.ecc.matrix.model.api.BaseDummyCharMatrix;
 
 public class CharMatrixSearchServiceTest {
   CharMatrix matrix;
   CharMatrixSearchService searcher;
 
   private class DummyCharMatrix extends BaseDummyCharMatrix {
-    private final String [][][] DATA = { { {"aaa", "aba"} } };
+    private final String [][][] data = { { {"aaa", "aba"} } };
 
     public String getKey(int row, int col) throws IllegalArgumentException {
-      return DATA[row][col][0];
+      return data[row][col][0];
     }
 
     public String getValue(int row, int col) throws IllegalArgumentException {
-      return DATA[row][col][1];
+      return data[row][col][1];
     }
   }
 
@@ -49,6 +50,7 @@ public class CharMatrixSearchServiceTest {
     assertTrue(expected == result);
   }
 
+  @Test
   public void testGetQueryOccurrencesWithMultipleContiguous() {
     String query = "aa";
     int expected = 2;

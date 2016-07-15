@@ -17,7 +17,6 @@ public class CharMatrixPopulateService {
         matrix.put(row, key, value);
       }
     }
-
   }
 
   private String generateRandomContent(CharMatrix matrix, int length) {
