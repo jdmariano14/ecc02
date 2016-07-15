@@ -5,12 +5,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import org.apache.commons.collections4.map.AbstractLinkedMap;
 import org.apache.commons.collections4.map.LinkedMap;
 
 import com.exist.ecc.matrix.model.api.CharDomain;
 
 public class MapListCharMatrix extends AbstractCharMatrix {
-  private List<LinkedMap<String, String>> data;
+  private List<AbstractLinkedMap<String, String>> data;
 
   public MapListCharMatrix(CharDomain domain) {
     super(domain);
@@ -50,7 +51,7 @@ public class MapListCharMatrix extends AbstractCharMatrix {
   }
 
   public void addRow() {
-    LinkedMap<String, String> row = new LinkedMap();
+    AbstractLinkedMap<String, String> row = new LinkedMap();
     data.add(row);
   }
 
