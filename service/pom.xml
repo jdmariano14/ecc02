@@ -12,10 +12,16 @@
   <artifactId>matrix-service</artifactId>
   <name>${project.artifactId}</name>
 
-  <dependencies>    
+  <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>matrix-model</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>matrix-model</artifactId>
+      <classifier>tests</classifier>
     </dependency>
     
     <dependency>

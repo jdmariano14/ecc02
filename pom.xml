@@ -41,6 +41,14 @@
 
       <dependency>
         <groupId>${project.groupId}</groupId>
+        <artifactId>matrix-model</artifactId>
+        <version>${project.version}</version>
+        <classifier>tests</classifier>
+        <scope>test</scope>
+      </dependency>
+    
+      <dependency>
+        <groupId>${project.groupId}</groupId>
         <artifactId>matrix-service</artifactId>
         <version>${project.version}</version>
       </dependency>
